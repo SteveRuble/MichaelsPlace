@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MichaelsPlace.Models;
+using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Controllers
 {

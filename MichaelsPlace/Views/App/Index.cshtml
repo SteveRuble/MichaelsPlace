@@ -6,11 +6,12 @@
 
 <html>
 <head>
-    <title>Hello from Aurelia</title>
+    <title>Michael's Place</title>
+    @Styles.Render("~/Content/css")
 </head>
 <body aurelia-app>
-    <script src="@Url.Content("~/Scripts/jspm_packages/system.js")"></script>
-    <script src="@Url.Content("~/Scripts/config.js")"></script>
+    <script src="@Url.Content("~/spa/jspm_packages/system.js")"></script>
+    <script src="@Url.Content("~/spa/config.js")"></script>
     <script>
         System.import("aurelia-bootstrapper");
     </script>
