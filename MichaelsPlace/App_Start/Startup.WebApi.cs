@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Filters;
 using System.Web.Http.Validation;
 using Newtonsoft.Json.Converters;
@@ -37,6 +38,8 @@ namespace MichaelsPlace
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new StringEnumConverter());
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.Remove(config.Formatters.XmlFormatter);
+
+            config.EnableCors(new EnableCorsAttribute("http://localhost:9000", "*", "*"));
 
             config.MapHttpAttributeRoutes();
 

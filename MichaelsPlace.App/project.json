@@ -1,0 +1,29 @@
+﻿{
+  "userSecretsId": "",
+  "version": "1.0.0-*",
+
+  "dependencies": {
+  },
+
+  "commands": {
+  },
+
+    "frameworks": {
+        "dnx451": { }
+    },
+
+  "exclude": [
+    "wwwroot",
+    "node_modules"
+  ],
+  "publishExclude": [
+    "**.user",
+    "**.vspscc"
+  ],
+    "scripts": {
+        "watch": [ "gulp watch" ]
+    },
+    "buildOptions": {
+        "defines": [ "gulp" ]
+    }
+}
