@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Filters;
@@ -47,10 +51,15 @@ namespace MichaelsPlace
 
             config.EnableSwagger(c =>
             {
-                c.RootUrl(h => string.Format("{0}://{1}:{2}/api", h.RequestUri.Scheme, h.RequestUri.Host,  h.RequestUri.Port));
+                var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                var commentsFileName = Assembly.GetExecutingAssembly().GetName().Name + ".XML";
+                var commentsFile = Path.Combine(baseDirectory, "bin", commentsFileName);
+
+                c.IncludeXmlComments(commentsFile);
+                c.RootUrl(h => $"{h.RequestUri.Scheme}://{h.RequestUri.Host}:{h.RequestUri.Port}/api");
                 c.SingleApiVersion("v1", "Michael's Place SPA API.");
             })
-                  .EnableSwaggerUi(c => c.EnableDiscoveryUrlSelector() );
+                  .EnableSwaggerUi();
 
             app.Map("/api", webApi =>
             {

@@ -4,5 +4,6 @@ namespace MichaelsPlace.Models.Persistence
     {
         public virtual int Id { get; set; }
         public virtual string Title { get; set; }
+        public virtual string GuidanceLabel { get; set; }
     }
 }

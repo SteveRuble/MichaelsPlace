@@ -9,6 +9,7 @@ using System.Web.Http;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MichaelsPlace.Infrastructure;
+using MichaelsPlace.Models;
 using MichaelsPlace.Models.Api;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
@@ -25,17 +26,29 @@ namespace MichaelsPlace.Controllers.Api
             _queryFactory = queryFactory;
         }
 
-        [HttpGet, Route("article/situation/{demographicId}/{lossId}/{mournerId}")]
-        public List<BrowsingItemModel> ArticleBySituation(int demographicId, int lossId, int mournerId) =>
+        /// <summary>
+        /// Returns all articles which match the provided <paramref name="situation"/>.
+        /// The situation should be provided in serialized form, like 1.2-3-4.5.6.
+        /// </summary>
+        /// <param name="situation">The situation should be provided in serialized form, like 1.2-3-4.5.6.</param>
+        /// <returns></returns>
+        [HttpGet, Route("bysituation/{situation}/article")]
+        public List<BrowsingItemModel> ArticleBySituation(SituationModel situation) =>
             _queryFactory.Create<ItemBySituationQuery>()
-                         .Execute<Article>(demographicId, lossId, mournerId)
+                         .Execute<Article>(situation)
                          .ProjectTo<BrowsingItemModel>()
                          .ToList();
 
-        [HttpGet, Route("todo/situation/{demographicId}/{lossId}/{mournerId}")]
-        public List<BrowsingItemModel> ToDoBySituation(int demographicId, int lossId, int mournerId) =>
+        /// <summary>
+        /// Returns all to-dos which match the provided <paramref name="situation"/>.
+        /// The situation should be provided in serialized form, like 1.2-3-4.5.6.
+        /// </summary>
+        /// <param name="situation">The situation should be provided in serialized form, like 1.2-3-4.5.6.</param>
+        /// <returns></returns>
+        [HttpGet, Route("bysituation/{situation}/todo")]
+        public List<BrowsingItemModel> ToDoBySituation(SituationModel situation) =>
             _queryFactory.Create<ItemBySituationQuery>()
-                         .Execute<ToDo>(demographicId, lossId, mournerId)
+                         .Execute<ToDo>(situation)
                          .ProjectTo<BrowsingItemModel>()
                          .ToList();
     }

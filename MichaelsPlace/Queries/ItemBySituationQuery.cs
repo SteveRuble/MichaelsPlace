@@ -7,6 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MichaelsPlace.Controllers.Api;
 using MichaelsPlace.Infrastructure;
+using MichaelsPlace.Models;
 using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Queries
@@ -25,14 +26,14 @@ namespace MichaelsPlace.Queries
             _mapper = mapper;
         }
 
-        public virtual IProjectableQuery<TItem> Execute<TItem>(int demographicId, int lossId, int mournerId)
+        public virtual IProjectableQuery<TItem> Execute<TItem>(SituationModel situationModel)
             where TItem : Item
         {
             var items = from item in _dbContext.Items.OfType<TItem>()
                         from situation in item.Situations
-                        where situation.Losses.Any(x => x.Id == lossId)
-                              && situation.Mourners.Any(x => x.Id == mournerId)
-                              && situation.Demographics.Any(x => x.Id == demographicId)
+                        where situation.Losses.Any(x => situationModel.Losses.Contains(x.Id))
+                              && situation.Mourners.Any(x => situationModel.Mourners.Contains(x.Id))
+                              && situation.Demographics.Any(x => situationModel.Demographics.Contains(x.Id))
                         select item;
 
             return items.AsProjectable(_mapper);

@@ -12,9 +12,19 @@ namespace MichaelsPlace.Models.Api
     {
         protected override void Configure()
         {
-            CreateMap<Article, BrowsingItemModel>()
+            CreateMap<Item, BrowsingItemModel>()
                 .ForSourceMember(m => m.CreatedBy, o => o.Ignore())
                 .ForSourceMember(m => m.CreatedUtc, o => o.Ignore());
+
+            CreateMap<Article, BrowsingItemModel>()
+                .ForSourceMember(m => m.CreatedBy, o => o.Ignore())
+                .ForSourceMember(m => m.CreatedUtc, o => o.Ignore())
+                .IncludeBase<Item, BrowsingItemModel>();
+
+            CreateMap<ToDo, BrowsingItemModel>()
+                .ForSourceMember(m => m.CreatedBy, o => o.Ignore())
+                .ForSourceMember(m => m.CreatedUtc, o => o.Ignore())
+                .IncludeBase<Item, BrowsingItemModel>();
         }
     }
 }

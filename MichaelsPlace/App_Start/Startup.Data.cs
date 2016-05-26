@@ -56,20 +56,20 @@ namespace MichaelsPlace
                        };
             context.Users.Add(user);
 
-            context.Tags.Add(new DemographicTag() { Title = "I'm helping a friend or relative" });
-            context.Tags.Add(new DemographicTag() { Title = "I've suffered a loss" });
-            context.Tags.Add(new DemographicTag() { Title = "I'm a school administrator" });
-            context.Tags.Add(new DemographicTag() { Title = "I manage a workplace" });
+            context.Tags.Add(new DemographicTag() { Title = "Friend", GuidanceLabel = "I'm helping a friend or relative" });
+            context.Tags.Add(new DemographicTag() { Title = "Person", GuidanceLabel = "I've suffered a loss" });
+            context.Tags.Add(new DemographicTag() { Title = "School Administrator", GuidanceLabel = "I'm a school administrator" });
+            context.Tags.Add(new DemographicTag() { Title = "Manager", GuidanceLabel = "I manage a workplace" });
 
-            context.Tags.Add(new LossTag() { Title = "I lost a spouse" });
-            context.Tags.Add(new LossTag() { Title = "I lost a parent" });
-            context.Tags.Add(new LossTag() { Title = "I lost a child" });
-            context.Tags.Add(new LossTag() { Title = "I lost a friend" });
+            context.Tags.Add(new LossTag() { Title="Spouse", GuidanceLabel = "I lost a spouse" });
+            context.Tags.Add(new LossTag() { Title="Parent", GuidanceLabel = "I lost a parent" });
+            context.Tags.Add(new LossTag() { Title="Child", GuidanceLabel = "I lost a child" });
+            context.Tags.Add(new LossTag() { Title="Friend", GuidanceLabel = "I lost a friend" });
 
-            context.Tags.Add(new MournerTag() { Title = "My siblings" });
-            context.Tags.Add(new MournerTag() { Title = "My classmates" });
-            context.Tags.Add(new MournerTag() { Title = "My employees" });
-            context.Tags.Add(new MournerTag() { Title = "Myself" });
+            context.Tags.Add(new MournerTag() { Title="Siblings", GuidanceLabel = "My siblings" });
+            context.Tags.Add(new MournerTag() { Title="Classmates", GuidanceLabel = "My classmates" });
+            context.Tags.Add(new MournerTag() { Title="Employees", GuidanceLabel = "My employees" });
+            context.Tags.Add(new MournerTag() { Title="Self", GuidanceLabel = "Myself" });
 
             var situation = context.Situations.Add(new Situation()
                                                    {
@@ -98,7 +98,7 @@ namespace MichaelsPlace
 
             for (int i = 1; i < 5; i++)
             {
-                context.Items.Add(new Article()
+                context.Items.Add(new ToDo()
                                   {
                                       CreatedBy = user,
                                       CreatedUtc = DateTimeOffset.UtcNow,
