@@ -28,14 +28,14 @@ namespace MichaelsPlace.Queries
         public virtual IProjectableQuery<TItem> Execute<TItem>(int demographicId, int lossId, int mournerId)
             where TItem : Item
         {
-            var items = from item in _dbContext.Items
+            var items = from item in _dbContext.Items.OfType<TItem>()
                         from situation in item.Situations
                         where situation.Losses.Any(x => x.Id == lossId)
                               && situation.Mourners.Any(x => x.Id == mournerId)
                               && situation.Demographics.Any(x => x.Id == demographicId)
                         select item;
 
-            return items.OfType<TItem>().AsProjectable(_mapper);
+            return items.AsProjectable(_mapper);
         }
     }
 }

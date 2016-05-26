@@ -1,12 +1,7 @@
 {
-    "compilerOptions": {
-        "target": "ES6",
-        "module": "system",
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
-    },
-    "exclude": [
-        "node_modules",
-        "wwwroot/jspm_packages"
-    ]
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "system",
+    "experimentalDecorators": true
+  }
 }
