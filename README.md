@@ -12,9 +12,19 @@ MVC application and API:
 SPA application:
 
 1. Install node and npm (https://nodejs.org/en/)
-2. Open command line in the MichaelsPlace.App directory:
+2. Open command line in the MichaelsPlace directory:
 3. Run `npm install`. This will take a while.
 4. Run `jspm install`. This will take a little less time.
 5. Run `gulp watch`.
-6. Open http://localhost:9000/wwwroot/index.html in your browser.
+6. Open http://localhost:8081/app/index.html in your browser.
+
+The SPA application is embedded in the MVC application, in directories which start with lowercase letters.
+
+    /app - The output directory of the gulp build (equivalent to /bin). It serves as the root path of the SPA.
+    /build - Build configurations
+    /src - The source files for the SPA. This is where you do development.
+    /test - The tests for the SPA
+
+The SPA also owns the .json and .js files in the root of the MichaelsPlace project.
+
 

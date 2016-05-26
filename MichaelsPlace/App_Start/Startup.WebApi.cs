@@ -43,7 +43,7 @@ namespace MichaelsPlace
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
-            config.EnableCors(new EnableCorsAttribute("http://localhost:9000", "*", "*"));
+            config.EnableCors(new EnableCorsAttribute("http://localhost:8081", "*", "*"));
 
             config.MapHttpAttributeRoutes();
 
