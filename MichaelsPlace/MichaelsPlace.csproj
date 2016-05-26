@@ -314,9 +314,9 @@
     <Content Include="test\unit\setup.js" />
     <Content Include="test\unit\users.spec.js" />
     <Content Include="wallaby.js" />
-    <Content Include="wwwroot\config.js" />
-    <Content Include="wwwroot\css\site.css" />
-    <Content Include="wwwroot\index.html" />
+    <Content Include="app\config.js" />
+    <Content Include="app\css\site.css" />
+    <Content Include="app\index.html" />
     <Content Include="appsettings.json" />
     <Content Include="bower.json" />
     <Content Include="jsconfig.json" />
