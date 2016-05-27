@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Security.Claims;
+using IdentityManager;
+using IdentityManager.AspNetIdentity;
+using IdentityManager.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -7,6 +11,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using MichaelsPlace.Models;
 using MichaelsPlace.Models.Persistence;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MichaelsPlace
 {
@@ -64,6 +69,35 @@ namespace MichaelsPlace
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+        }
+
+        public void ConfigureIdentityManager(IAppBuilder app)
+        {
+            app.Map("/idm", idm =>
+            {
+                var db = new ApplicationDbContext();
+                var userMgr = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+                var roleMgr = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+
+                var svc = new AspNetIdentityManagerService<ApplicationUser, string, IdentityRole, string>(userMgr, roleMgr);
+                var options = new IdentityManagerOptions()
+                              {
+                                  Factory =
+                                  {
+                                      IdentityManagerService = new Registration<IIdentityManagerService>(svc)
+                                  },
+                                  DisableUserInterface = false,
+                                  SecurityConfiguration = new HostSecurityConfiguration()
+                                                          {
+                                                              HostAuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                                                              RequireSsl = !GlobalSettings.IsDevelopment,
+                                                              AdminRoleName = Constants.Roles.Administrator,
+                                                              RoleClaimType = ClaimTypes.Role
+                                                          }
+                              };
+                
+                idm.UseIdentityManager(options);
+            });
         }
     }
 }

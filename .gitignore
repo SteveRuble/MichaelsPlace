@@ -237,3 +237,6 @@ _Pvt_Extensions
 
 #jspm
 **/jspm_packages/
+
+#bower
+**/bower_components/

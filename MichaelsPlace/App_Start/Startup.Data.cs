@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MichaelsPlace.Models.Persistence;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Owin;
 
 namespace MichaelsPlace
@@ -50,12 +52,18 @@ namespace MichaelsPlace
 
         protected override void Seed(ApplicationDbContext context)
         {
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            roleManager.Create(new IdentityRole() {Name = Constants.Roles.Administrator});
             var user = new ApplicationUser()
                        {
-                           UserName = "admin@michaelsplace.com"
+                            Id = Guid.NewGuid().ToString(),
+                           UserName = "admin@example.com"
                        };
-            context.Users.Add(user);
-
+            userManager.Create(user, "Administrator123");
+            userManager.AddToRole(user.Id, Constants.Roles.Administrator);
+            
             context.Tags.Add(new DemographicTag() { Title = "Friend", GuidanceLabel = "I'm helping a friend or relative" });
             context.Tags.Add(new DemographicTag() { Title = "Person", GuidanceLabel = "I've suffered a loss" });
             context.Tags.Add(new DemographicTag() { Title = "School Administrator", GuidanceLabel = "I'm a school administrator" });

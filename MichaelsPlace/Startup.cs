@@ -1,6 +1,9 @@
 ﻿using System.Data.Entity;
+using IdentityManager;
+using IdentityManager.Configuration;
 using MichaelsPlace.App_Start;
 using MichaelsPlace.Models.Persistence;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Ninject;
 using Owin;
@@ -17,6 +20,8 @@ namespace MichaelsPlace
             ConfigureAuth(app);
 
             ConfigureWebApi(app, NinjectWebCommon.Kernel);
+
+            ConfigureIdentityManager(app);
         }
 
 
