@@ -16,6 +16,13 @@ namespace MichaelsPlace.Infrastructure
             if (mapper == null) throw new ArgumentNullException(nameof(mapper));
             return new ProjectableQuery<T>(mapper, @this);
         }
+
+        public static IQueryable<TProjected> ProjectTo<TProjected>(this IQueryable @this, IMapper mapper)
+        {
+            if (@this == null) throw new ArgumentNullException(nameof(@this));
+            if (mapper == null) throw new ArgumentNullException(nameof(mapper));
+            return @this.ProjectTo<TProjected>(mapper.ConfigurationProvider);
+        }
     }
 
     /// <summary>

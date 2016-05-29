@@ -51,8 +51,8 @@
       <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Glimpse.AspNet, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Glimpse.AspNet.1.2.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+    <Reference Include="Glimpse.AspNet, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.AspNet.1.9.2\lib\net45\Glimpse.AspNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Glimpse.ClaimsInspector, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -245,6 +245,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -253,10 +254,16 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\Startup.Data.cs" />
     <Compile Include="App_Start\Startup.WebApi.cs" />
+    <Compile Include="BootstrapSupport\ControlGroupExtensions.cs" />
+    <Compile Include="BootstrapSupport\ViewHelperExtensions.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Api\ArticleController.cs" />
+    <Compile Include="Controllers\Admin\AdminControllerBase.cs" />
+    <Compile Include="Controllers\Admin\ArticlesController.cs" />
+    <Compile Include="Controllers\Admin\DashboardController.cs" />
+    <Compile Include="Controllers\Api\BrowsingController.cs" />
     <Compile Include="Controllers\Api\TagsController.cs" />
+    <Compile Include="Controllers\BootstrapBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
@@ -270,6 +277,8 @@
     <Compile Include="Infrastructure\QueryFactory.cs" />
     <Compile Include="MichaelsPlaceModule.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Admin\AdminItemModel.cs" />
+    <Compile Include="Models\Admin\AdminModelMappingProfile.cs" />
     <Compile Include="Models\Api\ApiModelMappingProfile.cs" />
     <Compile Include="Models\Api\BrowsingItemModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -295,6 +304,8 @@
     <Compile Include="Models\Persistence\ToDo.cs" />
     <Compile Include="Models\Persistence\UserCaseItem.cs" />
     <Compile Include="Models\SituationModel.cs" />
+    <Compile Include="NavigationRoutes\NamedRoute.cs" />
+    <Compile Include="NavigationRoutes\NavigationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\ItemBySituationQuery.cs" />
     <Compile Include="Settings.cs" />
@@ -318,9 +329,22 @@
     <Content Include="build\tasks\serve.js" />
     <Content Include="build\tasks\test.js" />
     <Content Include="build\tasks\watch.js" />
+    <Content Include="CodeTemplates\AddView\CSHTML\BootstrapForm.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Create.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Delete.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Details.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Edit.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Empty.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\List.tt" />
+    <Content Include="Content\bootstrap-mvc-validation.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -330,6 +354,13 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="build\.eslintrc" />
+    <Content Include="Scripts\html5shiv.js" />
+    <Content Include="Scripts\jquery-migrate-1.0.0.js" />
+    <Content Include="Scripts\jquery-migrate-1.0.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive-custom-for-bootstrap.js" />
+    <Content Include="Scripts\sb-admin-2.js" />
     <Content Include="test\e2e\src\demo.spec.js" />
     <Content Include="test\e2e\src\skeleton.po.js" />
     <Content Include="test\e2e\src\welcome.po.js" />
@@ -345,6 +376,11 @@
     <Content Include="bower.json" />
     <Content Include="jsconfig.json" />
     <Content Include="package.json" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -406,9 +442,19 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\App\Index.cshtml" />
     <Content Include="src\.eslintrc" />
     <Content Include="test\unit\.eslintrc" />
+    <Content Include="Views\Articles\Create.cshtml" />
+    <Content Include="Views\Articles\Delete.cshtml" />
+    <Content Include="Views\Articles\Details.cshtml" />
+    <Content Include="Views\Articles\Edit.cshtml" />
+    <Content Include="Views\Articles\Index.cshtml" />
+    <Content Include="Views\Shared\_validationSummary.cshtml" />
+    <Content Include="Views\Shared\_alerts.cshtml" />
+    <Content Include="Views\Shared\Index.cshtml" />
+    <Content Include="Views\Shared\Details.cshtml" />
+    <Content Include="Views\Shared\Create.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -423,6 +469,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

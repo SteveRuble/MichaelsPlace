@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MichaelsPlace.Models.Persistence
@@ -11,15 +14,15 @@ namespace MichaelsPlace.Models.Persistence
         {
         }
 
-        public IDbSet<Case> Cases { get; set; }
+        public DbSet<Case> Cases { get; set; }
 
-        public IDbSet<Tag> Tags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
-        public IDbSet<Situation> Situations { get; set; }
+        public DbSet<Situation> Situations { get; set; }
 
-        public IDbSet<Item> Items { get; set; }
+        public DbSet<Item> Items { get; set; }
 
-        public IDbSet<Notification> Notifications { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -57,6 +60,23 @@ namespace MichaelsPlace.Models.Persistence
 
             modelBuilder.Entity<ApplicationUser>().HasMany(u => u.UserCaseItems).WithRequired(uci => uci.User).WillCascadeOnDelete(false);
             modelBuilder.Entity<ApplicationUser>().HasMany(u => u.CaseUsers).WithRequired(cu => cu.User).WillCascadeOnDelete(false);
+        }
+
+        public override int SaveChanges()
+        {
+            var situationChanges = ChangeTracker.Entries<Situation>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+            UpdateMementos(situationChanges);
+
+            return base.SaveChanges();
+        }
+
+        private void UpdateMementos(IEnumerable<DbEntityEntry<Situation>> situationChanges)
+        {
+            foreach (var situationChange in situationChanges)
+            {
+                situationChange.Entity.UpdateMemento();
+            }
         }
     }
 }

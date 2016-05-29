@@ -1,0 +1,26 @@
+@using BootstrapSupport
+@model Object
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>@Model.GetLabel() <small>Create</small></legend>
+        @foreach (var property in Model.VisibleProperties())
+        {
+            using(Html.ControlGroupFor(property.Name)){
+                @Html.Label(property.Name.ToSeparatedWords(), new { @class = "control-label" })
+                 <div class="form-group">
+                     @Html.Editor(property.Name, new { @class = "form-control input-xlarge" })
+                     @Html.ValidationMessage(property.Name, null, new { @class = "help-inline" })
+                 </div>
+            }
+        }
+		<div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn " })
+          </div>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

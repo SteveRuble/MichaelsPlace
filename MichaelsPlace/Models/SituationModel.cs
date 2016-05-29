@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Models
 {
@@ -34,6 +35,7 @@ namespace MichaelsPlace.Models
             Mourners = segs[2].Split('.').Select(int.Parse).ToList();
 
         }
+
     }
 
     public class SituationTypeConverter : TypeConverter

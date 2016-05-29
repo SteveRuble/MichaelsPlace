@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MichaelsPlace.Models.Persistence
 {
@@ -9,7 +10,10 @@ namespace MichaelsPlace.Models.Persistence
         private ICollection<MournerTag> _mourners;
 
         private ICollection<DemographicTag> _teamMembers;
+
         public virtual int Id { get; set; }
+
+        public virtual string Memento { get; set; }
 
         public virtual ICollection<DemographicTag> Demographics
         {
@@ -28,5 +32,14 @@ namespace MichaelsPlace.Models.Persistence
             get { return _mourners ?? (_mourners = new HashSet<MournerTag>()); }
             set { _mourners = value; }
         }
-    }
+
+        public void UpdateMemento()
+        {
+            Memento = string.Join("-",
+                                  string.Join(".", Demographics.Select(x => x.Id)),
+                                  string.Join(".", Losses.Select(x => x.Id)),
+                                  string.Join(".", Mourners.Select(x => x.Id)));
+
+        }
+}
 }

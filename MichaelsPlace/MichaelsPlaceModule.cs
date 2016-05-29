@@ -31,6 +31,7 @@ namespace MichaelsPlace
             var configuration = new MapperConfiguration(c =>
             {
                 c.AddProfile<ApiModelMappingProfile>();
+                c.AddProfile<AdminModelMappingProfile>();
             });
             return configuration.CreateMapper();
         }
