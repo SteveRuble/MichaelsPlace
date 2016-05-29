@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,9 +32,11 @@ namespace MichaelsPlace
 
         private void ConfigureLogging()
         {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log-{Date}.log");
+
             var log = new LoggerConfiguration()
                 .ReadFrom.AppSettings()
-                .WriteTo.RollingFile("log-{Date}.txt")
+                .WriteTo.RollingFile(path, fileSizeLimitBytes: 1000000, retainedFileCountLimit:10)
                 .WriteTo.Glimpse()
 
                 .CreateLogger();

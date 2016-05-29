@@ -240,3 +240,6 @@ _Pvt_Extensions
 
 #bower
 **/bower_components/
+
+#log files
+*.log
