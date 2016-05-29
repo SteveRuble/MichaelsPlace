@@ -9,6 +9,7 @@ using Ninject;
 using Ninject.Activation;
 using Ninject.Extensions.Conventions;
 using Ninject.Modules;
+using Serilog;
 
 namespace MichaelsPlace
 {
@@ -24,6 +25,20 @@ namespace MichaelsPlace
                               .BindToSelf());
 
             Kernel.Bind<IMapper>().ToMethod(CreateMapper).InSingletonScope();
+
+            ConfigureLogging();
+        }
+
+        private void ConfigureLogging()
+        {
+            var log = new LoggerConfiguration()
+                .ReadFrom.AppSettings()
+                .WriteTo.RollingFile("log-{Date}.txt")
+                .WriteTo.Glimpse()
+
+                .CreateLogger();
+
+            Bind<ILogger>().ToConstant(log);
         }
 
         private static IMapper CreateMapper(IContext ctx)

@@ -26,5 +26,15 @@ namespace MichaelsPlace.Controllers
 
             return View();
         }
+
+        public ActionResult Throw()
+        {
+            if (GlobalSettings.IsDevelopment)
+            {
+                throw new Exception("Test");
+            }
+
+            return HttpNotFound();
+        }
     }
 }

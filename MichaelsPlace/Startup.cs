@@ -15,6 +15,10 @@ namespace MichaelsPlace
     {
         public void Configuration(IAppBuilder app)
         {
+            var log = NinjectWebCommon.Kernel.Get<Serilog.ILogger>();
+
+            log.Information("Application starting...");
+
             ConfigureData(app);
 
             ConfigureAuth(app);
@@ -22,6 +26,8 @@ namespace MichaelsPlace
             ConfigureWebApi(app, NinjectWebCommon.Kernel);
 
             ConfigureIdentityManager(app);
+
+            log.Information("Application started.");
         }
 
 

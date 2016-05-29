@@ -18,6 +18,10 @@ namespace MichaelsPlace
                 "~/Scripts/jquery.validate.unobtrusive-custom-for-bootstrap.js"
                 ));
 
+            bundles.Add(new ScriptBundle("~/modernizr").Include(
+                "~/Scripts/modernizr-{version}.js"
+                ));
+
             bundles.Add(new StyleBundle("~/content/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/site.css",

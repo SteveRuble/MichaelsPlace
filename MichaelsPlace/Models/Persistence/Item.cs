@@ -16,6 +16,7 @@ namespace MichaelsPlace.Models.Persistence
         public virtual string Content { get; set; }
 
         [Required]
+        [DataType(DataType.MultilineText)]
         public virtual int Order { get; set; }
 
         public virtual ICollection<Situation> Situations
