@@ -21,33 +21,42 @@
                 @navbarHeader.Brand("Michael's Place")
                 @navbarHeader.NavbarToggle()
             }
-            using (var nav = navbar.NavbarNav().Begin())
+            using (var navCollapse = navbar.NavbarCollapse().Begin())
             {
-                if (ViewContext.HttpContext.Request.IsLocal)
+                using (var nav = navCollapse.NavbarNav().Begin())
                 {
-                    using (var dropdown = nav.Dropdown("DevTools").Begin())
+                    if (ViewContext.HttpContext.Request.IsLocal)
                     {
-                        @dropdown.DropdownLink("App", "http://localhost:8081/app/index.html")
-                        @dropdown.DropdownLink("API Documentation", "/api/swagger/ui/index")
-                        @dropdown.DropdownLink("IdentityManager", "/idm")
-                        @dropdown.DropdownLink("Error Log", "/elmah.axd")
-                        @dropdown.DropdownLink("Glimpse", "/glimpse.axd")
+                        using (var dropdown = nav.Dropdown("DevTools").Begin())
+                        {
+                            @dropdown.DropdownLink("App", "http://localhost:8081/app/index.html")
+                            @dropdown.DropdownLink("API Documentation", "/api/swagger/ui/index")
+                            @dropdown.DropdownLink("IdentityManager", "/idm")
+                            @dropdown.DropdownLink("Error Log", "/elmah.axd")
+                            @dropdown.DropdownLink("Glimpse", "/glimpse.axd")
+
+                        }
+                    }
+                    using (var dropdown = nav.Dropdown("Management Areas").Begin())
+                    {
+                        @dropdown.DropdownLink("Admin Users", "/idm")
+                        @dropdown.DropdownLink("Staff Alerts", Url.Action("StaffAlerts","Preferences"))
+                        @dropdown.DropdownDivider()
+                        @dropdown.DropdownLink("Tags (Filters)", Url.Action("Index", "Tag"))
+                        @dropdown.DropdownLink("Situations (Programs)", Url.Action("Index", "Situation"))
+                        @dropdown.DropdownLink("Articles", Url.Action("Index", "Article"))
+                        @dropdown.DropdownLink("ToDos", Url.Action("Index", "Article"))
+                        @dropdown.DropdownDivider()
+                        @dropdown.DropdownLink("Organizations", Url.Action("Index", "Organization"))
+                        @dropdown.DropdownLink("Users", "/idm")
+                        @dropdown.DropdownLink("Cases", Url.Action("Index", "Case"))
+                        @dropdown.DropdownLink("Reporst", Url.Action("Index", "Report"))
 
                     }
-                }
-
-                using (var dropdown = nav.Dropdown("Management Areas").Begin())
-                {
-                    @dropdown.DropdownLink("App", "http://localhost:8081/app/index.html")
-                    @dropdown.DropdownLink("API Documentation", "/api/swagger/ui/index")
-                    @dropdown.DropdownLink("IdentityManager", "/idm")
-                    @dropdown.DropdownLink("Error Log", "/elmah.axd")
-                    @dropdown.DropdownLink("Glimpse", "/glimpse.axd")
 
                 }
-
-
                 @Html.Partial("_LoginPartial")
+
 
             }
         }
@@ -55,7 +64,7 @@
 
         <div class="body-content">
             @RenderBody()
-           
+
         </div>
         <hr />
         <footer>
@@ -63,14 +72,14 @@
         </footer>
     </div>
 
-@Scripts.Render("~/js")
-@RenderSection("scripts", false)
-<script>
-    $(document).ready(function () {
-        $('[data-toggle=offcanvas]').click(function () {
-            $('.row-offcanvas').toggleClass('active');
+    @Scripts.Render("~/js")
+    @RenderSection("scripts", false)
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle=offcanvas]').click(function () {
+                $('.row-offcanvas').toggleClass('active');
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>

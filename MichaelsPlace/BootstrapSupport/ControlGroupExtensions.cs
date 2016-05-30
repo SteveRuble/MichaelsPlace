@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace BootstrapSupport
 {
@@ -93,6 +94,21 @@ namespace BootstrapSupport
 
         public static string[] ALL{
             get { return new[] {SUCCESS, ATTENTION, INFORMATION, ERROR}; }
+        }
+    }
+
+    public static class HtmlHelperExtensions
+    {
+        public static MvcHtmlString TryPartial(this HtmlHelper helper, string viewName, object model)
+        {
+            try
+            {
+                return helper.Partial(viewName, model);
+            }
+            catch (Exception)
+            {
+            }
+            return MvcHtmlString.Empty;
         }
     }
 }
