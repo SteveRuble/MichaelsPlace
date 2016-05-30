@@ -30,6 +30,10 @@ namespace MichaelsPlace.Models.Persistence
 
         public DbSet<Notification> Notifications { get; set; }
 
+        public DbSet<Organization> Organizations { get; set; }
+
+        public DbSet<Event> Events { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

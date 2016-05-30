@@ -23,7 +23,7 @@ namespace MichaelsPlace.Tests.Models
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ""));
             Database.SetInitializer(new DevDatabaseInitializer()
                                     {
-                                        //ReseedDatabase = true
+                                       RecreateDatabase = true
                                     });
 
             Target = new ApplicationDbContext();

@@ -322,6 +322,10 @@
     <Compile Include="Migrations\201605301027084_Initial.Designer.cs">
       <DependentUpon>201605301027084_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605301642180_Events and Organizations.cs" />
+    <Compile Include="Migrations\201605301642180_Events and Organizations.Designer.cs">
+      <DependentUpon>201605301642180_Events and Organizations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Admin\AdminItemModel.cs" />
@@ -329,6 +333,7 @@
     <Compile Include="Models\Api\ApiModelMappingProfile.cs" />
     <Compile Include="Models\Api\BrowsingItemModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Persistence\Address.cs" />
     <Compile Include="Models\Persistence\ApplicationDbContext.cs" />
     <Compile Include="Models\Persistence\ApplicationUser.cs" />
     <Compile Include="Models\Persistence\Case.cs" />
@@ -339,17 +344,22 @@
     <Compile Include="Models\Persistence\CaseUser.cs" />
     <Compile Include="Models\Persistence\Comment.cs" />
     <Compile Include="Models\Persistence\Email.cs" />
+    <Compile Include="Models\Persistence\Event.cs" />
     <Compile Include="Models\Persistence\ICreated.cs" />
     <Compile Include="Models\Persistence\Invitation.cs" />
     <Compile Include="Models\Persistence\Item.cs" />
     <Compile Include="Models\Persistence\LossTag.cs" />
     <Compile Include="Models\Persistence\MournerTag.cs" />
     <Compile Include="Models\Persistence\Notification.cs" />
+    <Compile Include="Models\Persistence\Organization.cs" />
     <Compile Include="Models\Persistence\Situation.cs" />
+    <Compile Include="Models\Persistence\SubscribableEventType.cs" />
+    <Compile Include="Models\Persistence\SubscriptionPreference.cs" />
     <Compile Include="Models\Persistence\Tag.cs" />
     <Compile Include="Models\Persistence\DemographicTag.cs" />
     <Compile Include="Models\Persistence\ToDo.cs" />
     <Compile Include="Models\Persistence\UserCaseItem.cs" />
+    <Compile Include="Models\Persistence\UserPreference.cs" />
     <Compile Include="Models\SituationModel.cs" />
     <Compile Include="NavigationRoutes\NamedRoute.cs" />
     <Compile Include="NavigationRoutes\NavigationExtensions.cs" />
@@ -508,6 +518,7 @@
     <Content Include="Views\Case\Details.cshtml" />
     <Content Include="Views\Case\Edit.cshtml" />
     <Content Include="Views\Case\Index.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <None Include="Views\User\PickUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -531,6 +542,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605301027084_Initial.resx">
       <DependentUpon>201605301027084_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605301642180_Events and Organizations.resx">
+      <DependentUpon>201605301642180_Events and Organizations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

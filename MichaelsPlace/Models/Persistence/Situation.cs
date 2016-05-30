@@ -13,6 +13,8 @@ namespace MichaelsPlace.Models.Persistence
 
         public virtual int Id { get; set; }
 
+        public virtual string Name { get; set; }
+
         public virtual string Memento { get; set; }
 
         public virtual ICollection<DemographicTag> Demographics

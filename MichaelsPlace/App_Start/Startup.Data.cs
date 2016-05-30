@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Internal;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.Utilities;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace MichaelsPlace
 
         public override void InitializeDatabase(ApplicationDbContext context)
         {
-            var modelChanged = !context.Database.CompatibleWithModel(true);
+            var modelChanged = RecreateDatabase || !context.Database.CompatibleWithModel(true);
             if (!RecreateDatabase && !ReseedDatabase && !modelChanged)
             {
                 return;

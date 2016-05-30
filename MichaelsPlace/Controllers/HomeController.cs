@@ -11,7 +11,7 @@ namespace MichaelsPlace.Controllers
     public class HomeController : Controller
     {
         [Inject]
-        public ILogger Logger { get; set; }
+        public ILogger Logger { get; set; } = Log.Logger;
 
         public ActionResult Index()
         {

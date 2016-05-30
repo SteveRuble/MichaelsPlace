@@ -11,6 +11,16 @@ namespace MichaelsPlace.Models.Persistence
         private ICollection<UserCaseItem> _caseItems;
         private ICollection<CaseUser> _cases;
 
+        private ICollection<UserPreference> _preferences;
+
+        public virtual string FirstName { get; set; }
+
+        public virtual string LastName { get; set; }
+
+        public virtual bool IsDisabled { get; set; }
+
+        public virtual Organization Organization { get; set; }
+
         public virtual ICollection<CaseUser> CaseUsers
         {
             get { return _cases ?? (_cases = new HashSet<CaseUser>()); }
@@ -21,6 +31,12 @@ namespace MichaelsPlace.Models.Persistence
         {
             get { return _caseItems ?? (_caseItems = new HashSet<UserCaseItem>()); }
             set { _caseItems = value; }
+        }
+
+        public virtual ICollection<UserPreference> Preferences
+        {
+            get { return _preferences ?? (_preferences = new HashSet<UserPreference>()); }
+            set { _preferences = value; }
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
