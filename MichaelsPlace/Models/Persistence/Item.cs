@@ -26,7 +26,7 @@ namespace MichaelsPlace.Models.Persistence
         }
 
         [Required]
-        public virtual ApplicationUser CreatedBy { get; set; }
+        public virtual string CreatedBy { get; set; }
 
         [Required]
         public virtual DateTimeOffset CreatedUtc { get; set; }

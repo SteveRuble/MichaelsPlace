@@ -13,62 +13,47 @@
 </head>
 
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("Michael's Place", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
-        </div>
-        <div class="navbar-collapse collapse">
-            @Html.Navigation()
-
-
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-
-                @if (ViewContext.HttpContext.Request.IsLocal)
+        @using (var navbar = Html.Bootstrap().Navbar().SetFluid().SetInverse().Begin())
+        {
+            using (var navbarHeader = navbar.NavbarHeader().Begin())
+            {
+                @navbarHeader.Brand("Michael's Place")
+                @navbarHeader.NavbarToggle()
+            }
+            using (var navbarCollapse = navbar.NavbarCollapse().Begin())
+            {
+                using (var nav = navbarCollapse.NavbarNav().Begin())
                 {
-                    <li role="presentation" class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            DevTools<span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="http://localhost:8081/app/index.html">App</a>
-                            </li>
-                            <li>
-                                <a href="/api/swagger/ui/index">API Documentation</a>
-                            </li>
-                            <li>
-                                <a href="/idm">IdentityManager</a>
-                            </li>
-                            <li>
-                                <a href="/elmah.axd">Error Log</a>
-                            </li>
-                            <li>
-                                <a href="/glimpse.axd">Glimpse</a>
-                            </li>
+                    if (ViewContext.HttpContext.Request.IsLocal)
+                    {
+                        using (var dropdown = nav.Dropdown("DevTools").Begin())
+                        {
+                            @dropdown.DropdownLink("App", "http://localhost:8081/app/index.html")
+                            @dropdown.DropdownLink("API Documentation", "/api/swagger/ui/index")
+                            @dropdown.DropdownLink("IdentityManager", "/idm")
+                            @dropdown.DropdownLink("Error Log", "/elmah.axd")
+                            @dropdown.DropdownLink("Glimpse", "/glimpse.axd")
 
-                        </ul>
-                    </li>
+                        }
+                    }
+
                 }
-            </ul>
-            @Html.Partial("_LoginPartial")
-        </div>
-    </div>
-</div>
+                @Html.Partial("_LoginPartial")
 
-<div class="container body-content">
-    @RenderBody()
-    <hr/>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-    </footer>
-</div>
+            }
+        }
+
+
+        <div class="body-content">
+            @RenderBody()
+           
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Michael's Place</p>
+        </footer>
+    </div>
 
 @Scripts.Render("~/js")
 @RenderSection("scripts", false)

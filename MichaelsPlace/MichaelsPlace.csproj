@@ -55,6 +55,14 @@
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FluentBootstrap, Version=3.3.5.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentBootstrap.3.3.5.3\lib\net40\FluentBootstrap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentBootstrap.Mvc, Version=3.3.5.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentBootstrap.Mvc.3.3.5.3\lib\net40\FluentBootstrap.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Glimpse.Ado, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
       <Private>True</Private>
@@ -77,6 +85,10 @@
     </Reference>
     <Reference Include="Glimpse.Elmah, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Glimpse.Elmah.1.1.1\lib\net40\Glimpse.Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="IdentityManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -286,8 +298,11 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminControllerBase.cs" />
-    <Compile Include="Controllers\Admin\ArticlesController.cs" />
+    <Compile Include="Controllers\Admin\ArticleController.cs" />
+    <Compile Include="Controllers\Admin\CaseController.cs" />
     <Compile Include="Controllers\Admin\DashboardController.cs" />
+    <Compile Include="Controllers\Admin\SituationController.cs" />
+    <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Api\BrowsingController.cs" />
     <Compile Include="Controllers\Api\TagsController.cs" />
     <Compile Include="Controllers\BootstrapBaseController.cs" />
@@ -303,6 +318,11 @@
     <Compile Include="Infrastructure\ProjectableQuery.cs" />
     <Compile Include="Infrastructure\QueryFactory.cs" />
     <Compile Include="MichaelsPlaceModule.cs" />
+    <Compile Include="Migrations\201605301027084_Initial.cs" />
+    <Compile Include="Migrations\201605301027084_Initial.Designer.cs">
+      <DependentUpon>201605301027084_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Admin\AdminItemModel.cs" />
     <Compile Include="Models\Admin\AdminModelMappingProfile.cs" />
@@ -337,6 +357,7 @@
     <Compile Include="Queries\ItemBySituationQuery.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\MichaelsPlaceView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
@@ -471,21 +492,29 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="src\.eslintrc" />
     <Content Include="test\unit\.eslintrc" />
-    <Content Include="Views\Articles\Create.cshtml" />
-    <Content Include="Views\Articles\Delete.cshtml" />
-    <Content Include="Views\Articles\Details.cshtml" />
-    <Content Include="Views\Articles\Edit.cshtml" />
-    <Content Include="Views\Articles\Index.cshtml" />
+    <Content Include="Views\Article\Create.cshtml" />
+    <Content Include="Views\Article\Delete.cshtml" />
+    <Content Include="Views\Article\Details.cshtml" />
+    <Content Include="Views\Article\Edit.cshtml" />
+    <Content Include="Views\Article\Index.cshtml" />
     <Content Include="Views\Shared\_validationSummary.cshtml" />
     <Content Include="Views\Shared\_alerts.cshtml" />
     <Content Include="Views\Shared\Index.cshtml" />
     <Content Include="Views\Shared\Details.cshtml" />
     <Content Include="Views\Shared\Create.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Case\Create.cshtml" />
+    <Content Include="Views\Case\Delete.cshtml" />
+    <Content Include="Views\Case\Details.cshtml" />
+    <Content Include="Views\Case\Edit.cshtml" />
+    <Content Include="Views\Case\Index.cshtml" />
+    <None Include="Views\User\PickUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Item\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
+    <Folder Include="Views\Situation\" />
     <Folder Include="Views\Tags\" />
   </ItemGroup>
   <ItemGroup>
@@ -498,6 +527,11 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605301027084_Initial.resx">
+      <DependentUpon>201605301027084_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

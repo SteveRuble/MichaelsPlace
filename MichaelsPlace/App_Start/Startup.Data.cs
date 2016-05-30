@@ -19,7 +19,7 @@ namespace MichaelsPlace
         {
             Database.SetInitializer(new DevDatabaseInitializer()
                                     {
-                                        //ReseedDatabase = true
+                                        //RecreateDatabase = true,
                                     });
         }
     }
@@ -56,13 +56,20 @@ namespace MichaelsPlace
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
             roleManager.Create(new IdentityRole() {Name = Constants.Roles.Administrator});
-            var user = new ApplicationUser()
-                       {
-                            Id = Guid.NewGuid().ToString(),
-                           UserName = "admin@example.com"
-                       };
-            userManager.Create(user, "Administrator123");
-            userManager.AddToRole(user.Id, Constants.Roles.Administrator);
+            var adminEmail = "admin@example.com";
+            var user = userManager.FindByEmail(adminEmail);
+            if (user == null)
+            {
+                user = new ApplicationUser()
+                           {
+                               UserName = "admin@example.com"
+                           };
+                userManager.Create(user, "Administrator123");
+            }
+            if (!userManager.IsInRole(user.Id, Constants.Roles.Administrator))
+            {
+                userManager.AddToRole(user.Id, Constants.Roles.Administrator);
+            }
             
             context.Tags.Add(new DemographicTag() { Title = "Friend", GuidanceLabel = "I'm helping a friend or relative" });
             context.Tags.Add(new DemographicTag() { Title = "Person", GuidanceLabel = "I've suffered a loss" });
@@ -90,7 +97,7 @@ namespace MichaelsPlace
             {
                 context.Items.Add(new Article()
                                   {
-                                      CreatedBy = user,
+                                      CreatedBy = user.UserName,
                                       CreatedUtc = DateTimeOffset.UtcNow,
                                       Content =
                                           "Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.",
@@ -108,7 +115,7 @@ namespace MichaelsPlace
             {
                 context.Items.Add(new ToDo()
                                   {
-                                      CreatedBy = user,
+                                      CreatedBy = user.UserName,
                                       CreatedUtc = DateTimeOffset.UtcNow,
                                       Content =
                                           "Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus.",

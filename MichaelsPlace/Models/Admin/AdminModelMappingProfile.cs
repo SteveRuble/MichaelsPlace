@@ -14,7 +14,7 @@ namespace MichaelsPlace.Models.Api
         protected override void Configure()
         {
             CreateMap<Item, AdminItemModel>()
-                .ForMember(m => m.CreatedBy, o => o.MapFrom(i => i.CreatedBy.UserName));
+                .ForMember(m => m.CreatedBy, o => o.MapFrom(i => i.CreatedBy));
 
             CreateMap<Article, AdminArticleModel>()
                 .IncludeBase<Item, AdminItemModel>();

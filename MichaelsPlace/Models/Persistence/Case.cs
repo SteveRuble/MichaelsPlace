@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace MichaelsPlace.Models.Persistence
 {
@@ -11,11 +13,14 @@ namespace MichaelsPlace.Models.Persistence
         private ICollection<CaseUser> _caseUsers;
         private string _id;
 
+        [HiddenInput]
         public virtual string Id
         {
             get { return _id ?? (_id = Guid.NewGuid().ToString("N")); }
             set { _id = value; }
         }
+
+        public virtual string Title { get; set; }
 
         public virtual ICollection<CaseUser> CaseUsers
         {
@@ -29,10 +34,20 @@ namespace MichaelsPlace.Models.Persistence
             set { _caseItems = value; }
         }
 
-        [Required]
-        public virtual ApplicationUser CreatedBy { get; set; }
+        private ICollection<CaseNote> _notes;
+
+        public virtual ICollection<CaseNote> Notes
+        {
+            get { return _notes ?? (_notes = new HashSet<CaseNote>()); }
+            set { _notes = value; }
+        }
 
         [Required]
+        [ReadOnly(true)]
+        public virtual string CreatedBy { get; set; }
+
+        [Required]
+        [ReadOnly(true)]
         public virtual DateTimeOffset CreatedUtc { get; set; }
     }
 }

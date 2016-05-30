@@ -13,7 +13,7 @@ using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Controllers.Admin
 {
-    public class ArticlesController : AdminControllerBase
+    public class ArticleController : AdminControllerBase
     {
         public async Task<ActionResult> Index()
         {

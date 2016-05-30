@@ -151,12 +151,12 @@
                             <ul class="list-group">
                                 @foreach (var article in Model.Items.OfType<Article>())
                                 {
-                                    <li class="list-group-item">@Html.ActionLink(article.Title, "Details", "Articles", new { article.Id}, null)</li>
+                                    <li class="list-group-item">@Html.ActionLink(article.Title, "Details", "Article", new { article.Id}, null)</li>
                                 }
                             </ul>
                             <div id="morris-donut-chart"></div>
                             <div class="text-right">
-                                <a href="@Url.Action("Index","Articles")">View Articles <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="@Url.Action("Index","Article")">View Articles <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
