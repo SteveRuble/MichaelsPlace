@@ -63,9 +63,9 @@ namespace MichaelsPlace
                                .WriteTo.Glimpse();
             }
 
-            //var log = config.CreateLogger();
+            var log = config.CreateLogger();
 
-            //Bind<ILogger>().ToConstant(log);
+            Bind<ILogger>().ToConstant(log);
         }
 
         private static IMapper CreateMapper(IContext ctx)
