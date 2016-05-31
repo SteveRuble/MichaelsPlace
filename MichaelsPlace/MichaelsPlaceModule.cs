@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Models.Api;
 using Ninject;
 using Ninject.Activation;
@@ -16,8 +17,23 @@ namespace MichaelsPlace
 {
     public class MichaelsPlaceModule : NinjectModule
     {
+        private readonly bool _logToConsole;
+
+        public MichaelsPlaceModule() : this(false) { }
+
+        /// <summary>
+        /// Extra constructor to configure logging for the test environment.
+        /// </summary>
+        /// <param name="logToConsole"></param>
+        public MichaelsPlaceModule(bool logToConsole)
+        {
+            _logToConsole = logToConsole;
+        }
+
         public override void Load()
         {
+            ConfigureLogging();               
+            
             Kernel.Bind(c => c.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
 
             Kernel.Bind(c => c.FromThisAssembly()
@@ -26,22 +42,30 @@ namespace MichaelsPlace
                               .BindToSelf());
 
             Kernel.Bind<IMapper>().ToMethod(CreateMapper).InSingletonScope();
+            
+            Kernel.Rebind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
 
-            ConfigureLogging();
         }
 
-        private void ConfigureLogging()
+        public void ConfigureLogging()
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log-{Date}.log");
 
-            var log = new LoggerConfiguration()
-                .ReadFrom.AppSettings()
-                .WriteTo.RollingFile(path, fileSizeLimitBytes: 1000000, retainedFileCountLimit:10)
-                .WriteTo.Glimpse()
+            var config = new LoggerConfiguration()
+                .ReadFrom.AppSettings();
+            if (_logToConsole)
+            {
+                config = config.WriteTo.ColoredConsole();
+            }
+            else
+            {
+                config = config.WriteTo.RollingFile(path, fileSizeLimitBytes: 1000000, retainedFileCountLimit: 10)
+                               .WriteTo.Glimpse();
+            }
 
-                .CreateLogger();
+            //var log = config.CreateLogger();
 
-            Bind<ILogger>().ToConstant(log);
+            //Bind<ILogger>().ToConstant(log);
         }
 
         private static IMapper CreateMapper(IContext ctx)
