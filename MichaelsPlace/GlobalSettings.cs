@@ -8,7 +8,10 @@ using Newtonsoft.Json;
 
 namespace MichaelsPlace
 {
-    public static class GlobalSettings
+    /// <summary>
+    /// Contains settings used throughout the application.
+    /// </summary>
+    public static partial class GlobalSettings
     {
         public static readonly JsonSerializerSettings EventSerializerSettings = new JsonSerializerSettings()
                                                                                 {
@@ -19,10 +22,21 @@ namespace MichaelsPlace
         {
             Environment = ConfigurationManager.AppSettings["Environment"];
             IsDevelopment = Environment == "Dev";
+            InitializeSecrets();
         }
+
+        static partial void InitializeSecrets();
 
         public static string Environment { get; set; }
 
         public static bool IsDevelopment { get; set; }
+
+        public static class Twilio
+        {
+            public static string AccountId { get; set; }
+            public static string AuthToken { get; set; }
+            public static string FromNumber { get; set; }
+
+        }
     }
 }

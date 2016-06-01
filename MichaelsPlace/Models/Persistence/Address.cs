@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MichaelsPlace.Models.Persistence
@@ -5,10 +6,11 @@ namespace MichaelsPlace.Models.Persistence
     public class Address
     {
         public virtual int Id { get; set; }
+        [DisplayName("Line 1")]
         [Required]
         [MaxLength(200)]
         public virtual string LineOne { get; set; }
-        [Required]
+        [DisplayName("Line 2")]
         [MaxLength(200)]
         public virtual string LineTwo { get; set; }
         [Required]

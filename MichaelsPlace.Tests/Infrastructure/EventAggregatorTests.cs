@@ -7,17 +7,15 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MichaelsPlace.Infrastructure;
+using MichaelsPlace.Models.Persistence;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace MichaelsPlace.Tests.Infrastructure
 {
-    public class TestDurableEvent : IDurableEvent
+    public class TestPersistedHistoricalEvent : EventBase
     {
-        [JsonIgnore]
-        public Guid Id { get; } = Guid.NewGuid();
-
         public string Payload { get; set; }
     }
 
@@ -43,7 +41,7 @@ namespace MichaelsPlace.Tests.Infrastructure
         [Test]
         public void durable_events_are_stored()
         {
-            var @event = new TestDurableEvent() {Payload = "test"};
+            var @event = new TestPersistedHistoricalEvent() {Payload = "test"};
             MockEventStore.Setup(m => m.Save(@event)).Verifiable();
 
             Target.Publish(@event);

@@ -128,6 +128,10 @@
       <HintPath>..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.2\lib\net46\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.dll</HintPath>
       <Private>True</Private>
@@ -237,6 +241,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Twilio.Api, Version=3.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Twilio.4.7.2\lib\3.5\Twilio.Api.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
@@ -303,7 +311,6 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -332,9 +339,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSettings.secrets.cs" />
     <Compile Include="Infrastructure\EventAggregator.cs" />
     <Compile Include="Infrastructure\EventStore.cs" />
-    <Compile Include="Infrastructure\IDurableEvent.cs" />
+    <Compile Include="Infrastructure\Identity\ApplicationSignInManager.cs" />
+    <Compile Include="Infrastructure\Identity\ApplicationUserManager.cs" />
+    <Compile Include="Infrastructure\Identity\EmailService.cs" />
+    <Compile Include="Infrastructure\Identity\SmsService.cs" />
+    <Compile Include="Infrastructure\IPersistedEvent.cs" />
     <Compile Include="Infrastructure\IEventAggregator.cs" />
     <Compile Include="Infrastructure\IEventStore.cs" />
     <Compile Include="Infrastructure\IProjectableQuery.cs" />
@@ -350,6 +362,14 @@
     <Compile Include="Migrations\201605301642180_Events and Organizations.cs" />
     <Compile Include="Migrations\201605301642180_Events and Organizations.Designer.cs">
       <DependentUpon>201605301642180_Events and Organizations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605311828238_Events.cs" />
+    <Compile Include="Migrations\201605311828238_Events.Designer.cs">
+      <DependentUpon>201605311828238_Events.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605311914356_PhoneNumber.cs" />
+    <Compile Include="Migrations\201605311914356_PhoneNumber.Designer.cs">
+      <DependentUpon>201605311914356_PhoneNumber.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -369,7 +389,8 @@
     <Compile Include="Models\Persistence\CaseUser.cs" />
     <Compile Include="Models\Persistence\Comment.cs" />
     <Compile Include="Models\Persistence\Email.cs" />
-    <Compile Include="Models\Persistence\Event.cs" />
+    <Compile Include="Models\Persistence\EntitySaver.cs" />
+    <Compile Include="Models\Persistence\HistoricalEvent.cs" />
     <Compile Include="Models\Persistence\ICreated.cs" />
     <Compile Include="Models\Persistence\Invitation.cs" />
     <Compile Include="Models\Persistence\Item.cs" />
@@ -390,7 +411,7 @@
     <Compile Include="NavigationRoutes\NavigationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\ItemBySituationQuery.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="GlobalSettings.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\MichaelsPlaceView.cs" />
   </ItemGroup>
@@ -549,13 +570,14 @@
     <Content Include="Views\Organization\Edit.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
     <None Include="Views\Preferences\StaffAlerts.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Address.cshtml" />
     <None Include="Views\User\PickUser.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PickUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Item\" />
     <Folder Include="Views\Report\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
     <Folder Include="Views\Situation\" />
     <Folder Include="Views\Tags\" />
     <Folder Include="Views\Tag\" />
@@ -577,6 +599,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605301642180_Events and Organizations.resx">
       <DependentUpon>201605301642180_Events and Organizations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605311828238_Events.resx">
+      <DependentUpon>201605311828238_Events.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605311914356_PhoneNumber.resx">
+      <DependentUpon>201605311914356_PhoneNumber.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

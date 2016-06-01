@@ -3,6 +3,7 @@ using System.Security.Claims;
 using IdentityManager;
 using IdentityManager.AspNetIdentity;
 using IdentityManager.Configuration;
+using MichaelsPlace.Infrastructure.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;

@@ -1,0 +1,15 @@
+﻿@model System.Collections.Generic.ICollection<MichaelsPlace.Models.Persistence.ApplicationUser>
+
+
+<a class="btn btn-success">
+    <i  class="fa fa-plus"></i>
+</a>
+<ul class="list-group">
+    @foreach (var user in Model)
+    {
+        <li class="list-group-item">@user.UserName <a class="btn btn-danger pull-right">
+                <i class="fa fa-minus"></i>
+            </a>
+        </li>
+    }
+</ul>

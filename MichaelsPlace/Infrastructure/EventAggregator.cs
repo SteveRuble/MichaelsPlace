@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
+using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Infrastructure
 {
@@ -27,9 +28,9 @@ namespace MichaelsPlace.Infrastructure
 
         public void Publish<TEvent>(TEvent @event)
         {
-            if (@event is IDurableEvent)
+            if (@event is EventBase)
             {
-                _eventStore.Save(@event as IDurableEvent);
+                _eventStore.Save(@event as EventBase);
             }
 
             object subject;

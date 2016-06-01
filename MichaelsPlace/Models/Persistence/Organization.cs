@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MichaelsPlace.Models.Persistence
@@ -11,12 +12,15 @@ namespace MichaelsPlace.Models.Persistence
         
         public virtual Address Address { get; set; }
 
+        [DisplayName("Phone Number")]
         [DataType(DataType.PhoneNumber)]
-        public virtual string PhaneNumber { get; set; }
+        public virtual string PhoneNumber { get; set; }
 
+        [DisplayName("Fax Number")]
         [DataType(DataType.PhoneNumber)]
         public virtual string FaxNumber { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public virtual string Notes { get; set; }
 
         private ICollection<ApplicationUser> _users;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -13,10 +14,13 @@ namespace MichaelsPlace.Models.Persistence
 
         private ICollection<UserPreference> _preferences;
 
+        [DisplayName("First Name")]
         public virtual string FirstName { get; set; }
 
+        [DisplayName("First Name")]
         public virtual string LastName { get; set; }
 
+        [DisplayName("Disabled")]
         public virtual bool IsDisabled { get; set; }
 
         public virtual Organization Organization { get; set; }

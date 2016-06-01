@@ -1,7 +1,10 @@
+using MichaelsPlace.Models.Persistence;
+
 namespace MichaelsPlace.Infrastructure
 {
     public interface IEventStore
     {
-        void Save(IDurableEvent durableEvent);
+        void Save(EventBase @event);
+        TEvent Load<TEvent>(string id) where TEvent : EventBase;
     }
 }

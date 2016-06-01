@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using AutoMapper;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Models.Api;
+using Microsoft.Owin;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Extensions.Conventions;
@@ -45,6 +47,20 @@ namespace MichaelsPlace
             
             Kernel.Rebind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
 
+            ConfigureHttp();
+
+            ConfigureAuthentication();
+
+        }
+
+        private void ConfigureAuthentication()
+        {
+        }
+
+        public void ConfigureHttp()
+        {
+            Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current));
+            Bind<IOwinContext>().ToMethod(ctx => HttpContext.Current.GetOwinContext());
         }
 
         public void ConfigureLogging()

@@ -32,7 +32,7 @@ namespace MichaelsPlace.Models.Persistence
 
         public DbSet<Organization> Organizations { get; set; }
 
-        public DbSet<Event> Events { get; set; }
+        public DbSet<HistoricalEvent> HistoricalEvents { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -134,5 +134,7 @@ namespace MichaelsPlace.Models.Persistence
                 }
             }
         }
+
+        public System.Data.Entity.DbSet<MichaelsPlace.Models.Persistence.Address> Addresses { get; set; }
     }
 }

@@ -18,7 +18,7 @@
         {
             using (var navbarHeader = navbar.NavbarHeader().Begin())
             {
-                @navbarHeader.Brand("Michael's Place")
+                @navbarHeader.Brand("Michael's Place", "/")
                 @navbarHeader.NavbarToggle()
             }
             using (var navCollapse = navbar.NavbarCollapse().Begin())
@@ -50,7 +50,7 @@
                         @dropdown.DropdownLink("Organizations", Url.Action("Index", "Organization"))
                         @dropdown.DropdownLink("Users", "/idm")
                         @dropdown.DropdownLink("Cases", Url.Action("Index", "Case"))
-                        @dropdown.DropdownLink("Reporst", Url.Action("Index", "Report"))
+                        @dropdown.DropdownLink("Reports", Url.Action("Index", "Report"))
 
                     }
 

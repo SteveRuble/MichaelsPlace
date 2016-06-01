@@ -13,37 +13,39 @@ using NUnit.Framework;
 namespace MichaelsPlace.Tests.Models
 {
     [TestFixture]
-    public class ApplicationDbContextTests
+    public class ApplicationDbContextTests : DatabaseIntegrationTestBase
     {
-        public ApplicationDbContext Target { get; set; }
-
-        [SetUp]
-        public void SetUp()
-        {
-            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ""));
-            Database.SetInitializer(new DevDatabaseInitializer()
-                                    {
-                                       RecreateDatabase = true
-                                    });
-
-            Target = new ApplicationDbContext();
-        }
-
         [Test]
         public void can_create_user()
         {
             var user = new ApplicationUser();
             user.UserName = "test@example.com";
 
-            Target.Users.Add(user);
+            DbContext.Users.Add(user);
 
-            Target.SaveChanges();
+            DbContext.SaveChanges();
 
             user.Id.Should().NotBeNullOrEmpty();
 
-            Target.Users.Remove(user);
+            DbContext.Users.Remove(user);
 
-            Target.SaveChanges();
+            DbContext.SaveChanges();
+        }
+
+        [Test]
+        public void can_get_set_for_derived_type()
+        {
+            var set = DbContext.Set<Email>();
+            set.Should().NotBeNull();
+            set.Add(new Email()
+                    {
+                        Content = "Test",
+                        CreatedBy = "test@example.com",
+                        Subject = "Test Subject",
+                        ToAddress = "test2@example.com"
+                    });
+            DbContext.SaveChanges(); 
+
         }
     }
 }
