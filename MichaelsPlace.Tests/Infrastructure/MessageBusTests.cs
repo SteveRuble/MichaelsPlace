@@ -11,6 +11,7 @@ using MichaelsPlace.Models.Persistence;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Serilog;
 
 namespace MichaelsPlace.Tests.Infrastructure
 {
@@ -25,30 +26,21 @@ namespace MichaelsPlace.Tests.Infrastructure
     }
 
     [TestFixture]
-    public class EventAggregatorTests
+    public class MessageBusTests
     {
-        public EventAggregator Target { get; set; }
+        public MessageBus Target { get; set; }
         public Mock<IEventStore> MockEventStore { get; set; }
+        public Mock<ILogger> MockLogger { get; set; }
 
 
         [SetUp]
         public void SetUp()
         {
             MockEventStore = new Mock<IEventStore>(MockBehavior.Strict);
-            Target = new EventAggregator(MockEventStore.Object);
+            MockLogger = new Mock<ILogger>();
+            Target = new MessageBus(MockLogger.Object);
         }
-
-        [Test]
-        public void durable_events_are_stored()
-        {
-            var @event = new TestPersistedHistoricalEvent() {Payload = "test"};
-            MockEventStore.Setup(m => m.Save(@event)).Verifiable();
-
-            Target.Publish(@event);
-
-            MockEventStore.Verify();
-        }
-
+        
         [Test]
         public void non_durable_events_are_not_stored()
         {
@@ -69,6 +61,16 @@ namespace MichaelsPlace.Tests.Infrastructure
             var actual = await subscription;
 
             actual.Should().Be(expected);
+        }
+
+        [Test]
+        public async Task events_without_subscribers_are_logged()
+        {
+            var expected = new TestEvent() {Payload = "test"};
+
+            Target.Publish(expected);
+
+            MockLogger.Verify(m => m.Debug(It.IsAny<string>(), expected));
         }
     }
 }

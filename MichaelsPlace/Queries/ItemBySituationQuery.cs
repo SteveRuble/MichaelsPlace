@@ -15,28 +15,19 @@ namespace MichaelsPlace.Queries
     /// <summary>
     /// Query which returns items which pertain to a specified situation.
     /// </summary>
-    public class ItemBySituationQuery : IQuery
+    public class ItemBySituationQuery : QueryBase
     {
-        private readonly ApplicationDbContext _dbContext;
-        private readonly IMapper _mapper;
-
-        public ItemBySituationQuery(ApplicationDbContext dbContext, IMapper mapper)
-        {
-            _dbContext = dbContext;
-            _mapper = mapper;
-        }
-
         public virtual IProjectableQuery<TItem> Execute<TItem>(SituationModel situationModel)
             where TItem : Item
         {
-            var items = from item in _dbContext.Items.OfType<TItem>()
+            var items = from item in DbContext.Items.OfType<TItem>()
                         from situation in item.Situations
                         where situation.Losses.Any(x => situationModel.Losses.Contains(x.Id))
                               && situation.Mourners.Any(x => situationModel.Mourners.Contains(x.Id))
                               && situation.Demographics.Any(x => situationModel.Demographics.Contains(x.Id))
                         select item;
 
-            return items.AsProjectable(_mapper);
+            return items.AsProjectable(Mapper);
         }
     }
 }

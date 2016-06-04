@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity;
 
 namespace MichaelsPlace.Infrastructure.Identity
 {
-    public class EmailService : IIdentityMessageService
+    public class IdentityEmailService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
         {

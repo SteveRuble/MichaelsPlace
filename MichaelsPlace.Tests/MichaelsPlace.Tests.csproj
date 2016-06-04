@@ -163,7 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseIntegrationTestBase.cs" />
-    <Compile Include="Infrastructure\EventAggregatorTests.cs" />
+    <Compile Include="Infrastructure\MessageBusTests.cs" />
     <Compile Include="Infrastructure\EventStoreIntegrationTests.cs" />
     <Compile Include="MappingValidation.cs" />
     <Compile Include="Models\ApplicationDbContextTests.cs" />

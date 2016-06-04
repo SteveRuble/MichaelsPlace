@@ -99,6 +99,10 @@
       <HintPath>..\packages\IdentityManager.AspNetIdentity.1.0.0-beta5-1\lib\net45\IdentityManager.AspNetIdentity.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=7.1.3000.2254, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReSharper.Annotations.7.1.3.130415\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -340,14 +344,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSettings.secrets.cs" />
-    <Compile Include="Infrastructure\EventAggregator.cs" />
+    <Compile Include="Listeners\CaseCreatedHandler.cs" />
+    <Compile Include="Infrastructure\MessageBus.cs" />
     <Compile Include="Infrastructure\EventStore.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationSignInManager.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserManager.cs" />
-    <Compile Include="Infrastructure\Identity\EmailService.cs" />
-    <Compile Include="Infrastructure\Identity\SmsService.cs" />
+    <Compile Include="Infrastructure\Identity\IdentityEmailService.cs" />
+    <Compile Include="Infrastructure\Identity\IdentitySmsService.cs" />
     <Compile Include="Infrastructure\IPersistedEvent.cs" />
-    <Compile Include="Infrastructure\IEventAggregator.cs" />
+    <Compile Include="Infrastructure\IMessageBus.cs" />
     <Compile Include="Infrastructure\IEventStore.cs" />
     <Compile Include="Infrastructure\IProjectableQuery.cs" />
     <Compile Include="Infrastructure\IQuery.cs" />
@@ -377,6 +382,7 @@
     <Compile Include="Models\Admin\AdminModelMappingProfile.cs" />
     <Compile Include="Models\Api\ApiModelMappingProfile.cs" />
     <Compile Include="Models\Api\BrowsingItemModel.cs" />
+    <Compile Include="Models\EntitySavingMessage.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Persistence\Address.cs" />
     <Compile Include="Models\Persistence\ApplicationDbContext.cs" />
@@ -388,7 +394,7 @@
     <Compile Include="Models\Persistence\CaseNote.cs" />
     <Compile Include="Models\Persistence\CaseUser.cs" />
     <Compile Include="Models\Persistence\Comment.cs" />
-    <Compile Include="Models\Persistence\Email.cs" />
+    <Compile Include="Models\Persistence\EmailNotification.cs" />
     <Compile Include="Models\Persistence\EntitySaver.cs" />
     <Compile Include="Models\Persistence\HistoricalEvent.cs" />
     <Compile Include="Models\Persistence\ICreated.cs" />
@@ -412,6 +418,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\ItemBySituationQuery.cs" />
     <Compile Include="GlobalSettings.cs" />
+    <Compile Include="Queries\PreferencesQuery.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\MichaelsPlaceView.cs" />
   </ItemGroup>
@@ -453,6 +460,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="gulpfile.js" />
     <Content Include="Queries\gulpfile.js" />
     <Content Include="karma.conf.js" />
     <Content Include="protractor.conf.js" />

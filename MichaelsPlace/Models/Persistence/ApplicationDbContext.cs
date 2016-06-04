@@ -5,40 +5,108 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Reactive.Disposables;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Elmah;
+using JetBrains.Annotations;
+using MichaelsPlace.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Ninject;
 
 namespace MichaelsPlace.Models.Persistence
 {
+    /// <summary>
+    /// Entity Framework <see cref="DbContext"/> for this application.
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection", false)
+        private readonly IMessageBus _messageBus;
+
+        private bool _saving;
+
+        /// <summary>
+        /// Create new instance which will not publish events on the message bus.
+        /// This constructor should almost always be used for testing only.
+        /// </summary>
+        public ApplicationDbContext() : this(null)
         {
+            
         }
 
+        /// <summary>
+        /// Create a new instance which will publish events on the <paramref name="messageBus"/>.
+        /// </summary>
+        /// <param name="messageBus"></param>
+        public ApplicationDbContext(IMessageBus messageBus)
+            : base("DefaultConnection", false)
+        {
+            _messageBus = messageBus;
+        }
+
+        /// <summary>
+        /// Cases, which are the primary domain object and represent a collection of articles and to-dos associated with one or more users.
+        /// </summary>
         public DbSet<Case> Cases { get; set; }
 
+        /// <summary>
+        /// Tags are used to define situations.
+        /// </summary>
         public DbSet<Tag> Tags { get; set; }
 
+        /// <summary>
+        /// Situations describe the ways in which other entities are related - how a user is related to a case, or a case to an item.
+        /// </summary>
         public DbSet<Situation> Situations { get; set; }
 
+        /// <summary>
+        /// Items are pieces of content which are presented to users as part of a case.
+        /// </summary>
         public DbSet<Item> Items { get; set; }
 
+        /// <summary>
+        /// Notifications are messages or comments that are produced as users interact with the application.
+        /// </summary>
         public DbSet<Notification> Notifications { get; set; }
 
+        /// <summary>
+        /// Preferences for user communication and application behavior.
+        /// </summary>
+        public DbSet<UserPreference> UserPreferences { get; set; }
+
+        /// <summary>
+        /// Organizations are collections of users which have pre-defined case patterns and user roles.
+        /// </summary>
         public DbSet<Organization> Organizations { get; set; }
 
+        /// <summary>
+        /// Historical events record important changes to other domain objects, which may or may not result in notifications.
+        /// </summary>
         public DbSet<HistoricalEvent> HistoricalEvents { get; set; }
 
+        /// <summary>
+        /// Addresses are used to communicate with real-world entities.
+        /// </summary>
+        public DbSet<Address> Addresses { get; set; }
+
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        /// <returns></returns>
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Returns <c>this</c> instance with lazy-loading, change detection, and proxy creation disabled.
+        /// After this method is called, the instance should only be used for doing queries, not for updates, as 
+        /// it will no longer enforce consistence by validation.
+        /// </summary>
+        /// <returns></returns>
         public ApplicationDbContext ConfiguredForFastQueries()
         {
             Configuration.LazyLoadingEnabled = false;
@@ -47,6 +115,10 @@ namespace MichaelsPlace.Models.Persistence
             return this;
         }
 
+        /// <summary>
+        /// Configures the relationships between tables.
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -72,55 +144,130 @@ namespace MichaelsPlace.Models.Persistence
             modelBuilder.Entity<ApplicationUser>().HasMany(u => u.CaseUsers).WithRequired(cu => cu.User).WillCascadeOnDelete(false);
         }
 
+        /// <summary>
+        /// Saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <returns>
+        /// The number of state entries written to the underlying database. This can include
+        /// state entries for entities and/or relationships. Relationship state entries are created for
+        /// many-to-many relationships and relationships where there is no foreign key property
+        /// included in the entity class (often referred to as independent associations).
+        /// </returns>
+        /// <exception cref="T:System.Data.Entity.Infrastructure.DbUpdateException">An error occurred sending updates to the database.</exception>
+        /// <exception cref="T:System.Data.Entity.Infrastructure.DbUpdateConcurrencyException">
+        /// A database command did not affect the expected number of rows. This usually indicates an optimistic
+        /// concurrency violation; that is, a row has been changed in the database since it was queried.
+        /// </exception>
+        /// <exception cref="T:System.Data.Entity.Validation.DbEntityValidationException">
+        /// The save was aborted because validation of entity property values failed.
+        /// </exception>
+        /// <exception cref="T:System.NotSupportedException">
+        /// An attempt was made to use unsupported behavior such as executing multiple asynchronous commands concurrently
+        /// on the same context instance.</exception>
+        /// <exception cref="T:System.ObjectDisposedException">The context or connection have been disposed.</exception>
+        /// <exception cref="T:System.InvalidOperationException">
+        /// Some error occurred attempting to process entities in the context either before or after sending commands
+        /// to the database.
+        /// </exception>
         public override int SaveChanges()
         {
-            try
+            var added = OnSaving();
+            int result = base.SaveChanges();
+            OnSaved(added);
+            return result;
+        }
+
+        /// <summary>
+        /// Asynchronously saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <remarks>
+        /// Multiple active operations on the same context instance are not supported.  Use 'await' to ensure
+        /// that any asynchronous operations have completed before calling another method on this context.
+        /// </remarks>
+        /// <returns>
+        /// A task that represents the asynchronous save operation.
+        /// The task result contains the number of state entries written to the underlying database. This can include
+        /// state entries for entities and/or relationships. Relationship state entries are created for
+        /// many-to-many relationships and relationships where there is no foreign key property
+        /// included in the entity class (often referred to as independent associations).
+        /// </returns>
+        /// <exception cref="T:System.Data.Entity.Infrastructure.DbUpdateException">An error occurred sending updates to the database.</exception>
+        /// <exception cref="T:System.Data.Entity.Infrastructure.DbUpdateConcurrencyException">
+        /// A database command did not affect the expected number of rows. This usually indicates an optimistic
+        /// concurrency violation; that is, a row has been changed in the database since it was queried.
+        /// </exception>
+        /// <exception cref="T:System.Data.Entity.Validation.DbEntityValidationException">
+        /// The save was aborted because validation of entity property values failed.
+        /// </exception>
+        /// <exception cref="T:System.NotSupportedException">
+        /// An attempt was made to use unsupported behavior such as executing multiple asynchronous commands concurrently
+        /// on the same context instance.</exception>
+        /// <exception cref="T:System.ObjectDisposedException">The context or connection have been disposed.</exception>
+        /// <exception cref="T:System.InvalidOperationException">
+        /// Some error occurred attempting to process entities in the context either before or after sending commands
+        /// to the database.
+        /// </exception>
+        public override async Task<int> SaveChangesAsync()
+        {
+            var added = OnSaving();
+            int result = await base.SaveChangesAsync();
+            OnSaved(added);
+            return result;
+        }
+
+        private void OnSaved(List<object> added)
+        {
+            PublishAddedEntities(added);
+        }
+
+        private List<object> OnSaving()
+        {
+            if (_saving)
             {
-                OnSaving();
-                return base.SaveChanges();
+                throw new System.ApplicationException(
+                    "Recursive SaveChanges call detected. If you are responding to a EntityChanging event, do not call SaveChanges on the associated DbContext instance.");
             }
-            catch (DbEntityValidationException ex)
+            _saving = true;
+            using (Disposable.Create(() => _saving = false))
             {
-                throw ClarifyValidationErrors(ex);
+                UpdateSituationMementos();
+                UpdateTimestamps();
+                var errors = GetValidationErrors().ToList();
+                if (errors.Any())
+                {
+                    throw ConstructValidationException(errors);
+                }
+                PublishChangingEntities();
+                var added = GetAddedEntities();
+                return added;
             }
         }
 
-        public override Task<int> SaveChangesAsync()
+        private static Exception ConstructValidationException(List<DbEntityValidationResult> validationResults)
         {
-            try
-            {
-                OnSaving();
-                return base.SaveChangesAsync();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                throw ClarifyValidationErrors(ex);
-            }
-        }
-
-        private Exception ClarifyValidationErrors(DbEntityValidationException ex)
-        {
-            var errors = ex.EntityValidationErrors.SelectMany(e => e.ValidationErrors)
-                           .Select(e => $"{e.PropertyName}: {e.ErrorMessage}");
-
+            var errors = validationResults.SelectMany(r => r.ValidationErrors.Select(e => $"{r.Entry.State} {r.Entry.Entity.GetType().Name}.{e.PropertyName}: {e.ErrorMessage}"));
+            
             var message = $"Validation errors: {string.Join("; ", errors)}";
 
-            return new Exception(message, ex);
+            return new DbEntityValidationException(message, validationResults);
         }
 
-        private void OnSaving()
+        private List<object> GetAddedEntities()
         {
-            var situationChanges = ChangeTracker.Entries<Situation>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+            return ChangeTracker.Entries().Where(e => e.State == EntityState.Added).Select(e => e.Entity).ToList();
+        }
 
-            foreach (var situationChange in situationChanges)
-            {
-                situationChange.Entity.UpdateMemento();
-            }
-
+        private List<object> GetChangedEntities()
+        {
+            return ChangeTracker.Entries().Where(e => e.State == EntityState.Added).Select(e => e.Entity).ToList();
+        }
+        
+        private void UpdateTimestamps()
+        {
             var newEntitys = ChangeTracker.Entries().Where(e => e.State == EntityState.Added && e.Entity is ICreated)
                                           .Select(e => e.Entity)
                                           .OfType<ICreated>();
-            
+
             foreach (var newEntity in newEntitys)
             {
                 newEntity.CreatedUtc = DateTimeOffset.UtcNow;
@@ -135,6 +282,76 @@ namespace MichaelsPlace.Models.Persistence
             }
         }
 
-        public System.Data.Entity.DbSet<MichaelsPlace.Models.Persistence.Address> Addresses { get; set; }
+        private void UpdateSituationMementos()
+        {
+            var situationChanges = ChangeTracker.Entries<Situation>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+            foreach (var situationChange in situationChanges)
+            {
+                situationChange.Entity.UpdateMemento();
+            }
+        }
+
+        private void PublishAddedEntities(List<object> addedEntities)
+        {
+            var methodDefinition = GetType().GetMethod("PublishAdded", BindingFlags.Instance|BindingFlags.NonPublic).GetGenericMethodDefinition();
+            foreach (var addedEntity in addedEntities)
+            {
+                var method = methodDefinition.MakeGenericMethod(addedEntity.GetType());
+                method.Invoke(this, new[] {addedEntity});
+            }
+        }
+
+        private void PublishChangingEntities()
+        {
+            var methodDefinition = GetType().GetMethod("PublishChanging", BindingFlags.Instance | BindingFlags.NonPublic).GetGenericMethodDefinition();
+            foreach (var modifiedEntry in ChangeTracker.Entries().Where(e => e.State == EntityState.Modified))
+            {
+                var method = methodDefinition.MakeGenericMethod(modifiedEntry.Entity.GetType());
+                method.Invoke(this, new object[] { modifiedEntry });
+            }
+        }
+        
+        [UsedImplicitly]
+        private void PublishAdded<T>(T entity) where T : class
+        {
+            var entityAdded = new EntityAdded<T>(this, entity);
+            _messageBus.Publish(entityAdded);
+        }
+
+        [UsedImplicitly]
+        private void PublishChanging<T>(DbEntityEntry dbEntityEntry) where T : class
+        {
+            var previous = (T) dbEntityEntry.OriginalValues.ToObject();
+            var current = (T)dbEntityEntry.Entity;
+            var entityChanging = new EntityChanging<T>(this, previous, current);
+            _messageBus.Publish(entityChanging);
+        }
+    }
+    
+    public class EntityChanging<T>
+    {
+        public EntityChanging(ApplicationDbContext dbContext, T previous, T current)
+        {
+            Current = current;
+            DbContext = dbContext;
+            Previous = previous;
+        }
+
+        public ApplicationDbContext DbContext { get; set; }
+        public T Previous { get; set; }
+        public T Current { get; set; }
+    }
+
+    public class EntityAdded<T>
+    {
+        public EntityAdded(ApplicationDbContext dbContext, T entity)
+        {
+            DbContext = dbContext;
+            Entity = entity;
+        }
+
+        public ApplicationDbContext DbContext { get; set; }
+        public T Entity { get; set; }
     }
 }

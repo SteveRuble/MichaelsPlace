@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
+using MichaelsPlace.Handlers;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Models.Api;
 using Microsoft.Owin;
@@ -45,17 +46,18 @@ namespace MichaelsPlace
 
             Kernel.Bind<IMapper>().ToMethod(CreateMapper).InSingletonScope();
             
-            Kernel.Rebind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
+            Kernel.Rebind<IMessageBus>().To<MessageBus>().InSingletonScope();
 
             ConfigureHttp();
 
-            ConfigureAuthentication();
+            ConfigureListeners();
 
         }
 
-        private void ConfigureAuthentication()
+        private void ConfigureListeners()
         {
         }
+        
 
         public void ConfigureHttp()
         {

@@ -4,7 +4,7 @@ using Twilio;
 
 namespace MichaelsPlace.Infrastructure.Identity
 {
-    public class SmsService : IIdentityMessageService
+    public class IdentitySmsService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
         {

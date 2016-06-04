@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MichaelsPlace.Models.Persistence;
+using Serilog;
 
 namespace MichaelsPlace.Infrastructure
 {
-    public class EventAggregator : IEventAggregator
+    public class MessageBus : IMessageBus
     {
-        private readonly IEventStore _eventStore;
+        private readonly ILogger _logger;
         private readonly ConcurrentDictionary<Type, object> _subjects = new ConcurrentDictionary<Type, object>();
 
-        public EventAggregator(IEventStore eventStore)
+        public MessageBus(ILogger logger)
         {
-            _eventStore = eventStore;
+            _logger = logger;
         }
 
         public IObservable<TEvent> Observe<TEvent>()
@@ -28,15 +31,14 @@ namespace MichaelsPlace.Infrastructure
 
         public void Publish<TEvent>(TEvent @event)
         {
-            if (@event is EventBase)
-            {
-                _eventStore.Save(@event as EventBase);
-            }
-
             object subject;
             if (_subjects.TryGetValue(typeof(TEvent), out subject))
             {
-                ((ISubject<TEvent>)subject).OnNext(@event);
+                ((ISubject<TEvent>) subject).OnNext(@event);
+            }
+            else
+            {
+                _logger.Debug("No subscribers for event {@event}", @event);
             }
         }
     }
