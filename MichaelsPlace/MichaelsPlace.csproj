@@ -37,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\MichaelsPlace.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -323,7 +324,7 @@
     <Compile Include="BootstrapSupport\ControlGroupExtensions.cs" />
     <Compile Include="BootstrapSupport\ViewHelperExtensions.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Identity\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminControllerBase.cs" />
     <Compile Include="Controllers\Admin\ArticleController.cs" />
     <Compile Include="Controllers\Admin\CaseController.cs" />
@@ -338,12 +339,20 @@
     <Compile Include="Controllers\Api\TagsController.cs" />
     <Compile Include="Controllers\BootstrapBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\Identity\ManageController.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSettings.secrets.cs" />
+    <Compile Include="Listeners\IListener.cs" />
+    <Compile Include="Migrations\201606060943512_SubscriptionPreferences.cs" />
+    <Compile Include="Migrations\201606060943512_SubscriptionPreferences.Designer.cs">
+      <DependentUpon>201606060943512_SubscriptionPreferences.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subscriptions\SubscriptionDescriptionAttribute.cs" />
+    <Compile Include="Subscriptions\SubscriptionHelper.cs" />
     <Compile Include="Listeners\CaseCreatedHandler.cs" />
     <Compile Include="Infrastructure\MessageBus.cs" />
     <Compile Include="Infrastructure\EventStore.cs" />
@@ -419,7 +428,9 @@
     <Compile Include="Queries\ItemBySituationQuery.cs" />
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="Queries\PreferencesQuery.cs" />
+    <Compile Include="Queries\UserQueries.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\ReflectionUtils.cs" />
     <Compile Include="Views\MichaelsPlaceView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -577,6 +588,7 @@
     <Content Include="Views\Organization\Details.cshtml" />
     <Content Include="Views\Organization\Edit.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
+    <None Include="Views\Preferences\Edit.cshtml" />
     <None Include="Views\Preferences\StaffAlerts.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Address.cshtml" />
     <None Include="Views\User\PickUser.cshtml" />
@@ -613,6 +625,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605311914356_PhoneNumber.resx">
       <DependentUpon>201605311914356_PhoneNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606060943512_SubscriptionPreferences.resx">
+      <DependentUpon>201606060943512_SubscriptionPreferences.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

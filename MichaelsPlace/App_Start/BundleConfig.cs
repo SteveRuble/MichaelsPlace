@@ -4,7 +4,7 @@ using System.Web.Optimization;
 
 namespace MichaelsPlace
 {
-    public class BundleConfig
+    internal static class BundleConfig
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
@@ -15,6 +15,7 @@ namespace MichaelsPlace
                 "~/Scripts/sb-admin-2.js",
                 "~/Scripts/jquery.validate.js",
                 "~/scripts/jquery.validate.unobtrusive.js",
+                "~/scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/jquery.validate.unobtrusive-custom-for-bootstrap.js"
                 ));
 

@@ -4,15 +4,23 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MichaelsPlace.Models.Persistence;
+using MichaelsPlace.Queries;
 
 namespace MichaelsPlace.Controllers.Admin
 {
+
     public class UserController : AdminControllerBase
     {
-        [ChildActionOnly]
-        public ActionResult PickUser(ApplicationUser user)
+        private readonly UserQueries _userQueries;
+        public UserController(UserQueries userQueries)
         {
-            return View(user);
+            _userQueries = userQueries;
+        }
+
+        public ActionResult Index(bool isStaff = false)
+        {
+            var users = _userQueries.Execute(isStaff);
+            return View(users.ToList());
         }
     }
 }

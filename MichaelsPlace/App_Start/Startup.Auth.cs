@@ -13,16 +13,18 @@ using Owin;
 using MichaelsPlace.Models;
 using MichaelsPlace.Models.Persistence;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Ninject;
+using Ninject.Syntax;
 
 namespace MichaelsPlace
 {
     public partial class Startup
     {
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
-        public void ConfigureAuth(IAppBuilder app)
+        public void ConfigureAuth(IAppBuilder app, IResolutionRoot resolutionRoot)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext(() => resolutionRoot.Get<ApplicationDbContext>());
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 

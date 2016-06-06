@@ -40,7 +40,7 @@
                     using (var dropdown = nav.Dropdown("Management Areas").Begin())
                     {
                         @dropdown.DropdownLink("Admin Users", "/idm")
-                        @dropdown.DropdownLink("Staff Alerts", Url.Action("StaffAlerts","Preferences"))
+                        //@dropdown.DropdownLink("Staff Alerts", Url.Action("StaffAlerts","Preferences"))
                         @dropdown.DropdownDivider()
                         @dropdown.DropdownLink("Tags (Filters)", Url.Action("Index", "Tag"))
                         @dropdown.DropdownLink("Situations (Programs)", Url.Action("Index", "Situation"))

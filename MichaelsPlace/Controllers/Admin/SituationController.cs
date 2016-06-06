@@ -7,7 +7,7 @@ using MichaelsPlace.Models;
 
 namespace MichaelsPlace.Controllers.Admin
 {
-    public class SituationController : Controller
+    public class SituationController : AdminControllerBase
     {
         // GET: Situation
         public ActionResult Index()

@@ -8,11 +8,20 @@ using Newtonsoft.Json;
 
 namespace MichaelsPlace
 {
+    public enum RunningEnvironment
+    {
+        Dev,
+        Prod
+    }
+
     /// <summary>
     /// Contains settings used throughout the application.
     /// </summary>
     public static partial class GlobalSettings
     {
+        /// <summary>
+        /// JSON settings for events.
+        /// </summary>
         public static readonly JsonSerializerSettings EventSerializerSettings = new JsonSerializerSettings()
                                                                                 {
                                                                                     TypeNameHandling = TypeNameHandling.All
@@ -20,17 +29,26 @@ namespace MichaelsPlace
 
         static GlobalSettings()
         {
-            Environment = ConfigurationManager.AppSettings["Environment"];
-            IsDevelopment = Environment == "Dev";
+            Environment = (RunningEnvironment)Enum.Parse(typeof(RunningEnvironment), ConfigurationManager.AppSettings["Environment"]);
+            IsDevelopment = Environment == RunningEnvironment.Dev;
             InitializeSecrets();
         }
 
         static partial void InitializeSecrets();
 
-        public static string Environment { get; set; }
+        /// <summary>
+        /// Gets the environment we're running in.
+        /// </summary>
+        public static RunningEnvironment Environment { get; set; }
 
+        /// <summary>
+        /// Will be true if we're in development mode.
+        /// </summary>
         public static bool IsDevelopment { get; set; }
 
+        /// <summary>
+        /// Settings for Twilio SMS API.
+        /// </summary>
         public static class Twilio
         {
             public static string AccountId { get; set; }

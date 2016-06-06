@@ -19,7 +19,7 @@ namespace MichaelsPlace.Models.Persistence
 
         [DisplayName("First Name")]
         public virtual string LastName { get; set; }
-
+        
         [DisplayName("Disabled")]
         public virtual bool IsDisabled { get; set; }
 

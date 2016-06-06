@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MichaelsPlace.Controllers.Admin
 {
-    public class TagController : Controller
+    public class TagController : AdminControllerBase
     {
         // GET: Tag
         public ActionResult Index()

@@ -11,14 +11,12 @@ using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Controllers.Admin
 {
-    public class OrganizationController : Controller
+    public class OrganizationController : AdminControllerBase
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Organization
         public async Task<ActionResult> Index()
         {
-            return View(await db.Organizations.ToListAsync());
+            return View(await DbContext.Organizations.ToListAsync());
         }
 
         // GET: Organization/Details/5
@@ -28,7 +26,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Organization organization = await db.Organizations.FindAsync(id);
+            Organization organization = await DbContext.Organizations.FindAsync(id);
             if (organization == null)
             {
                 return HttpNotFound();
@@ -51,8 +49,8 @@ namespace MichaelsPlace.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Organizations.Add(organization);
-                await db.SaveChangesAsync();
+                DbContext.Organizations.Add(organization);
+                await DbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +64,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Organization organization = await db.Organizations.FindAsync(id);
+            Organization organization = await DbContext.Organizations.FindAsync(id);
             if (organization == null)
             {
                 return HttpNotFound();
@@ -79,13 +77,14 @@ namespace MichaelsPlace.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,PhaneNumber,FaxNumber,Notes")] Organization organization)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,PhoneNumber,FaxNumber,Notes")] Organization organization)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(organization).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                DbContext.Entry(organization).State = EntityState.Modified;
+
+                await DbContext.SaveChangesAsync();
+                return PartialView("Index", await DbContext.Organizations.ToListAsync());
             }
             return View(organization);
         }
@@ -97,7 +96,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Organization organization = await db.Organizations.FindAsync(id);
+            Organization organization = await DbContext.Organizations.FindAsync(id);
             if (organization == null)
             {
                 return HttpNotFound();
@@ -110,9 +109,9 @@ namespace MichaelsPlace.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Organization organization = await db.Organizations.FindAsync(id);
-            db.Organizations.Remove(organization);
-            await db.SaveChangesAsync();
+            Organization organization = await DbContext.Organizations.FindAsync(id);
+            DbContext.Organizations.Remove(organization);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +119,7 @@ namespace MichaelsPlace.Controllers.Admin
         {
             if (disposing)
             {
-                db.Dispose();
+                DbContext.Dispose();
             }
             base.Dispose(disposing);
         }

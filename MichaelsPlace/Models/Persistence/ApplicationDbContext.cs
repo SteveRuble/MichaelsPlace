@@ -315,17 +315,23 @@ namespace MichaelsPlace.Models.Persistence
         [UsedImplicitly]
         private void PublishAdded<T>(T entity) where T : class
         {
-            var entityAdded = new EntityAdded<T>(this, entity);
-            _messageBus.Publish(entityAdded);
+            if (_messageBus != null)
+            {
+                var entityAdded = new EntityAdded<T>(this, entity);
+                _messageBus.Publish(entityAdded);
+            }
         }
 
         [UsedImplicitly]
         private void PublishChanging<T>(DbEntityEntry dbEntityEntry) where T : class
         {
-            var previous = (T) dbEntityEntry.OriginalValues.ToObject();
-            var current = (T)dbEntityEntry.Entity;
-            var entityChanging = new EntityChanging<T>(this, previous, current);
-            _messageBus.Publish(entityChanging);
+            if (_messageBus != null)
+            {
+                var previous = (T) dbEntityEntry.OriginalValues.ToObject();
+                var current = (T)dbEntityEntry.Entity;
+                var entityChanging = new EntityChanging<T>(this, previous, current);
+                _messageBus.Publish(entityChanging);
+            }
         }
     }
     

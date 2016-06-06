@@ -98,7 +98,7 @@ namespace MichaelsPlace.Tests.Models
             var set = DbContext.Set(entityType);
             var method = typeof(ApplicationDbContextTests).GetMethod(nameof(GetFirstAsync));
             var genericMethod = method.MakeGenericMethod(typeof(EntityAdded<>).MakeGenericType(entityType));
-            var actualTask = genericMethod.Invoke(this, new object[0]) as Task<object>;
+            var actualTask = (Task<object>) genericMethod.Invoke(this, new object[0]);
 
             set.Add(entity);
 
@@ -111,7 +111,7 @@ namespace MichaelsPlace.Tests.Models
                 Console.WriteLine(ex.Message);
             }
 
-            var actualEntry = actualTask.Result;
+            var actualEntry = await actualTask;
             var expectedType = typeof(EntityAdded<>).MakeGenericType(entityType);
             actualEntry.Should().BeOfType(expectedType);
             var propertyInfo = expectedType.GetProperty(nameof(EntityAdded<string>.Entity));

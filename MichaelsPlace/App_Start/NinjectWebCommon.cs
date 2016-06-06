@@ -1,3 +1,5 @@
+using Ninject.Syntax;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(MichaelsPlace.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(MichaelsPlace.App_Start.NinjectWebCommon), "Stop")]
 
@@ -11,7 +13,7 @@ namespace MichaelsPlace.App_Start
     using Ninject;
     using Ninject.Web.Common;
 
-    public static class NinjectWebCommon 
+    internal static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
@@ -21,7 +23,9 @@ namespace MichaelsPlace.App_Start
         /// Exposed only to allow sharing with <see cref="Startup"/> components.
         /// DO NOT USE AS A SERVICE LOCATOR.
         /// </summary>
-        public static IKernel Kernel => _kernel.Value;
+        public static IResolutionRoot ResolutionRoot => _kernel.Value;
+        
+        private static IKernel Kernel => _kernel.Value;
 
         /// <summary>
         /// Starts the application

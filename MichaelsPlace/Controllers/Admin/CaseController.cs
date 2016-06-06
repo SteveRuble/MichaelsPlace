@@ -11,14 +11,12 @@ using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Controllers.Admin
 {
-    public class CaseController : Controller
+    public class CaseController : AdminControllerBase
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Cases
         public async Task<ActionResult> Index()
         {
-            return View(await db.Cases.ToListAsync());
+            return View(await DbContext.Cases.ToListAsync());
         }
 
         // GET: Cases/Details/5
@@ -28,7 +26,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = await db.Cases.FindAsync(id);
+            Case @case = await DbContext.Cases.FindAsync(id);
             if (@case == null)
             {
                 return HttpNotFound();
@@ -51,8 +49,8 @@ namespace MichaelsPlace.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Cases.Add(@case);
-                await db.SaveChangesAsync();
+                DbContext.Cases.Add(@case);
+                await DbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +64,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = await db.Cases.FindAsync(id);
+            Case @case = await DbContext.Cases.FindAsync(id);
             if (@case == null)
             {
                 return HttpNotFound();
@@ -83,8 +81,8 @@ namespace MichaelsPlace.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@case).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                DbContext.Entry(@case).State = EntityState.Modified;
+                await DbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(@case);
@@ -97,7 +95,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = await db.Cases.FindAsync(id);
+            Case @case = await DbContext.Cases.FindAsync(id);
             if (@case == null)
             {
                 return HttpNotFound();
@@ -110,9 +108,9 @@ namespace MichaelsPlace.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Case @case = await db.Cases.FindAsync(id);
-            db.Cases.Remove(@case);
-            await db.SaveChangesAsync();
+            Case @case = await DbContext.Cases.FindAsync(id);
+            DbContext.Cases.Remove(@case);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +118,7 @@ namespace MichaelsPlace.Controllers.Admin
         {
             if (disposing)
             {
-                db.Dispose();
+                DbContext.Dispose();
             }
             base.Dispose(disposing);
         }

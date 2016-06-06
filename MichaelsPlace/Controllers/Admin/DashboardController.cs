@@ -7,18 +7,11 @@ using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Controllers.Admin
 {
-    public class DashboardController : Controller
+    public class DashboardController : AdminControllerBase
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public DashboardController(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         public ActionResult Index()
         {
-            return View(_dbContext);
+            return View(DbContext);
         }
     }
 }

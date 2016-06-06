@@ -36,10 +36,6 @@ namespace MichaelsPlace.Infrastructure
             {
                 ((ISubject<TEvent>) subject).OnNext(@event);
             }
-            else
-            {
-                _logger.Debug("No subscribers for event {@event}", @event);
-            }
         }
     }
 }

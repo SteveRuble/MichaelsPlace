@@ -9,17 +9,12 @@ using System.Threading.Tasks;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
+using MichaelsPlace.Subscriptions;
 
 namespace MichaelsPlace.Handlers
 {
-    /// <summary>
-    /// Contract to listen for events.
-    /// </summary>
-    public interface IListener
-    {
-        IDisposable SubscribeTo(IMessageBus bus);
-    }
-
+    [SubscriptionDescription(Constants.Subscriptions.UserCaseCreated, "A user has created a new case.")]
+    [SubscriptionDescription(Constants.Subscriptions.OrganizationCaseCreated, "A case has been created for an organization.")]
     public class CaseCreatedListener : IListener
     {
         private readonly PreferencesQuery _preferencesQuery;
@@ -40,8 +35,8 @@ namespace MichaelsPlace.Handlers
         public void OnCaseCreated(Case createdCase)
         {
             var recipients = _preferencesQuery.Execute<SubscriptionPreference>()
-                                              .Where(p => p.EventType == SubscribableEventType.NewIndividualCase
-                                                          || p.EventType == SubscribableEventType.NewOrganizationCase);
+                                              .Where(p => p.SubscriptionName == Constants.Subscriptions.UserCaseCreated
+                                                          ||p.SubscriptionName == Constants.Subscriptions.OrganizationCaseCreated);
 
             foreach (var recipient in recipients)
             {

@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 namespace MichaelsPlace
 {
-    public class RouteConfig
+    internal static class RouteConfig
     {
         public static void RegisterRoutes(RouteCollection routes)
         {

@@ -63,14 +63,14 @@ namespace MichaelsPlace.Tests.Infrastructure
             actual.Should().Be(expected);
         }
 
-        [Test]
-        public async Task events_without_subscribers_are_logged()
-        {
-            var expected = new TestEvent() {Payload = "test"};
+        //[Test]
+        //public void events_without_subscribers_are_logged()
+        //{
+        //    var expected = new TestEvent() {Payload = "test"};
 
-            Target.Publish(expected);
+        //    Target.Publish(expected);
 
-            MockLogger.Verify(m => m.Debug(It.IsAny<string>(), expected));
-        }
+        //    MockLogger.Verify(m => m.Debug(It.IsAny<string>(), expected));
+        //}
     }
 }

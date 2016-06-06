@@ -2,8 +2,8 @@ namespace MichaelsPlace.Models.Persistence
 {
     public class SubscriptionPreference : UserPreference
     {
-        public virtual SubscribableEventType EventType { get; set; }
-        public bool IsEmailRequested { get; set; }
-        public bool IsSmsRequested { get; set; }
+        public virtual string SubscriptionName { get; set; }
+        public virtual bool IsEmailRequested { get; set; }
+        public virtual bool IsSmsRequested { get; set; }
     }
 }
