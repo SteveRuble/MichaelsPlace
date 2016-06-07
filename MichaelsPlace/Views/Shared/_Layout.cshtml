@@ -48,7 +48,7 @@
                         @dropdown.DropdownLink("ToDos", Url.Action("Index", "Article"))
                         @dropdown.DropdownDivider()
                         @dropdown.DropdownLink("Organizations", Url.Action("Index", "Organization"))
-                        @dropdown.DropdownLink("Users", "/idm")
+                        @dropdown.DropdownLink("Users", Url.Action("Index", "User"))
                         @dropdown.DropdownLink("Cases", Url.Action("Index", "Case"))
                         @dropdown.DropdownLink("Reports", Url.Action("Index", "Report"))
 
@@ -79,6 +79,7 @@
             $('[data-toggle=offcanvas]').click(function () {
                 $('.row-offcanvas').toggleClass('active');
             });
+            Ladda.bind('.ladda-button');
         });
     </script>
 </body>

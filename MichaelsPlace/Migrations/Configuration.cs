@@ -1,5 +1,6 @@
 using MichaelsPlace.Infrastructure.Identity;
 using MichaelsPlace.Models.Persistence;
+using MichaelsPlace.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -37,6 +38,20 @@ namespace MichaelsPlace.Migrations
             {
                 userManager.AddToRole(user.Id, Constants.Roles.Administrator);
             }
+
+            var userShortage = 200 - context.Users.Count();
+            for (int i = 0; i < userShortage; i++)
+            {
+                var randomUser = new ApplicationUser()
+                                 {
+                                     UserName = $"{Randomness.GetRandomString()}@{Randomness.GetRandomString()}.com",
+                                     Email = $"{Randomness.GetRandomString()}@{Randomness.GetRandomString()}.com",
+                                     FirstName = Randomness.GetRandomName(),
+                                     LastName = Randomness.GetRandomName(),
+                                 };
+                userManager.Create(randomUser, Randomness.GetRandomName(20) + ".1");
+            }
+            
 
             context.Tags.AddOrUpdate(new DemographicTag() { Id = 1, Title = "Friend", GuidanceLabel = "I'm helping a friend or relative" });
             context.Tags.AddOrUpdate(new DemographicTag() { Id = 2, Title = "Person", GuidanceLabel = "I've suffered a loss" });

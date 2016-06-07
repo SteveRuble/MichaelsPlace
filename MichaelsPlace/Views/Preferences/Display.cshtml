@@ -1,0 +1,43 @@
+﻿@using BootstrapSupport
+@model MichaelsPlace.Controllers.Admin.PreferencesViewModel
+
+<div id="preferences-container">
+
+    @using (var fieldSet = Bootstrap.FieldSet().Begin())
+    {
+        <legend>Subscriptions</legend>
+        using (var table = Bootstrap.Table().AddCss("col-md-4").Begin())
+        {
+            @table.TableHeaderRow("", "Email", "SMS")
+            ;
+            foreach (var subscription in Model.SubscriptionPreferences)
+            {
+                using (var row = table.TableRow().Begin())
+                {
+                    <td>@subscription.SubscriptionDescription</td>
+                    <td>
+                        @if (subscription.IsEmailRequested)
+                        {
+                            @Bootstrap.Icon(Icon.Check).SetState(TextState.Success)
+                        }
+                    </td>
+                    <td>
+                        @if (subscription.IsSmsRequested)
+                        {
+                            @Bootstrap.Icon(Icon.Check).SetState(TextState.Success)
+                        }
+                    </td>
+                }
+            }
+        }
+    }
+
+    @Bootstrap.AjaxLinkButton("Edit", Url.Action("Edit"), ajaxOptions:new AjaxOptions()
+    {
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "preferences-container",
+        OnComplete = "Ladda.bind('.ladda-button')"
+
+    }).SetPullRight()
+
+</div>

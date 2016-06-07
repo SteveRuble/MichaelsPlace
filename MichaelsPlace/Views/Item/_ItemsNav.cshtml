@@ -1,0 +1,8 @@
+﻿@using BootstrapSupport
+
+@using (var tabs = Bootstrap.Tabs().Begin())
+{
+    @tabs.Tab("Index", Url.Action("Index")).SetActive(ViewContext.GetCurrentAction() == "Index")
+    @tabs.Tab("Ordering", Url.Action("Ordering")).SetActive(ViewContext.GetCurrentAction() == "Ordering")
+    @tabs.Tab("Programs", Url.Action("Programs")).SetActive(ViewContext.GetCurrentAction() == "Programs")
+}

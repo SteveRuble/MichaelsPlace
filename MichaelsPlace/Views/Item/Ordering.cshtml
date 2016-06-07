@@ -1,0 +1,57 @@
+﻿@using System.Web.Mvc.Html
+@using BootstrapSupport
+@model List<MichaelsPlace.Models.Admin.OrderingModel>
+
+@{
+    ViewBag.Title = ViewBag.Prefix + " Ordering";
+
+}
+
+@Html.Partial("~/Views/Item/_ItemsNav.cshtml")
+
+<h2>@ViewBag.Title</h2>
+
+@using (var form = Bootstrap.Form().SetId("ordering-form").Begin())
+{
+    @form.Submit("Save").SetState(ButtonState.Success)
+
+    using (var table = Bootstrap.Table().SetStyle(TableStyle.Bordered).AddCss("sortable").SetId("item-table").Begin())
+    {
+        for (int i = 0; i < Model.Count; i++)
+        {
+            var item = Model[i];
+
+            <tr>
+                <td>
+                    @item.Title
+                    @Html.HiddenFor(m => m[i].Id)
+                    @Html.HiddenFor(m => m[i].Order)
+                </td>
+            </tr>
+        }
+    }
+}
+
+@section scripts
+{
+    <script>
+        $(function() {
+            $("#item-table").sortable({
+                containerSelector: 'table',
+                itemPath: '> tbody',
+                itemSelector: 'tr',
+                placeholder: '<tr class="placeholder"><td colspan="100"><span class="fa fa-caret-right"/></td></tr>'
+            });
+
+            $("#ordering-form")
+                .submit(function() {
+                    $("#item-table tr")
+                        .each(function(index) {
+                            var $order = $(this).find("[name$=Order]");
+                            $order.val(index);
+                        });
+                });
+        })
+    </script>
+
+}

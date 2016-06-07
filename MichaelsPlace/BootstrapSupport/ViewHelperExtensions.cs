@@ -15,6 +15,11 @@ namespace BootstrapSupport
 {
     public static class DefaultScaffoldingExtensions
     {
+        public static string GetCurrentAction(this ViewContext viewContext)
+        {
+            return viewContext.RouteData.Values["action"] as string;
+        }
+
         public static string GetControllerName(this Type controllerType)
         {
             return controllerType.Name.Replace("Controller", String.Empty);

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace MichaelsPlace.Models.Admin
 {
@@ -16,6 +17,7 @@ namespace MichaelsPlace.Models.Admin
         public string Title { get; set; }
         [Required]
         [DataType(DataType.MultilineText)]
+        [AllowHtml]
         public string Content { get; set; }
 
         [Required]
@@ -39,5 +41,12 @@ namespace MichaelsPlace.Models.Admin
     {
         
     }
-    
+
+
+    public class OrderingModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int Order { get; set; }
+    }
 }

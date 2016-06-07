@@ -11,8 +11,11 @@ namespace MichaelsPlace
             bundles.Add(new ScriptBundle("~/js").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery-migrate-{version}.js",
+                "~/Scripts/jquery-sortable.js",
+                "~/Scripts/DataTables/datatables.js",
                 "~/Scripts/bootstrap.js",
-                "~/Scripts/sb-admin-2.js",
+                "~/Scripts/spin.js",
+                "~/Scripts/ladda.js",
                 "~/Scripts/jquery.validate.js",
                 "~/scripts/jquery.validate.unobtrusive.js",
                 "~/scripts/jquery.unobtrusive-ajax.js",
@@ -25,7 +28,9 @@ namespace MichaelsPlace
 
             bundles.Add(new StyleBundle("~/content/css").Include(
                 "~/Content/bootstrap.css",
+                "~/Content/ladda-themeless.css",
                 "~/Content/site.css",
+                "~/Content/datatables.css",
                 "~/Content/bootstrap-mvc-validation.css",
                 "~/Content/font-awesome.css"
                 ));

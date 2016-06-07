@@ -245,7 +245,7 @@ namespace MichaelsPlace.Models.Persistence
 
         private static Exception ConstructValidationException(List<DbEntityValidationResult> validationResults)
         {
-            var errors = validationResults.SelectMany(r => r.ValidationErrors.Select(e => $"{r.Entry.State} {r.Entry.Entity.GetType().Name}.{e.PropertyName}: {e.ErrorMessage}"));
+            var errors = validationResults.SelectMany(r => r.ValidationErrors.Select(e => $"{r.Entry.State} {System.Data.Entity.Core.Objects.ObjectContext.GetObjectType(r.Entry.Entity.GetType()).Name}.{e.PropertyName}: {e.ErrorMessage}"));
             
             var message = $"Validation errors: {string.Join("; ", errors)}";
 
@@ -294,7 +294,7 @@ namespace MichaelsPlace.Models.Persistence
 
         private void PublishAddedEntities(List<object> addedEntities)
         {
-            var methodDefinition = GetType().GetMethod("PublishAdded", BindingFlags.Instance|BindingFlags.NonPublic).GetGenericMethodDefinition();
+            var methodDefinition = typeof(ApplicationDbContext).GetMethod("PublishAdded", BindingFlags.Instance|BindingFlags.NonPublic).GetGenericMethodDefinition();
             foreach (var addedEntity in addedEntities)
             {
                 var method = methodDefinition.MakeGenericMethod(addedEntity.GetType());
@@ -304,7 +304,7 @@ namespace MichaelsPlace.Models.Persistence
 
         private void PublishChangingEntities()
         {
-            var methodDefinition = GetType().GetMethod("PublishChanging", BindingFlags.Instance | BindingFlags.NonPublic).GetGenericMethodDefinition();
+            var methodDefinition = typeof(ApplicationDbContext).GetMethod("PublishChanging", BindingFlags.Instance | BindingFlags.NonPublic).GetGenericMethodDefinition();
             foreach (var modifiedEntry in ChangeTracker.Entries().Where(e => e.State == EntityState.Modified))
             {
                 var method = methodDefinition.MakeGenericMethod(modifiedEntry.Entity.GetType());
@@ -333,8 +333,10 @@ namespace MichaelsPlace.Models.Persistence
                 _messageBus.Publish(entityChanging);
             }
         }
+
+        public System.Data.Entity.DbSet<MichaelsPlace.Models.Admin.UserModel> UserModels { get; set; }
     }
-    
+
     public class EntityChanging<T>
     {
         public EntityChanging(ApplicationDbContext dbContext, T previous, T current)

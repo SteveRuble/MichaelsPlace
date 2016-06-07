@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -37,9 +38,25 @@ namespace MichaelsPlace.Controllers.Admin
             _subscriptionHelper = subscriptionHelper;
         }
 
+        public ActionResult Display()
+        {
+            var userId = User.GetUserId();
+            var viewModel = BuildPreferencesViewModel(userId);
+
+            return PartialView("Display", viewModel);
+        }
+
+
         public ActionResult Edit()
         {
             var userId = User.GetUserId();
+            var viewModel = BuildPreferencesViewModel(userId);
+
+            return PartialView("Edit", viewModel);
+        }
+
+        private PreferencesViewModel BuildPreferencesViewModel(string userId)
+        {
             var subscriptionPreferences = DbContext.UserPreferences.OfType<SubscriptionPreference>().Where(u => u.User.Id == userId).ToList();
             var subscriptionPreferenceViewModels = from description in _subscriptionHelper.SubscriptionDescriptions
                                                    from maybeNullPreference in subscriptionPreferences.Where(sp => sp.SubscriptionName == description.Name).DefaultIfEmpty()
@@ -57,8 +74,7 @@ namespace MichaelsPlace.Controllers.Admin
                             {
                                 SubscriptionPreferences = subscriptionPreferenceViewModels.ToList()
                             };
-
-            return View(viewModel);
+            return viewModel;
         }
 
         [HttpPost]
@@ -67,15 +83,37 @@ namespace MichaelsPlace.Controllers.Admin
         {
             var userId = User.GetUserId();
 
-            var subscriptionPreferences = DbContext.UserPreferences.OfType<SubscriptionPreference>().Where(u => u.User.Id == userId)
-                                                   .ToDictionary(p => p.Id);
+            if (!ModelState.IsValid)
+            {
+                return PartialView("Edit", viewModel);
+            }
 
-            throw new NotImplementedException();
+            var user = DbContext.Users.Include(u => u.Preferences).First(u => u.Id == userId);
 
+            var subscriptionPreferences = user.Preferences.OfType<SubscriptionPreference>()
+                                              .Where(u => u.User.Id == userId)
+                                              .ToDictionary(p => p.Id);
 
+            foreach (var postedSubscriptionPreference in viewModel.SubscriptionPreferences)
+            {
+                SubscriptionPreference subscriptionPreference;
+                if (postedSubscriptionPreference.Id == null 
+                    || !subscriptionPreferences.TryGetValue(postedSubscriptionPreference.Id.Value, out subscriptionPreference))
+                {
+                    subscriptionPreference = DbContext.Set<SubscriptionPreference>().Add(new SubscriptionPreference()
+                                                                                         {
+                                                                                             SubscriptionName = postedSubscriptionPreference.SubscriptionName,
+                                                                                             User = user
+                                                                                         });
+                }
 
+                subscriptionPreference.IsEmailRequested = postedSubscriptionPreference.IsEmailRequested;
+                subscriptionPreference.IsSmsRequested = postedSubscriptionPreference.IsSmsRequested;
+            }
 
+            DbContext.SaveChanges();
 
+            return Display();
         }
     }
 }

@@ -1,0 +1,48 @@
+﻿@using System.Web.Mvc.Html
+@using BootstrapSupport
+@model IEnumerable<MichaelsPlace.Models.Admin.AdminItemModel>
+
+@{
+    ViewBag.Title = ViewBag.Prefix + " Index";
+}
+
+@Html.Partial("~/Views/Item/_ItemsNav.cshtml")
+
+<h2>@ViewBag.Prefix </h2> 
+
+<p>
+    @Bootstrap.LinkButton("Create New", Url.Action("Create")).SetState(ButtonState.Success)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @item.CreatedUtc.ToLocalTime().ToString("g")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.Partial("_ItemActions", item)
+        </td>
+    </tr>
+}
+
+</table>

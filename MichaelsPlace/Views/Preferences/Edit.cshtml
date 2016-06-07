@@ -1,35 +1,44 @@
-﻿@using MichaelsPlace.Controllers.Admin
+﻿@using BootstrapSupport
+@using MichaelsPlace.Controllers.Admin
 @model MichaelsPlace.Controllers.Admin.PreferencesViewModel
 
 
-@using (var form = Bootstrap.Form().Begin())
-{
-    @Html.AntiForgeryToken()
-    using (var fieldSet = Bootstrap.FieldSet().Begin())
-    {
-        <legend>Subscriptions</legend>
-        using (var table = Bootstrap.Table().AddCss("col-md-4").Begin())
-        {
-            @table.TableHeaderRow("", "Email", "SMS");
+<div id="preferences-container">
 
-            for (int i = 0; i < Model.SubscriptionPreferences.Count; i++)
+    @using (var form = Ajax.BeginForm("Edit", new AjaxOptions()
+    {
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "preferences-container",
+         OnComplete = "Ladda.bind('.ladda-button')",
+    }))
+    {
+        @Html.AntiForgeryToken()
+        using (var fieldSet = Bootstrap.FieldSet().Begin())
+        {
+            <legend>Subscriptions</legend>
+            using (var table = Bootstrap.Table().AddCss("col-md-4").Begin())
             {
-                using (var row = table.TableRow().Begin())
+                @table.TableHeaderRow("", "Email", "SMS")
+                ;
+
+                for (int i = 0; i < Model.SubscriptionPreferences.Count; i++)
                 {
-                    var subscription = Model.SubscriptionPreferences[i];
-                    @Html.HiddenFor(m => m.SubscriptionPreferences[i].Id)
-                    @Html.HiddenFor(m => m.SubscriptionPreferences[i].SubscriptionName)
-                    <td>@subscription.SubscriptionDescription</td>
-                    <td>
-                        @form.CheckBox(@Html.NameFor(m => m.SubscriptionPreferences[i].IsEmailRequested).ToString(), isChecked: subscription.IsEmailRequested)
-                    </td>
-                    <td>
-                        @form.CheckBox(@Html.NameFor(m => m.SubscriptionPreferences[i].IsSmsRequested).ToString(), isChecked: subscription.IsSmsRequested)
-                    </td>
+                    using (var row = table.TableRow().Begin())
+                    {
+                        var subscription = Model.SubscriptionPreferences[i];
+                        @Html.HiddenFor(m => m.SubscriptionPreferences[i].Id)
+                        @Html.HiddenFor(m => m.SubscriptionPreferences[i].SubscriptionName)
+                        <td>@subscription.SubscriptionDescription</td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.SubscriptionPreferences[i].IsEmailRequested)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.SubscriptionPreferences[i].IsSmsRequested)
+                        </td>
+                    }
                 }
             }
         }
-    }
 
-    @form.Submit("Save")
-}
+        @Bootstrap.Submit("Save").AddCss("btn-success").AddFeedback().SetPullRight()
+    }</div>

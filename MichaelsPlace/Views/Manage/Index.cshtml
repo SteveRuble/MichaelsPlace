@@ -67,7 +67,13 @@
             }
         </dd>
 
-        <dt>Subscriptions</dt>
-        <dd>@Html.ActionLink("Manage", "Edit", "Preferences")</dd>
+        <dt>Preferences</dt>
+        <dd>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.Action("Display", "Preferences")
+                </div>
+            </div>
+        </dd>
     </dl>
 </div>
