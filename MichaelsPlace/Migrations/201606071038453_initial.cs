@@ -3,10 +3,23 @@ namespace MichaelsPlace.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Addresses",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LineOne = c.String(nullable: false, maxLength: 200),
+                        LineTwo = c.String(maxLength: 200),
+                        City = c.String(nullable: false, maxLength: 100),
+                        State = c.String(nullable: false, maxLength: 2),
+                        Zip = c.String(nullable: false, maxLength: 12),
+                    })
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.Cases",
                 c => new
@@ -15,8 +28,11 @@ namespace MichaelsPlace.Migrations
                         Title = c.String(),
                         CreatedBy = c.String(nullable: false),
                         CreatedUtc = c.DateTimeOffset(nullable: false, precision: 7),
+                        Organization_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Organizations", t => t.Organization_Id)
+                .Index(t => t.Organization_Id);
             
             CreateTable(
                 "dbo.CaseItems",
@@ -52,9 +68,13 @@ namespace MichaelsPlace.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
                         Memento = c.String(),
+                        Organization_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Organizations", t => t.Organization_Id)
+                .Index(t => t.Organization_Id);
             
             CreateTable(
                 "dbo.Tags",
@@ -68,27 +88,43 @@ namespace MichaelsPlace.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.CaseUsers",
+                "dbo.PersonCases",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Person_Id = c.String(nullable: false, maxLength: 128),
                         Situation_Id = c.Int(nullable: false),
-                        User_Id = c.String(nullable: false, maxLength: 128),
                         Case_Id = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.People", t => t.Person_Id)
                 .ForeignKey("dbo.Situations", t => t.Situation_Id, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
                 .ForeignKey("dbo.Cases", t => t.Case_Id)
+                .Index(t => t.Person_Id)
                 .Index(t => t.Situation_Id)
-                .Index(t => t.User_Id)
                 .Index(t => t.Case_Id);
+            
+            CreateTable(
+                "dbo.People",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        EmailAddress = c.String(),
+                        PhoneNumber = c.String(),
+                        Organization_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Organizations", t => t.Organization_Id)
+                .Index(t => t.Organization_Id);
             
             CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        IsDisabled = c.Boolean(nullable: false),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -102,6 +138,8 @@ namespace MichaelsPlace.Migrations
                         UserName = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.People", t => t.Id)
+                .Index(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
@@ -130,6 +168,21 @@ namespace MichaelsPlace.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
+                "dbo.UserPreferences",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        SubscriptionName = c.String(),
+                        IsEmailRequested = c.Boolean(),
+                        IsSmsRequested = c.Boolean(),
+                        Discriminator = c.String(nullable: false, maxLength: 128),
+                        User_Id = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id, cascadeDelete: true)
+                .Index(t => t.User_Id);
+            
+            CreateTable(
                 "dbo.AspNetUserRoles",
                 c => new
                     {
@@ -143,22 +196,37 @@ namespace MichaelsPlace.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.UserCaseItems",
+                "dbo.Organizations",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        PhoneNumber = c.String(),
+                        FaxNumber = c.String(),
+                        Notes = c.String(),
+                        Address_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Addresses", t => t.Address_Id)
+                .Index(t => t.Address_Id);
+            
+            CreateTable(
+                "dbo.PersonCaseItems",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Status = c.Int(nullable: false),
                         Case_Id = c.String(maxLength: 128),
                         Item_Id = c.Int(),
-                        User_Id = c.String(nullable: false, maxLength: 128),
+                        Person_Id = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Cases", t => t.Case_Id)
                 .ForeignKey("dbo.Items", t => t.Item_Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .ForeignKey("dbo.People", t => t.Person_Id)
                 .Index(t => t.Case_Id)
                 .Index(t => t.Item_Id)
-                .Index(t => t.User_Id);
+                .Index(t => t.Person_Id);
             
             CreateTable(
                 "dbo.Notifications",
@@ -170,6 +238,7 @@ namespace MichaelsPlace.Migrations
                         CreatedUtc = c.DateTimeOffset(nullable: false, precision: 7),
                         ToAddress = c.String(),
                         Subject = c.String(),
+                        ToPhoneNumber = c.String(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                         Case_Id = c.String(maxLength: 128),
                         CaseItem_Id = c.Int(),
@@ -180,11 +249,22 @@ namespace MichaelsPlace.Migrations
                 .ForeignKey("dbo.Cases", t => t.Case_Id)
                 .ForeignKey("dbo.CaseItems", t => t.CaseItem_Id)
                 .ForeignKey("dbo.Cases", t => t.Case_Id1)
-                .ForeignKey("dbo.AspNetUsers", t => t.Invitee_Id)
+                .ForeignKey("dbo.People", t => t.Invitee_Id)
                 .Index(t => t.Case_Id)
                 .Index(t => t.CaseItem_Id)
                 .Index(t => t.Case_Id1)
                 .Index(t => t.Invitee_Id);
+            
+            CreateTable(
+                "dbo.HistoricalEvents",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        TimestampUtc = c.DateTimeOffset(nullable: false, precision: 7),
+                        EventType = c.String(nullable: false),
+                        ContentJson = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -195,6 +275,19 @@ namespace MichaelsPlace.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+            
+            CreateTable(
+                "dbo.UserModels",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
+                        Email = c.String(),
+                        IsLockedOut = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.SituationDemographicTags",
@@ -253,19 +346,25 @@ namespace MichaelsPlace.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Notifications", "Invitee_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Notifications", "Invitee_Id", "dbo.People");
             DropForeignKey("dbo.Notifications", "Case_Id1", "dbo.Cases");
             DropForeignKey("dbo.Notifications", "CaseItem_Id", "dbo.CaseItems");
             DropForeignKey("dbo.Notifications", "Case_Id", "dbo.Cases");
-            DropForeignKey("dbo.CaseUsers", "Case_Id", "dbo.Cases");
-            DropForeignKey("dbo.UserCaseItems", "User_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.UserCaseItems", "Item_Id", "dbo.Items");
-            DropForeignKey("dbo.UserCaseItems", "Case_Id", "dbo.Cases");
+            DropForeignKey("dbo.PersonCases", "Case_Id", "dbo.Cases");
+            DropForeignKey("dbo.PersonCases", "Situation_Id", "dbo.Situations");
+            DropForeignKey("dbo.PersonCases", "Person_Id", "dbo.People");
+            DropForeignKey("dbo.PersonCaseItems", "Person_Id", "dbo.People");
+            DropForeignKey("dbo.PersonCaseItems", "Item_Id", "dbo.Items");
+            DropForeignKey("dbo.PersonCaseItems", "Case_Id", "dbo.Cases");
+            DropForeignKey("dbo.Situations", "Organization_Id", "dbo.Organizations");
+            DropForeignKey("dbo.People", "Organization_Id", "dbo.Organizations");
+            DropForeignKey("dbo.Cases", "Organization_Id", "dbo.Organizations");
+            DropForeignKey("dbo.Organizations", "Address_Id", "dbo.Addresses");
+            DropForeignKey("dbo.AspNetUsers", "Id", "dbo.People");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.UserPreferences", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.CaseUsers", "User_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.CaseUsers", "Situation_Id", "dbo.Situations");
             DropForeignKey("dbo.CaseItems", "Case_Id", "dbo.Cases");
             DropForeignKey("dbo.CaseItems", "Item_Id", "dbo.Items");
             DropForeignKey("dbo.ItemSituations", "Situation_Id", "dbo.Situations");
@@ -289,36 +388,48 @@ namespace MichaelsPlace.Migrations
             DropIndex("dbo.Notifications", new[] { "Case_Id1" });
             DropIndex("dbo.Notifications", new[] { "CaseItem_Id" });
             DropIndex("dbo.Notifications", new[] { "Case_Id" });
-            DropIndex("dbo.UserCaseItems", new[] { "User_Id" });
-            DropIndex("dbo.UserCaseItems", new[] { "Item_Id" });
-            DropIndex("dbo.UserCaseItems", new[] { "Case_Id" });
+            DropIndex("dbo.PersonCaseItems", new[] { "Person_Id" });
+            DropIndex("dbo.PersonCaseItems", new[] { "Item_Id" });
+            DropIndex("dbo.PersonCaseItems", new[] { "Case_Id" });
+            DropIndex("dbo.Organizations", new[] { "Address_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.UserPreferences", new[] { "User_Id" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.CaseUsers", new[] { "Case_Id" });
-            DropIndex("dbo.CaseUsers", new[] { "User_Id" });
-            DropIndex("dbo.CaseUsers", new[] { "Situation_Id" });
+            DropIndex("dbo.AspNetUsers", new[] { "Id" });
+            DropIndex("dbo.People", new[] { "Organization_Id" });
+            DropIndex("dbo.PersonCases", new[] { "Case_Id" });
+            DropIndex("dbo.PersonCases", new[] { "Situation_Id" });
+            DropIndex("dbo.PersonCases", new[] { "Person_Id" });
+            DropIndex("dbo.Situations", new[] { "Organization_Id" });
             DropIndex("dbo.CaseItems", new[] { "Case_Id" });
             DropIndex("dbo.CaseItems", new[] { "Item_Id" });
+            DropIndex("dbo.Cases", new[] { "Organization_Id" });
             DropTable("dbo.ItemSituations");
             DropTable("dbo.SituationMournerTags");
             DropTable("dbo.SituationLossTags");
             DropTable("dbo.SituationDemographicTags");
+            DropTable("dbo.UserModels");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.HistoricalEvents");
             DropTable("dbo.Notifications");
-            DropTable("dbo.UserCaseItems");
+            DropTable("dbo.PersonCaseItems");
+            DropTable("dbo.Organizations");
             DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.UserPreferences");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.CaseUsers");
+            DropTable("dbo.People");
+            DropTable("dbo.PersonCases");
             DropTable("dbo.Tags");
             DropTable("dbo.Situations");
             DropTable("dbo.Items");
             DropTable("dbo.CaseItems");
             DropTable("dbo.Cases");
+            DropTable("dbo.Addresses");
         }
     }
 }

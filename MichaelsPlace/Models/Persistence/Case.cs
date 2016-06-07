@@ -10,7 +10,7 @@ namespace MichaelsPlace.Models.Persistence
     {
         private ICollection<CaseItem> _caseItems;
 
-        private ICollection<CaseUser> _caseUsers;
+        private ICollection<PersonCase> _caseUsers;
         private string _id;
 
         [HiddenInput]
@@ -22,9 +22,9 @@ namespace MichaelsPlace.Models.Persistence
 
         public virtual string Title { get; set; }
 
-        public virtual ICollection<CaseUser> CaseUsers
+        public virtual ICollection<PersonCase> CaseUsers
         {
-            get { return _caseUsers ?? (_caseUsers = new HashSet<CaseUser>()); }
+            get { return _caseUsers ?? (_caseUsers = new HashSet<PersonCase>()); }
             set { _caseUsers = value; }
         }
 

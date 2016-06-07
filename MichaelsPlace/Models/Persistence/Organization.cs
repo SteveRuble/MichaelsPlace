@@ -23,7 +23,7 @@ namespace MichaelsPlace.Models.Persistence
         [DataType(DataType.MultilineText)]
         public virtual string Notes { get; set; }
 
-        private ICollection<ApplicationUser> _users;
+        private ICollection<Person> _people;
 
         private ICollection<Situation> _situations;
 
@@ -33,10 +33,10 @@ namespace MichaelsPlace.Models.Persistence
             set { _situations = value; }
         }
 
-        public virtual ICollection<ApplicationUser> Users
+        public virtual ICollection<Person> People
         {
-            get { return _users ?? (_users = new HashSet<ApplicationUser>()); }
-            set { _users = value; }
+            get { return _people ?? (_people = new HashSet<Person>()); }
+            set { _people = value; }
         }
 
         private ICollection<Case> _cases;

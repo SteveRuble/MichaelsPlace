@@ -335,7 +335,7 @@
     <Compile Include="Controllers\Admin\ReportController.cs" />
     <Compile Include="Controllers\Admin\SituationController.cs" />
     <Compile Include="Controllers\Admin\TagController.cs" />
-    <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\Admin\PeopleController.cs" />
     <Compile Include="Controllers\Api\BrowsingController.cs" />
     <Compile Include="Controllers\Api\TagsController.cs" />
     <Compile Include="Controllers\BootstrapBaseController.cs" />
@@ -347,12 +347,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSettings.secrets.cs" />
+    <Compile Include="Infrastructure\Identity\ApplicationUserStore.cs" />
     <Compile Include="Listeners\IListener.cs" />
-    <Compile Include="Migrations\201606060943512_SubscriptionPreferences.cs" />
-    <Compile Include="Migrations\201606060943512_SubscriptionPreferences.Designer.cs">
-      <DependentUpon>201606060943512_SubscriptionPreferences.cs</DependentUpon>
+    <Compile Include="Migrations\201606071038453_initial.cs" />
+    <Compile Include="Migrations\201606071038453_initial.Designer.cs">
+      <DependentUpon>201606071038453_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Admin\UserModel.cs" />
+    <Compile Include="Migrations\201606071632506_people.cs" />
+    <Compile Include="Migrations\201606071632506_people.Designer.cs">
+      <DependentUpon>201606071632506_people.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Admin\PersonModel.cs" />
+    <Compile Include="Models\Persistence\Person.cs" />
     <Compile Include="Subscriptions\SubscriptionDescriptionAttribute.cs" />
     <Compile Include="Subscriptions\SubscriptionHelper.cs" />
     <Compile Include="Listeners\CaseCreatedHandler.cs" />
@@ -371,23 +378,6 @@
     <Compile Include="Infrastructure\ProjectableQuery.cs" />
     <Compile Include="Infrastructure\QueryFactory.cs" />
     <Compile Include="MichaelsPlaceModule.cs" />
-    <Compile Include="Migrations\201605301027084_Initial.cs" />
-    <Compile Include="Migrations\201605301027084_Initial.Designer.cs">
-      <DependentUpon>201605301027084_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605301642180_Events and Organizations.cs" />
-    <Compile Include="Migrations\201605301642180_Events and Organizations.Designer.cs">
-      <DependentUpon>201605301642180_Events and Organizations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605311828238_Events.cs" />
-    <Compile Include="Migrations\201605311828238_Events.Designer.cs">
-      <DependentUpon>201605311828238_Events.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605311914356_PhoneNumber.cs" />
-    <Compile Include="Migrations\201605311914356_PhoneNumber.Designer.cs">
-      <DependentUpon>201605311914356_PhoneNumber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Admin\AdminItemModel.cs" />
     <Compile Include="Models\Admin\AdminModelMappingProfile.cs" />
@@ -403,7 +393,7 @@
     <Compile Include="Models\Persistence\CaseItemStatus.cs" />
     <Compile Include="Models\Persistence\CaseItemUserStatus.cs" />
     <Compile Include="Models\Persistence\CaseNote.cs" />
-    <Compile Include="Models\Persistence\CaseUser.cs" />
+    <Compile Include="Models\Persistence\PersonCase.cs" />
     <Compile Include="Models\Persistence\Comment.cs" />
     <Compile Include="Models\Persistence\EmailNotification.cs" />
     <Compile Include="Models\Persistence\EntitySaver.cs" />
@@ -421,7 +411,7 @@
     <Compile Include="Models\Persistence\Tag.cs" />
     <Compile Include="Models\Persistence\DemographicTag.cs" />
     <Compile Include="Models\Persistence\ToDo.cs" />
-    <Compile Include="Models\Persistence\UserCaseItem.cs" />
+    <Compile Include="Models\Persistence\PersonCaseItem.cs" />
     <Compile Include="Models\Persistence\UserPreference.cs" />
     <Compile Include="Models\SituationModel.cs" />
     <Compile Include="NavigationRoutes\NamedRoute.cs" />
@@ -432,6 +422,7 @@
     <Compile Include="Queries\PreferencesQuery.cs" />
     <Compile Include="Queries\UserQueries.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\InjectedProperty.cs" />
     <Compile Include="Utilities\Randomness.cs" />
     <Compile Include="Utilities\ReflectionUtils.cs" />
     <Compile Include="Views\MichaelsPlaceView.cs" />
@@ -688,9 +679,9 @@
     <None Include="Views\Preferences\StaffAlerts.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Address.cshtml" />
     <Content Include="Views\Shared\_ItemActions.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
-    <None Include="Views\User\PickUser.cshtml" />
+    <Content Include="Views\People\Index.cshtml" />
+    <Content Include="Views\People\Edit.cshtml" />
+    <None Include="Views\People\PickUser.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PickUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -712,20 +703,11 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605301027084_Initial.resx">
-      <DependentUpon>201605301027084_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606071038453_initial.resx">
+      <DependentUpon>201606071038453_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605301642180_Events and Organizations.resx">
-      <DependentUpon>201605301642180_Events and Organizations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605311828238_Events.resx">
-      <DependentUpon>201605311828238_Events.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605311914356_PhoneNumber.resx">
-      <DependentUpon>201605311914356_PhoneNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606060943512_SubscriptionPreferences.resx">
-      <DependentUpon>201606060943512_SubscriptionPreferences.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606071632506_people.resx">
+      <DependentUpon>201606071632506_people.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

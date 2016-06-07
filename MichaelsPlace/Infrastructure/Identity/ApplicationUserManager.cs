@@ -60,5 +60,6 @@ namespace MichaelsPlace.Infrastructure.Identity
             }
             return manager;
         }
+        
     }
 }

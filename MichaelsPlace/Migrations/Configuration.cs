@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MichaelsPlace.Infrastructure.Identity;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Utilities;
@@ -30,28 +31,48 @@ namespace MichaelsPlace.Migrations
             {
                 user = new ApplicationUser()
                 {
-                    UserName = "admin@example.com"
+                    UserName = "admin@example.com",
+                    Email = "admin@example.com",
+                    Person = new Person()
+                    {
+                        FirstName = "Admin",
+                        LastName = "Istrator",
+                    }
                 };
-                userManager.Create(user, "Administrator123");
+                var result = userManager.Create(user, "Administrator123!");
+                if (!result.Succeeded)
+                {
+                    throw new InvalidOperationException(String.Join(";", result.Errors));
+                }
+                userManager.AddClaim(user.Id, new Claim(Constants.Claims.Staff, bool.TrueString));
             }
-            if (!userManager.IsInRole(user.Id, Constants.Roles.Administrator))
+            try
             {
-                userManager.AddToRole(user.Id, Constants.Roles.Administrator);
+                if (!userManager.IsInRole(user.Id, Constants.Roles.Administrator))
+                {
+                    userManager.AddToRole(user.Id, Constants.Roles.Administrator);
+                }
             }
-
+            catch 
+            {
+                // we'll need to run again.
+            }
             var userShortage = 200 - context.Users.Count();
             for (int i = 0; i < userShortage; i++)
             {
                 var randomUser = new ApplicationUser()
-                                 {
-                                     UserName = $"{Randomness.GetRandomString()}@{Randomness.GetRandomString()}.com",
-                                     Email = $"{Randomness.GetRandomString()}@{Randomness.GetRandomString()}.com",
-                                     FirstName = Randomness.GetRandomName(),
-                                     LastName = Randomness.GetRandomName(),
-                                 };
+                {
+                    UserName = $"{Randomness.GetRandomString()}@example.com",
+                    Email = $"{Randomness.GetRandomString()}@example.com",
+                    Person = new Person()
+                    {
+                        FirstName = Randomness.GetRandomName(),
+                        LastName = Randomness.GetRandomName(),
+                    }
+                };
                 userManager.Create(randomUser, Randomness.GetRandomName(20) + ".1");
             }
-            
+
 
             context.Tags.AddOrUpdate(new DemographicTag() { Id = 1, Title = "Friend", GuidanceLabel = "I'm helping a friend or relative" });
             context.Tags.AddOrUpdate(new DemographicTag() { Id = 2, Title = "Person", GuidanceLabel = "I've suffered a loss" });
@@ -63,18 +84,18 @@ namespace MichaelsPlace.Migrations
             context.Tags.AddOrUpdate(new LossTag() { Id = 7, Title = "Child", GuidanceLabel = "I lost a child" });
             context.Tags.AddOrUpdate(new LossTag() { Id = 8, Title = "Friend", GuidanceLabel = "I lost a friend" });
 
-            context.Tags.AddOrUpdate(new MournerTag() { Id=9, Title = "Siblings", GuidanceLabel = "My siblings" });
-            context.Tags.AddOrUpdate(new MournerTag() { Id=10, Title = "Classmates", GuidanceLabel = "My classmates" });
-            context.Tags.AddOrUpdate(new MournerTag() { Id=11, Title = "Employees", GuidanceLabel = "My employees" });
-            context.Tags.AddOrUpdate(new MournerTag() { Id=12, Title = "Self", GuidanceLabel = "Myself" });
+            context.Tags.AddOrUpdate(new MournerTag() { Id = 9, Title = "Siblings", GuidanceLabel = "My siblings" });
+            context.Tags.AddOrUpdate(new MournerTag() { Id = 10, Title = "Classmates", GuidanceLabel = "My classmates" });
+            context.Tags.AddOrUpdate(new MournerTag() { Id = 11, Title = "Employees", GuidanceLabel = "My employees" });
+            context.Tags.AddOrUpdate(new MournerTag() { Id = 12, Title = "Self", GuidanceLabel = "Myself" });
 
             var situation = new Situation()
-                            {
-                                Id = 1,
-                                Losses = context.Tags.Local.OfType<LossTag>().ToList(),
-                                Mourners = context.Tags.Local.OfType<MournerTag>().ToList(),
-                                Demographics = context.Tags.Local.OfType<DemographicTag>().ToList(),
-                            };
+            {
+                Id = 1,
+                Losses = context.Tags.Local.OfType<LossTag>().ToList(),
+                Mourners = context.Tags.Local.OfType<MournerTag>().ToList(),
+                Demographics = context.Tags.Local.OfType<DemographicTag>().ToList(),
+            };
             context.Situations.AddOrUpdate(situation);
 
             for (int i = 1; i < 7; i++)
@@ -99,19 +120,19 @@ namespace MichaelsPlace.Migrations
             for (int i = 1; i < 5; i++)
             {
                 context.Items.AddOrUpdate(new ToDo()
-                                          {
-                                              Id = i + 7,
-                                              CreatedBy = user.UserName,
-                                              CreatedUtc = DateTimeOffset.UtcNow,
-                                              Content =
+                {
+                    Id = i + 7,
+                    CreatedBy = user.UserName,
+                    CreatedUtc = DateTimeOffset.UtcNow,
+                    Content =
                                                   "Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus.",
-                                              Title = "ToDo " + i,
-                                              Order = i,
-                                              Situations =
+                    Title = "ToDo " + i,
+                    Order = i,
+                    Situations =
                                               {
                                                   situation
                                               }
-                                          });
+                });
 
             }
 

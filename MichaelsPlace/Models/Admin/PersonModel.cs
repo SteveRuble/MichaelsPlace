@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MichaelsPlace.Models.Admin
 {
-    public class UserModel
+    public class PersonModel
     {
         public string Id { get; set; }
 

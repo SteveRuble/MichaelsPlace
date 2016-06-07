@@ -48,6 +48,11 @@ namespace MichaelsPlace.Models.Persistence
         }
 
         /// <summary>
+        /// Table of <see cref="Person"/> records, which represent individuals we know about (and which may or may not have logins).
+        /// </summary>
+        public DbSet<Person> People { get; set; }
+
+        /// <summary>
         /// Cases, which are the primary domain object and represent a collection of articles and to-dos associated with one or more users.
         /// </summary>
         public DbSet<Case> Cases { get; set; }
@@ -140,8 +145,9 @@ namespace MichaelsPlace.Models.Persistence
             modelBuilder.Entity<Invitation>().HasRequired(n => n.Case).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<Invitation>().HasOptional(n => n.Invitee).WithMany().WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<ApplicationUser>().HasMany(u => u.UserCaseItems).WithRequired(uci => uci.User).WillCascadeOnDelete(false);
-            modelBuilder.Entity<ApplicationUser>().HasMany(u => u.CaseUsers).WithRequired(cu => cu.User).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Person>().HasMany(u => u.PersonCaseItems).WithRequired(uci => uci.Person).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Person>().HasMany(u => u.PersonCases).WithRequired(cu => cu.Person).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Person>().HasOptional(u => u.ApplicationUser).WithRequired(cu => cu.Person).WillCascadeOnDelete(false);
         }
 
         /// <summary>
@@ -333,8 +339,6 @@ namespace MichaelsPlace.Models.Persistence
                 _messageBus.Publish(entityChanging);
             }
         }
-
-        public System.Data.Entity.DbSet<MichaelsPlace.Models.Admin.UserModel> UserModels { get; set; }
     }
 
     public class EntityChanging<T>

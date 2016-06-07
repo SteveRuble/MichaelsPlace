@@ -4,12 +4,16 @@ How to Build and Run:
 -----------
 
 
-MVC application and API:
+###MVC application and API:
 
 1. Open command line in MichaelsPlace.sln directory and run `nuget.exe restore`.
-2. Open solution in VS 2015 and run the MichaelsPlace project.
+2. Open solution in VS 2015.
+3. Now we need to get the database in synce. Open the package managed console.
+    1. Run `Update-Database -Force`.
+    2. To get the test database in sync, run `Update-Database -ProjectName MichaelsPlace -StartUpProjectName MichaelsPlace.Tests -Force`
+4. Now you can run the MichaelsPlace project.
 
-SPA application:
+###SPA application:
 
 1. Install node and npm (https://nodejs.org/en/)
 2. Open command line in the MichaelsPlace directory:
@@ -26,5 +30,6 @@ The SPA application is embedded in the MVC application, in directories which sta
     /test - The tests for the SPA
 
 The SPA also owns the .json and .js files in the root of the MichaelsPlace project.
+
 
 

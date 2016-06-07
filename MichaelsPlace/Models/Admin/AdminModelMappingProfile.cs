@@ -38,8 +38,8 @@ namespace MichaelsPlace.Models.Api
                 .ForMember(a => a.CreatedUtc, o => o.Ignore())
                 .ForMember(a => a.Situations, o => o.Ignore());
 
-            CreateMap<ApplicationUser, UserModel>()
-                .ForMember(um => um.IsLockedOut, o => o.MapFrom(au => au.LockoutEndDateUtc == null || au.LockoutEndDateUtc < DateTime.UtcNow))
+            CreateMap<Person, PersonModel>()
+                .ForMember(um => um.IsLockedOut, o => o.MapFrom(au => au.ApplicationUser.LockoutEndDateUtc != null && au.ApplicationUser.LockoutEndDateUtc < DateTime.UtcNow))
                 .IgnoreAllNonExisting()
                 .ReverseMap()
                 .IgnoreAllNonExisting();

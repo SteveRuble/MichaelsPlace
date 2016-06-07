@@ -39,7 +39,7 @@
                     }
                     using (var dropdown = nav.Dropdown("Management Areas").Begin())
                     {
-                        @dropdown.DropdownLink("Admin Users", "/idm")
+                        //@dropdown.DropdownLink("Admin Users", "/idm")
                         //@dropdown.DropdownLink("Staff Alerts", Url.Action("StaffAlerts","Preferences"))
                         @dropdown.DropdownDivider()
                         @dropdown.DropdownLink("Tags (Filters)", Url.Action("Index", "Tag"))
@@ -48,7 +48,7 @@
                         @dropdown.DropdownLink("ToDos", Url.Action("Index", "Article"))
                         @dropdown.DropdownDivider()
                         @dropdown.DropdownLink("Organizations", Url.Action("Index", "Organization"))
-                        @dropdown.DropdownLink("Users", Url.Action("Index", "User"))
+                        @dropdown.DropdownLink("Users", Url.Action("Index", "People"))
                         @dropdown.DropdownLink("Cases", Url.Action("Index", "Case"))
                         @dropdown.DropdownLink("Reports", Url.Action("Index", "Report"))
 

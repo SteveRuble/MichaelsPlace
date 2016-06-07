@@ -163,7 +163,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\PeopleControllerTests.cs" />
     <Compile Include="DatabaseIntegrationTestBase.cs" />
+    <Compile Include="Infrastructure\Identity\ApplicationUserManagerTests.cs" />
     <Compile Include="Infrastructure\MessageBusTests.cs" />
     <Compile Include="Infrastructure\EventStoreIntegrationTests.cs" />
     <Compile Include="MappingValidation.cs" />

@@ -9,6 +9,6 @@ namespace MichaelsPlace.Models.Persistence
         [Required]
         public virtual Case Case { get; set; }
 
-        public virtual ApplicationUser Invitee { get; set; }
+        public virtual Person Invitee { get; set; }
     }
 }

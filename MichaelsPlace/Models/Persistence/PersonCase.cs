@@ -5,7 +5,7 @@ namespace MichaelsPlace.Models.Persistence
     /// <summary>
     ///     Represents a user's relationship to a case.
     /// </summary>
-    public class CaseUser
+    public class PersonCase
     {
         public virtual int Id { get; set; }
 
@@ -13,7 +13,7 @@ namespace MichaelsPlace.Models.Persistence
         public virtual Case Case { get; set; }
 
         [Required]
-        public virtual ApplicationUser User { get; set; }
+        public virtual Person Person { get; set; }
 
         [Required]
         public virtual Situation Situation { get; set; }
