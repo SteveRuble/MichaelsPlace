@@ -18,12 +18,15 @@ using NUnit.Framework;
 namespace MichaelsPlace.Tests.Models
 {
     [TestFixture]
-    public class ApplicationDbContextTests : DatabaseIntegrationTestBase
+    public class ApplicationDbContextTests : IntegrationTestBase
     {
         [Test]
         public void can_create_user()
         {
-            var user = new ApplicationUser();
+            var user = new ApplicationUser()
+                       {
+                           Person = new Person()
+                       };
             user.UserName = "test@example.com";
 
             DbContext.Users.Add(user);
@@ -54,15 +57,15 @@ namespace MichaelsPlace.Tests.Models
         }
 
         [Test]
-        public async Task changed_events_are_published()
+        public async Task changing_events_are_published()
         {
             var expected = new Case();
             DbContext.Cases.Add(expected);
             DbContext.SaveChanges();
 
-            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
-            var actualTask = MessageBus.Observe<EntityChanging<Case>>().FirstOrDefaultAsync().ToTask(cts.Token);
+            var actualTask = MessageBus.Observe<EntityUpdating<Case>>().FirstOrDefaultAsync().ToTask(cts.Token);
 
             expected.Title = "title";
 
@@ -75,48 +78,20 @@ namespace MichaelsPlace.Tests.Models
             actual.Current.Should().BeSameAs(expected);
         }
 
-        public static IEnumerable<TestCaseData> PublishedEntities()
+        [Test]
+        public async Task added_events_are_published()
         {
-            yield return new TestCaseData(new Case()).SetName("Case");
-            yield return new TestCaseData(new Item() { Title = "title", Content = "content"}).SetName("Item");
-            yield return new TestCaseData(new Organization()).SetName("Organization");
-            yield return new TestCaseData(new Notification() { Content = "content"}).SetName("Notification");
-            yield return new TestCaseData(new HistoricalEvent()
-                                          {
-                                              Id = Guid.NewGuid().ToString(),
-                                              ContentJson = "{}",
-                                              EventType = "string",
-                                              TimestampUtc = DateTimeOffset.UtcNow,
-                                          }).SetName("HistoricalEvent");
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
-        }
+            var actualTask = MessageBus.Observe<EntityAdded<Case>>().FirstOrDefaultAsync().ToTask(cts.Token);
 
-        [TestCaseSource("PublishedEntities")]
-        public async Task adds_are_published(object entity)
-        {
-            var entityType = entity.GetType();
-            var set = DbContext.Set(entityType);
-            var method = typeof(ApplicationDbContextTests).GetMethod(nameof(GetFirstAsync));
-            var genericMethod = method.MakeGenericMethod(typeof(EntityAdded<>).MakeGenericType(entityType));
-            var actualTask = (Task<object>) genericMethod.Invoke(this, new object[0]);
+            var expected = new Case {Title = "title"};
+            DbContext.Cases.Add(expected);
+            DbContext.SaveChanges();
+            
+            var actual = await actualTask;
 
-            set.Add(entity);
-
-            try
-            {
-                DbContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            var actualEntry = await actualTask;
-            var expectedType = typeof(EntityAdded<>).MakeGenericType(entityType);
-            actualEntry.Should().BeOfType(expectedType);
-            var propertyInfo = expectedType.GetProperty(nameof(EntityAdded<string>.Entity));
-            var actualEntity = propertyInfo.GetValue(actualEntry);
-            actualEntity.Should().Be(entity);
+            actual.Entity.Should().Be(expected);
         }
 
         public Task<object> GetFirstAsync<T>()

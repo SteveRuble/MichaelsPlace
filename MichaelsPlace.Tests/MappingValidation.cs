@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentAssertions;
+using MichaelsPlace.Models.Admin;
+using MichaelsPlace.Models.Persistence;
 using Ninject;
 using NUnit.Framework;
 
@@ -12,14 +15,36 @@ namespace MichaelsPlace.Tests
     [TestFixture]
     public class MappingValidation
     {
+        public IMapper Mapper { get; set; }
+
+        [OneTimeSetUp]
+        public void SetUpFixture()
+        {
+            var kernel = new StandardKernel();
+            kernel.Load(new MichaelsPlaceModule());
+            Mapper = kernel.Get<IMapper>();
+        }
+
         [Test]
         public void mapping_is_valid()
         {
-            var kernel = new StandardKernel();
-            kernel.Load(new MichaelsPlaceModule(true));
+            Mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        }
 
-            var mapper = kernel.Get<IMapper>();
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        [Test]
+        public void person_personModel_disabled_mapping()
+        {
+            var person = new Person()
+                         {
+                             ApplicationUser = new ApplicationUser()
+                                               {
+                                                   LockoutEndDateUtc = Constants.Magic.DisabledLockoutEndDate.UtcDateTime
+                                               }
+                         };
+            person.ApplicationUser.LockoutEndDateUtc.Should().Be(Constants.Magic.DisabledLockoutEndDate.UtcDateTime);
+            var personModel = Mapper.Map<PersonModel>(person);
+            personModel.IsDisabled.Should().BeTrue();
+            personModel.IsLockedOut.Should().BeTrue();
         }
     }
 }

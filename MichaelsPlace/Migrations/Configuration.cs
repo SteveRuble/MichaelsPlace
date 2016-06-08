@@ -37,8 +37,9 @@ namespace MichaelsPlace.Migrations
                     {
                         FirstName = "Admin",
                         LastName = "Istrator",
-                    }
-                };
+
+            }
+        };
                 var result = userManager.Create(user, "Administrator123!");
                 if (!result.Succeeded)
                 {
@@ -62,15 +63,17 @@ namespace MichaelsPlace.Migrations
             {
                 var randomUser = new ApplicationUser()
                 {
-                    UserName = $"{Randomness.GetRandomString()}@example.com",
-                    Email = $"{Randomness.GetRandomString()}@example.com",
+                    UserName = $"{SomeRandom.String()}@example.com",
+                    Email = $"{SomeRandom.String()}@example.com",
                     Person = new Person()
                     {
-                        FirstName = Randomness.GetRandomName(),
-                        LastName = Randomness.GetRandomName(),
+                        FirstName = SomeRandom.Name(),
+                        LastName = SomeRandom.Name(),
+                        EmailAddress = SomeRandom.EmailAddress(),
+                        PhoneNumber = SomeRandom.PhoneNumber()
                     }
                 };
-                userManager.Create(randomUser, Randomness.GetRandomName(20) + ".1");
+                userManager.Create(randomUser, SomeRandom.Name(20) + ".1");
             }
 
 

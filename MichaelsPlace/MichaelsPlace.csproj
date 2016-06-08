@@ -52,6 +52,10 @@
       <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.2.0\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
       <Private>True</Private>
@@ -119,6 +123,10 @@
     </Reference>
     <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Factory, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Factory.3.2.1.0\lib\net45-full\Ninject.Extensions.Factory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -341,6 +349,7 @@
     <Compile Include="Controllers\BootstrapBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Identity\ManageController.cs" />
+    <Compile Include="Extensions\AutoMapperExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
@@ -359,6 +368,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin\PersonModel.cs" />
+    <Compile Include="Models\Persistence\IApplicationDbContextFactory.cs" />
     <Compile Include="Models\Persistence\Person.cs" />
     <Compile Include="Subscriptions\SubscriptionDescriptionAttribute.cs" />
     <Compile Include="Subscriptions\SubscriptionHelper.cs" />
@@ -423,7 +433,7 @@
     <Compile Include="Queries\UserQueries.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\InjectedProperty.cs" />
-    <Compile Include="Utilities\Randomness.cs" />
+    <Compile Include="Utilities\SomeRandom.cs" />
     <Compile Include="Utilities\ReflectionUtils.cs" />
     <Compile Include="Views\MichaelsPlaceView.cs" />
   </ItemGroup>

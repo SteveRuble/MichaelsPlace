@@ -12,7 +12,7 @@ namespace MichaelsPlace.Tests.Infrastructure
 {
     [TestFixture]
     [Category("Integration")]
-    public class EventStoreIntegrationTests : DatabaseIntegrationTestBase
+    public class EventStoreIntegrationTests : IntegrationTestBase
     {
         public EventStore Target { get; set; }
 

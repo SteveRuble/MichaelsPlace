@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace MichaelsPlace.Tests.Infrastructure.Identity
 {
-    public class ApplicationUserManagerTests : DatabaseIntegrationTestBase
+    public class ApplicationUserManagerTests : IntegrationTestBase
     {
         public ApplicationUserManager Target { get; set; }
 

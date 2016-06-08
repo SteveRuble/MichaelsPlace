@@ -23,5 +23,13 @@ namespace MichaelsPlace
             public const string UserCaseCreated = nameof(UserCaseCreated);
             public const string OrganizationCaseCreated = nameof(OrganizationCaseCreated);
         }
+
+        public static class Magic
+        {
+            /// <summary>
+            /// Represents the lockout end date for a disabled account.
+            /// </summary>
+            public static readonly DateTimeOffset DisabledLockoutEndDate = new DateTimeOffset(3141, 5, 9, 2, 6, 5, TimeSpan.Zero);
+        }
     }
 }

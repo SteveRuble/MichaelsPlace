@@ -5,19 +5,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
 using MichaelsPlace.Models.Admin;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
+using MichaelsPlace.Utilities;
 using Microsoft.AspNet.Identity.Owin;
+using Ninject;
 
 namespace MichaelsPlace.Controllers.Admin
 {
 
     public class PeopleController : AdminControllerBase
     {
+        private Injected<ApplicationUserManager> _userManager;
+
+        [Inject]
+        public ApplicationUserManager UserManager
+        {
+            get { return _userManager.Value; }
+            set { _userManager.Value = value; }
+        }
+
         public PeopleController()
         {
         }
@@ -50,11 +62,13 @@ namespace MichaelsPlace.Controllers.Admin
 
                 if (person.ApplicationUser != null)
                 {
-                    var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-                    if (model.IsLockedOut == false && await userManager.IsLockedOutAsync(id))
+                    if (model.IsLockedOut == false && await UserManager.IsLockedOutAsync(id))
                     {
-                        await userManager.SetLockoutEndDateAsync(id, DateTimeOffset.MinValue);
+                        var result = await UserManager.SetLockoutEndDateAsync(id, DateTimeOffset.MinValue);
+                    }
+                    if (model.IsDisabled)
+                    {
+                        var result = await UserManager.SetLockoutEndDateAsync(id, Constants.Magic.DisabledLockoutEndDate);
                     }
                 }
 

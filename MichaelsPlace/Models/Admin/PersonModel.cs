@@ -20,7 +20,7 @@ namespace MichaelsPlace.Models.Admin
         [DisplayName("Disabled")]
         public bool IsDisabled { get; set; }
 
-        public string Email { get; set; }
+        public string EmailAddress { get; set; }
 
         [DisplayName("Locked Out")]
         public bool IsLockedOut { get; set; }

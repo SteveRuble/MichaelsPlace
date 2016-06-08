@@ -30,6 +30,12 @@ namespace MichaelsPlace.Models.Persistence
     /// </summary>
     public class EntitySaver : IEntitySaver
     {
+        private readonly IApplicationDbContextFactory _contextFactory;
+        public EntitySaver(IApplicationDbContextFactory contextFactory)
+        {
+            _contextFactory = contextFactory;
+        }
+
         /// <summary>
         /// Saves the <paramref name="entity"/> to the database.
         /// This method is thread safe.
@@ -38,7 +44,7 @@ namespace MichaelsPlace.Models.Persistence
         /// <param name="entity"></param>
         public void Save<TEntity>(TEntity entity) where TEntity : class
         {
-            using (var dbContext = new ApplicationDbContext())
+            using (var dbContext = _contextFactory.Create())
             {
                 var set = dbContext.Set<TEntity>();
                 set.Add(entity);

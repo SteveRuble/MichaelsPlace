@@ -1,4 +1,5 @@
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using MichaelsPlace.Models.Persistence;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -33,14 +34,20 @@ namespace MichaelsPlace.Infrastructure.Identity
         public override Task SetPhoneNumberAsync(ApplicationUser user, string phoneNumber)
             => GetPersonAsync(user).ContinueWith(u => u.Result.PhoneNumber = phoneNumber);
 
-        public override Task<string> GetEmailAsync(ApplicationUser user)
-            => GetPersonAsync(user).ContinueWith(t => t.Result.EmailAddress);
+        public override async Task<string> GetEmailAsync(ApplicationUser user)
+        {
+            var person = await GetPersonAsync(user);
+            return person.EmailAddress;
+        }
 
         public override Task SetEmailAsync(ApplicationUser user, string email)
             => GetPersonAsync(user).ContinueWith(t => t.Result.EmailAddress = email);
 
         public override Task<ApplicationUser> FindByEmailAsync(string email)
-            => ApplicationDbContext.Users.FirstOrDefaultAsync(u => u.Person.EmailAddress == email);
+        {
+            var result = ApplicationDbContext.Users.FirstOrDefault(u => u.Person.EmailAddress == email);
+            return Task.FromResult(result);
+        }
 
         private Task<Person> GetPersonAsync(ApplicationUser user) => ApplicationDbContext.People.FindAsync(user.Id);
     }

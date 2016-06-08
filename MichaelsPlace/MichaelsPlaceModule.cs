@@ -14,8 +14,11 @@ using Microsoft.Owin.Security;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Extensions.Conventions;
+using Ninject.Extensions.Factory;
 using Ninject.Modules;
+using Ninject.Web.Common;
 using Serilog;
+using Serilog.Filters;
 
 namespace MichaelsPlace
 {
@@ -24,22 +27,6 @@ namespace MichaelsPlace
     /// </summary>
     public class MichaelsPlaceModule : NinjectModule
     {
-        private readonly bool _logToConsole;
-
-        /// <summary>
-        /// Default constructor, configures logging normally.
-        /// </summary>
-        public MichaelsPlaceModule() : this(false) { }
-
-        /// <summary>
-        /// Extra constructor to configure logging for the test environment.
-        /// </summary>
-        /// <param name="logToConsole"></param>
-        public MichaelsPlaceModule(bool logToConsole)
-        {
-            _logToConsole = logToConsole;
-        }
-
         public override void Load()
         {
             ConfigureLogging();               
@@ -53,44 +40,47 @@ namespace MichaelsPlace
 
             Kernel.Bind<IMapper>().ToMethod(CreateMapper).InSingletonScope();
 
-            Kernel.Bind<ApplicationDbContext>().ToConstructor(syntax => new ApplicationDbContext(syntax.Inject<IMessageBus>()));
+            ConfigureEntityFramework();
 
             ConfigureHelpers();
 
             ConfigureHttp();
 
             // This configuration should be run last.
-            ConfigureMessageBus(Kernel);
+            ConfigureMessageBus();
 
         }
 
-        private void ConfigureHelpers()
+        protected virtual void ConfigureEntityFramework()
+        {
+            Kernel.Bind<ApplicationDbContext>().ToSelf().WhenInjectedInto<EntitySaver>();
+            Kernel.Bind<ApplicationDbContext>().ToSelf().InSingletonScope();
+
+            Kernel.Bind<IApplicationDbContextFactory>().ToFactory();
+        }
+
+        protected virtual void ConfigureHelpers()
         {
             Bind<SubscriptionHelper>().To<SubscriptionHelper>().InSingletonScope();
         }
 
-        private void ConfigureLogging()
+        protected virtual void ConfigureLogging()
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log-{Date}.log");
 
             var config = new LoggerConfiguration()
-                .ReadFrom.AppSettings();
-            if (_logToConsole)
-            {
-                config = config.WriteTo.ColoredConsole();
-            }
-            else
-            {
-                config = config.WriteTo.RollingFile(path, fileSizeLimitBytes: 1000000, retainedFileCountLimit: 10)
-                               .WriteTo.Glimpse();
-            }
+                .ReadFrom.AppSettings()
+                .Filter.ByExcluding(Matching.FromSource(typeof(ApplicationDbContext).FullName))
+                .WriteTo.RollingFile(path, fileSizeLimitBytes: 1000000, retainedFileCountLimit: 10)
+                .WriteTo.Glimpse();
+            
 
             var log = config.CreateLogger();
 
             Bind<ILogger>().ToConstant(log);
         }
 
-        private void ConfigureHttp()
+        protected virtual void ConfigureHttp()
         {
             Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current));
             Bind<IOwinContext>().ToMethod(ctx => HttpContext.Current.GetOwinContext());
@@ -104,20 +94,19 @@ namespace MichaelsPlace
         /// Configures the <see cref="IMessageBus"/> for this <paramref name="kernel"/>
         /// by subscribing all <see cref="IListener"/> implementations to the singleton <see cref="IMessageBus"/>.
         /// </summary>
-        /// <param name="kernel"></param>
-        private static void ConfigureMessageBus(IKernel kernel)
+        protected virtual void ConfigureMessageBus()
         {
-            var messageBus = new MessageBus(kernel.Get<ILogger>());
+            var messageBus = new MessageBus(Kernel.Get<ILogger>());
 
-            kernel.Rebind<IMessageBus>().ToConstant(messageBus);
+            Kernel.Rebind<IMessageBus>().ToConstant(messageBus);
 
-            kernel.Bind(c => c.FromAssemblyContaining<IListener>()
+            Kernel.Bind(c => c.FromAssemblyContaining<IListener>()
                               .SelectAllClasses()
                               .InheritedFrom<IListener>()
                               .BindAllInterfaces()
                               .Configure(ca => ca.InSingletonScope()));
 
-            var listeners = kernel.GetAll<IListener>();
+            var listeners = Kernel.GetAll<IListener>();
             foreach (var listener in listeners)
             {
                 listener.SubscribeTo(messageBus);

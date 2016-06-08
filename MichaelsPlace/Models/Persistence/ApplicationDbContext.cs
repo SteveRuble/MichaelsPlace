@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
@@ -16,6 +17,7 @@ using JetBrains.Annotations;
 using MichaelsPlace.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Ninject;
+using Serilog;
 
 namespace MichaelsPlace.Models.Persistence
 {
@@ -24,27 +26,46 @@ namespace MichaelsPlace.Models.Persistence
     /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        private readonly IMessageBus _messageBus;
+        private ILogger _logger;
+
+        private IMessageBus _messageBus;
 
         private bool _saving;
 
+        [Inject]
+        [CanBeNull]
+        public IMessageBus MessageBus
+        {
+            get { return _messageBus; }
+            set { _messageBus = value; }
+        }
+
+        [Inject]
+        [CanBeNull]
+        public ILogger Logger
+        {
+            get { return _logger;}
+            set
+            {
+                _logger = value.ForContext(typeof(ApplicationDbContext));
+                Database.Log = m => _logger.Debug(m);
+            }
+        }
+
         /// <summary>
-        /// Create new instance which will not publish events on the message bus.
-        /// This constructor should almost always be used for testing only.
+        /// Create new instance which will use the DefaultConnection connection string.
         /// </summary>
-        public ApplicationDbContext() : this(null)
+        public ApplicationDbContext() : base("DefaultConnection", false)
         {
             
         }
 
         /// <summary>
-        /// Create a new instance which will publish events on the <paramref name="messageBus"/>.
+        /// Create new instance which will use the provided connection, which must be opened and closed by the caller.
         /// </summary>
-        /// <param name="messageBus"></param>
-        public ApplicationDbContext(IMessageBus messageBus)
-            : base("DefaultConnection", false)
+        public ApplicationDbContext(DbConnection connection) : base(connection, false)
         {
-            _messageBus = messageBus;
+            
         }
 
         /// <summary>
@@ -335,15 +356,15 @@ namespace MichaelsPlace.Models.Persistence
             {
                 var previous = (T) dbEntityEntry.OriginalValues.ToObject();
                 var current = (T)dbEntityEntry.Entity;
-                var entityChanging = new EntityChanging<T>(this, previous, current);
+                var entityChanging = new EntityUpdating<T>(this, previous, current);
                 _messageBus.Publish(entityChanging);
             }
         }
     }
 
-    public class EntityChanging<T>
+    public class EntityUpdating<T>
     {
-        public EntityChanging(ApplicationDbContext dbContext, T previous, T current)
+        public EntityUpdating(ApplicationDbContext dbContext, T previous, T current)
         {
             Current = current;
             DbContext = dbContext;

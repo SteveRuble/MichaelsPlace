@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using MichaelsPlace.Extensions;
 using MichaelsPlace.Models.Admin;
 using MichaelsPlace.Models.Persistence;
 
@@ -39,30 +40,11 @@ namespace MichaelsPlace.Models.Api
                 .ForMember(a => a.Situations, o => o.Ignore());
 
             CreateMap<Person, PersonModel>()
-                .ForMember(um => um.IsLockedOut, o => o.MapFrom(au => au.ApplicationUser.LockoutEndDateUtc != null && au.ApplicationUser.LockoutEndDateUtc < DateTime.UtcNow))
+                .ForMember(um => um.IsLockedOut, o => o.MapFrom(au => au.ApplicationUser.LockoutEndDateUtc != null && au.ApplicationUser.LockoutEndDateUtc > DateTime.UtcNow))
+                .ForMember(um => um.IsDisabled, o => o.MapFrom(au => au.ApplicationUser.LockoutEndDateUtc == Constants.Magic.DisabledLockoutEndDate))
                 .IgnoreAllNonExisting()
                 .ReverseMap()
                 .IgnoreAllNonExisting();
-        }
-    }
-
-    public static class AutoMapperExtensions
-    {
-        public static IMappingExpression<TSource, TDestination> IgnoreAllNonExisting<TSource, TDestination>
-            (this IMappingExpression<TSource, TDestination> expression)
-        {
-            var flags = BindingFlags.Public | BindingFlags.Instance;
-            var sourceType = typeof(TSource);
-            var destinationProperties = typeof(TDestination).GetProperties(flags);
-
-            foreach (var property in destinationProperties)
-            {
-                if (sourceType.GetProperty(property.Name, flags) == null)
-                {
-                    expression.ForMember(property.Name, opt => opt.Ignore());
-                }
-            }
-            return expression;
         }
     }
 }
