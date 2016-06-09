@@ -246,3 +246,6 @@ _Pvt_Extensions
 
 #secrets
 *.secrets.*
+
+#gulp build
+**/app/dist/

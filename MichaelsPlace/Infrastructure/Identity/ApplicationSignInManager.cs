@@ -26,5 +26,30 @@ namespace MichaelsPlace.Infrastructure.Identity
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
+        public override async Task SignInAsync(ApplicationUser user, bool isPersistent, bool rememberBrowser)
+        {
+            ClaimsIdentity userIdentity = await this.CreateUserIdentityAsync(user);
+            this.AuthenticationManager.SignOut(new string[2]
+                                               {
+                                                   "ExternalCookie",
+                                                   "TwoFactorCookie"
+                                               });
+            if (rememberBrowser)
+            {
+                ClaimsIdentity rememberBrowserIdentity = this.AuthenticationManager.CreateTwoFactorRememberBrowserIdentity(this.ConvertIdToString(user.Id));
+                this.AuthenticationManager.SignIn(new AuthenticationProperties()
+                                                  {
+                                                      IsPersistent = isPersistent
+                                                  }, userIdentity, rememberBrowserIdentity);
+            }
+            else
+            {
+                this.AuthenticationManager.SignIn(new AuthenticationProperties()
+                                                  {
+                                                      IsPersistent = isPersistent
+                                                  }, userIdentity);
+            }
+        }
     }
 }

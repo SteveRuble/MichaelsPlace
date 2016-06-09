@@ -22,9 +22,9 @@ namespace MichaelsPlace.Controllers.Api
         public IEnumerable<Tag> TeamMember() =>_dbContext.Tags.OfType<DemographicTag>().ToList();
 
         [HttpGet, Route("loss")]
-        public IEnumerable<Tag> Loss() =>_dbContext.Tags.OfType<LossTag>();
+        public IEnumerable<Tag> Loss() =>_dbContext.Tags.OfType<LossTag>().ToList();
 
         [HttpGet, Route("mourner")]
-        public IEnumerable<Tag> Mourner() =>_dbContext.Tags.OfType<MournerTag>();
+        public IEnumerable<Tag> Mourner() =>_dbContext.Tags.OfType<MournerTag>().ToList();
     }
 }

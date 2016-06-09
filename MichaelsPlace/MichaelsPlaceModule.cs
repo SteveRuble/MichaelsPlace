@@ -54,7 +54,7 @@ namespace MichaelsPlace
         protected virtual void ConfigureEntityFramework()
         {
             Kernel.Bind<ApplicationDbContext>().ToSelf().WhenInjectedInto<EntitySaver>();
-            Kernel.Bind<ApplicationDbContext>().ToSelf().InSingletonScope();
+            Kernel.Bind<ApplicationDbContext>().ToSelf().InRequestScope();
 
             Kernel.Bind<IApplicationDbContextFactory>().ToFactory();
         }

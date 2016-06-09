@@ -17,7 +17,7 @@ using MichaelsPlace.Queries;
 namespace MichaelsPlace.Controllers.Api
 {
     [RoutePrefix("browsing")]
-    public class BrowsingController : ApiController
+    public class BrowsingController : SpaApiControllerBase
     {
         private readonly IQueryFactory _queryFactory;
 

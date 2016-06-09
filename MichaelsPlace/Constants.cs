@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,16 @@ namespace MichaelsPlace
         public static class Claims
         {
             public const string Staff = "staff";
+
+            /// <summary>
+            /// Maps .NET claim types to nice short strings the SPA app can handle.
+            /// </summary>
+            public static readonly IReadOnlyDictionary<string, string> SpaClaimsMap = new Dictionary<string, string>()
+                                                                                      {
+                                                                                          {ClaimTypes.Name, "username"},
+                                                                                          {ClaimTypes.NameIdentifier, "id"},
+                                                                                          {ClaimTypes.Role, "role"}
+                                                                                      };
         }
 
         public static class Subscriptions

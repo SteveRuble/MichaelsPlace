@@ -333,6 +333,8 @@
     <Compile Include="BootstrapSupport\ControlGroupExtensions.cs" />
     <Compile Include="BootstrapSupport\ViewHelperExtensions.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Controllers\Api\SpaApiControllerBase.cs" />
+    <Compile Include="Controllers\Api\UserApiController.cs" />
     <Compile Include="Controllers\Identity\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminControllerBase.cs" />
     <Compile Include="Controllers\Admin\ItemController.cs" />
@@ -349,6 +351,7 @@
     <Compile Include="Controllers\BootstrapBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Identity\ManageController.cs" />
+    <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="Extensions\AutoMapperExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />

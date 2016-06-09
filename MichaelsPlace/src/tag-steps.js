@@ -8,12 +8,6 @@ export class TagSteps {
   tags = [];
 
   constructor(http) {
-    http.configure(config => {
-      config
-        .useStandardConfiguration()
-        .withBaseUrl('http://localhost:8080/api/');
-    });
-
     this.http = http;
   }
 
