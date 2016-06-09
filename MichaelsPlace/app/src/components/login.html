@@ -1,0 +1,22 @@
+<template>
+  <ul class="nav navbar-nav navbar-right"
+      if.bind="user.anonymous">
+    <li>
+      <a href="/Account/Register"
+         id="registerLink">Register</a>
+    </li>
+    <li>
+      <a href="/Account/Login"
+         id="loginLink">Log in</a>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right"
+      if.bind="!user.anonymous">
+    <li>${anonymous} 
+    <a href="/Manage"
+       title="Manage">${user.username}</a></li>
+    <li>
+      <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+    </li>
+  </ul>
+</template>

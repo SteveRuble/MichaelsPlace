@@ -33,6 +33,18 @@ namespace MichaelsPlace.Extensions
 
             var claimsIdentity = (ClaimsIdentity) principal.Identity;
             return claimsIdentity;
+        } 
+        
+        /// <summary>
+        /// Returns the <see cref="ClaimsIdentity"/> for <paramref name="principal"/>,
+        /// or an empty <see cref="ClaimsIdentity"/> if there is no <paramref name="principal"/>;
+        /// </summary>
+        /// <param name="principal"></param>
+        /// <returns></returns>
+        public static ClaimsIdentity GetClaimsIdentityOrAnonymous(this IPrincipal principal)
+        {
+            var claimsIdentity = principal?.Identity as ClaimsIdentity;
+            return claimsIdentity ?? new ClaimsIdentity();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace MichaelsPlace.Controllers.Api
         /// <returns></returns>
         [Route("claims")]
         [HttpGet]
-        public List<UserClaimModel> Claims() => User.GetClaimsIdentity().Claims
+        public List<UserClaimModel> Claims() => User.GetClaimsIdentityOrAnonymous().Claims
             .Where(c => Constants.Claims.SpaClaimsMap.ContainsKey(c.Type))
             .Select(c => new UserClaimModel() {Type = Constants.Claims.SpaClaimsMap[c.Type], Value = c.Value}).ToList();
     }

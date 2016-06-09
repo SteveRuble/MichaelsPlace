@@ -29,7 +29,8 @@
                     {
                         using (var dropdown = nav.Dropdown("DevTools").Begin())
                         {
-                            @dropdown.DropdownLink("App", "http://localhost:8081/app/index.html")
+                            @dropdown.DropdownLink("App (IIS)", "http://localhost:8080/app/index.html")
+                            @dropdown.DropdownLink("App (gulp watch)", "http://localhost:8081")
                             @dropdown.DropdownLink("API Documentation", "/api/swagger/ui/index")
                             @dropdown.DropdownLink("IdentityManager", "/idm")
                             @dropdown.DropdownLink("Error Log", "/elmah.axd")

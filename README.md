@@ -22,14 +22,14 @@ How to Build and Run:
 5. Run `gulp watch`.
 6. Open http://localhost:8081/app/index.html in your browser.
 
-The SPA application is embedded in the MVC application, in directories which start with lowercase letters.
+The SPA application is embedded in the MVC application, in the /app directory.
 
-    /app - The output directory of the gulp build (equivalent to /bin). It serves as the root path of the SPA.
+    /dist - The output directory of the gulp build (equivalent to /bin). It serves as the root path of the SPA.
     /build - Build configurations
     /src - The source files for the SPA. This is where you do development.
     /test - The tests for the SPA
 
-The SPA also owns the .json and .js files in the root of the MichaelsPlace project.
+The SPA also owns the .json and .js files in the /app directory.
 
 
 
