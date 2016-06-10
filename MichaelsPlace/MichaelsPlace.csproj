@@ -360,7 +360,14 @@
     </Compile>
     <Compile Include="GlobalSettings.secrets.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserStore.cs" />
+    <Compile Include="Infrastructure\Messaging\EmailSender.cs" />
+    <Compile Include="Infrastructure\Messaging\IEmailSender.cs" />
+    <Compile Include="Infrastructure\Messaging\ISmsSender.cs" />
+    <Compile Include="Infrastructure\Messaging\SmsSender.cs" />
+    <Compile Include="Listeners\EmailNotificationAddedListener.cs" />
     <Compile Include="Listeners\IListener.cs" />
+    <Compile Include="Listeners\ListenerBase.cs" />
+    <Compile Include="Listeners\SmsNotificationAddedListener.cs" />
     <Compile Include="Migrations\201606071038453_initial.cs" />
     <Compile Include="Migrations\201606071038453_initial.Designer.cs">
       <DependentUpon>201606071038453_initial.cs</DependentUpon>
@@ -368,6 +375,10 @@
     <Compile Include="Migrations\201606071632506_people.cs" />
     <Compile Include="Migrations\201606071632506_people.Designer.cs">
       <DependentUpon>201606071632506_people.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606101418006_OrganizationHasCases.cs" />
+    <Compile Include="Migrations\201606101418006_OrganizationHasCases.Designer.cs">
+      <DependentUpon>201606101418006_OrganizationHasCases.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin\PersonModel.cs" />
@@ -380,8 +391,6 @@
     <Compile Include="Infrastructure\EventStore.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationSignInManager.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserManager.cs" />
-    <Compile Include="Infrastructure\Identity\IdentityEmailService.cs" />
-    <Compile Include="Infrastructure\Identity\IdentitySmsService.cs" />
     <Compile Include="Infrastructure\IPersistedEvent.cs" />
     <Compile Include="Infrastructure\IMessageBus.cs" />
     <Compile Include="Infrastructure\IEventStore.cs" />
@@ -673,6 +682,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606071632506_people.resx">
       <DependentUpon>201606071632506_people.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606101418006_OrganizationHasCases.resx">
+      <DependentUpon>201606101418006_OrganizationHasCases.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

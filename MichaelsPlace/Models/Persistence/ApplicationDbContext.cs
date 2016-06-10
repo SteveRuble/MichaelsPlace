@@ -22,9 +22,17 @@ using Serilog;
 namespace MichaelsPlace.Models.Persistence
 {
     /// <summary>
+    /// Interface which allows reads of data, but does not expose any SaveChanges functionality.
+    /// </summary>
+    public interface IDbSetAdapter
+    {
+        IDbSet<TEntity> Set<TEntity>() where TEntity : class;
+    }
+
+    /// <summary>
     /// Entity Framework <see cref="DbContext"/> for this application.
     /// </summary>
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDbSetAdapter
     {
         private ILogger _logger;
 
@@ -47,8 +55,19 @@ namespace MichaelsPlace.Models.Persistence
             get { return _logger;}
             set
             {
-                _logger = value.ForContext(typeof(ApplicationDbContext));
-                Database.Log = m => _logger.Debug(m);
+                if (value == null)
+                {
+                    _logger = null;
+                    Database.Log = null;
+                }
+                else
+                {
+                    _logger = value.ForContext(typeof(ApplicationDbContext));
+                    if (_logger != null)
+                    {
+                        Database.Log = m => _logger.Debug(m);
+                    }
+                }
             }
         }
 
@@ -169,6 +188,10 @@ namespace MichaelsPlace.Models.Persistence
             modelBuilder.Entity<Person>().HasMany(u => u.PersonCaseItems).WithRequired(uci => uci.Person).WillCascadeOnDelete(false);
             modelBuilder.Entity<Person>().HasMany(u => u.PersonCases).WithRequired(cu => cu.Person).WillCascadeOnDelete(false);
             modelBuilder.Entity<Person>().HasOptional(u => u.ApplicationUser).WithRequired(cu => cu.Person).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Organization>().HasMany(o => o.Cases).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Organization>().HasMany(o => o.People).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Organization>().HasMany(o => o.Situations).WithMany();
         }
 
         /// <summary>
@@ -360,31 +383,33 @@ namespace MichaelsPlace.Models.Persistence
                 _messageBus.Publish(entityChanging);
             }
         }
+
+        IDbSet<TEntity> IDbSetAdapter.Set<TEntity>() => Set<TEntity>();
     }
 
     public class EntityUpdating<T>
     {
-        public EntityUpdating(ApplicationDbContext dbContext, T previous, T current)
+        public EntityUpdating(IDbSetAdapter dbSetAdapter, T previous, T current)
         {
             Current = current;
-            DbContext = dbContext;
+            DbSetAdapter = dbSetAdapter;
             Previous = previous;
         }
 
-        public ApplicationDbContext DbContext { get; set; }
+        public IDbSetAdapter DbSetAdapter { get; set; }
         public T Previous { get; set; }
         public T Current { get; set; }
     }
 
     public class EntityAdded<T>
     {
-        public EntityAdded(ApplicationDbContext dbContext, T entity)
+        public EntityAdded(IDbSetAdapter dbSetAdapter, T entity)
         {
-            DbContext = dbContext;
+            DbSetAdapter = dbSetAdapter;
             Entity = entity;
         }
 
-        public ApplicationDbContext DbContext { get; set; }
+        public IDbSetAdapter DbSetAdapter { get; set; }
         public T Entity { get; set; }
     }
 }

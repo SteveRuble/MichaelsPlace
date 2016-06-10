@@ -5,6 +5,7 @@ using AutoMapper;
 using MichaelsPlace.Handlers;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
+using MichaelsPlace.Infrastructure.Messaging;
 using MichaelsPlace.Models.Api;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Subscriptions;
@@ -31,14 +32,16 @@ namespace MichaelsPlace
         {
             ConfigureLogging();               
             
-            Kernel.Bind(c => c.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
-
             Kernel.Bind(c => c.FromThisAssembly()
                               .SelectAllClasses()
                               .InheritedFrom<Profile>()
                               .BindToSelf());
 
             Kernel.Bind<IMapper>().ToMethod(CreateMapper).InSingletonScope();
+
+            Kernel.Bind<IEmailSender>().To<DevelopmentEmailSender>().InSingletonScope();
+            Kernel.Bind<ISmsSender>().To<DevelopmentSmsSender>().InSingletonScope();
+            Kernel.Bind<IEntitySaver>().To<EntitySaver>().InSingletonScope();
 
             ConfigureEntityFramework();
 
@@ -87,7 +90,6 @@ namespace MichaelsPlace
 
             Bind<IAuthenticationManager>().ToMethod(ctx => HttpContext.Current.GetOwinContext().Authentication);
             Bind<ApplicationUserManager>().ToMethod(ctx => HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>());
-
         }
 
         /// <summary>
@@ -96,17 +98,28 @@ namespace MichaelsPlace
         /// </summary>
         protected virtual void ConfigureMessageBus()
         {
-            var messageBus = new MessageBus(Kernel.Get<ILogger>());
-
-            Kernel.Rebind<IMessageBus>().ToConstant(messageBus);
-
             Kernel.Bind(c => c.FromAssemblyContaining<IListener>()
                               .SelectAllClasses()
                               .InheritedFrom<IListener>()
                               .BindAllInterfaces()
                               .Configure(ca => ca.InSingletonScope()));
 
-            var listeners = Kernel.GetAll<IListener>();
+            var messageBus = new MessageBus(Kernel.Get<ILogger>());
+
+            Kernel.Rebind<IMessageBus>().ToConstant(messageBus);
+
+            SubscribeListeners(Kernel, messageBus);
+        }
+
+        /// <summary>
+        /// Configures the message bus on the provided <paramref name="kernel"/>
+        /// by subscribing all <see cref="IListener"/> implementations to the singleton <see cref="IMessageBus"/>.
+        /// Before this method is called you must bind all the listeners you want subscribed.
+        /// </summary>
+        /// <param name="kernel"></param>
+        public static void SubscribeListeners(IKernel kernel, IMessageBus messageBus)
+        {
+            var listeners = kernel.GetAll<IListener>();
             foreach (var listener in listeners)
             {
                 listener.SubscribeTo(messageBus);

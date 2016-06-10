@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
@@ -13,14 +14,15 @@ using MichaelsPlace.Subscriptions;
 
 namespace MichaelsPlace.Handlers
 {
+    [UsedImplicitly]
     [SubscriptionDescription(Constants.Subscriptions.UserCaseCreated, "A user has created a new case.")]
     [SubscriptionDescription(Constants.Subscriptions.OrganizationCaseCreated, "A case has been created for an organization.")]
-    public class CaseCreatedListener : IListener
+    public class CaseAddedListener : IListener
     {
         private readonly PreferencesQuery _preferencesQuery;
         private readonly IEntitySaver _entitySaver;
 
-        public CaseCreatedListener(PreferencesQuery preferencesQuery, IEntitySaver entitySaver)
+        public CaseAddedListener(PreferencesQuery preferencesQuery, IEntitySaver entitySaver)
         {
             _preferencesQuery = preferencesQuery;
             _entitySaver = entitySaver;
@@ -34,17 +36,18 @@ namespace MichaelsPlace.Handlers
 
         public void OnCaseCreated(Case createdCase)
         {
-            var recipients = _preferencesQuery.Execute<SubscriptionPreference>()
-                                              .Where(p => p.SubscriptionName == Constants.Subscriptions.UserCaseCreated
-                                                          ||p.SubscriptionName == Constants.Subscriptions.OrganizationCaseCreated);
+            var isOrganizationCase = createdCase.Organization != null;
+            var subscriptionName = isOrganizationCase ? Constants.Subscriptions.OrganizationCaseCreated : Constants.Subscriptions.UserCaseCreated;
 
-            foreach (var recipient in recipients)
+            var subscribers = _preferencesQuery.GetSubscriptionPreferenceDetails(subscriptionName);
+
+            foreach (var recipient in subscribers)
             {
                 if (recipient.IsEmailRequested)
                 {
                     _entitySaver.Save(new EmailNotification()
                                       {
-                                          ToAddress = recipient.User.Email,
+                                          ToAddress = recipient.EmailAddress,
                                           Content = $"New case created: {createdCase.Id}",
                                           Subject = $"New case created: {createdCase.Id}"
                                       });
@@ -53,7 +56,7 @@ namespace MichaelsPlace.Handlers
                 {
                     _entitySaver.Save(new SmsNotification()
                                       {
-                                          ToPhoneNumber = recipient.User.PhoneNumber,
+                                          ToPhoneNumber = recipient.PhoneNumber,
                                           Content = $"New case created: {createdCase.Id}",
                                       });
                 }

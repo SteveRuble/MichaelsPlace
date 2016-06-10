@@ -54,12 +54,17 @@ namespace MichaelsPlace.Tests
 
         protected override void ConfigureLogging()
         {
+            ConfigureLogging(Kernel);
+        }
+
+        public static void ConfigureLogging(IKernel kernel)
+        {
             var config = new LoggerConfiguration()
                 .WriteTo.ColoredConsole();
 
             var log = config.CreateLogger();
 
-            Bind<ILogger>().ToConstant(log);
+            kernel.Bind<ILogger>().ToConstant(log);
         }
 
         protected override void ConfigureHttp()

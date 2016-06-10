@@ -15,5 +15,10 @@ namespace MichaelsPlace.Models.Persistence
 
         [Required]
         public virtual DateTimeOffset CreatedUtc { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Content: {Content}, CreatedBy: {CreatedBy}, CreatedUtc: {CreatedUtc}";
+        }
     }
 }

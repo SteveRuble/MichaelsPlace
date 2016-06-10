@@ -41,6 +41,8 @@ namespace MichaelsPlace.Models.Persistence
             get { return _notes ?? (_notes = new HashSet<CaseNote>()); }
             set { _notes = value; }
         }
+        
+        public virtual Organization Organization { get; set; }
 
         [Required]
         [ReadOnly(true)]
@@ -49,5 +51,10 @@ namespace MichaelsPlace.Models.Persistence
         [Required]
         [ReadOnly(true)]
         public virtual DateTimeOffset CreatedUtc { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Title: {Title}";
+        }
     }
 }

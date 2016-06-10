@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using MichaelsPlace.Infrastructure.Messaging;
 using MichaelsPlace.Models.Persistence;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -45,8 +46,8 @@ namespace MichaelsPlace.Infrastructure.Identity
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
-            EmailService = new IdentityEmailService();
-            SmsService = new IdentitySmsService();
+            EmailService = new DevelopmentEmailSender();
+            SmsService = new DevelopmentSmsSender();
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
