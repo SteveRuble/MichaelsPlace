@@ -9,7 +9,7 @@ namespace MichaelsPlace.Tests
     [TestFixture]
     public class EmailListenerTests : ListenerTestBase<EmailNotificationAddedListener>
     {
-        public Mock<IEmailSender> MockEmailSender => Kernel.GetMock<IEmailSender>();
+        public Mock<IEmailService> MockEmailSender => Kernel.GetMock<IEmailService>();
 
         [Test]
         public void message_is_received()

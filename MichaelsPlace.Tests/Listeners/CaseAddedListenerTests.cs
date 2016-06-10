@@ -14,7 +14,7 @@ namespace MichaelsPlace.Tests
     [TestFixture]
     public class CaseAddedListenerTests : ListenerTestBase<CaseAddedListener>
     {
-        public Mock<IEntitySaver> MockEntitySaver => Kernel.GetMock<IEntitySaver>();
+        public Mock<ISingleEntityService> MockEntitySaver => Kernel.GetMock<ISingleEntityService>();
         public Mock<PreferencesQuery> MockPreferencesQuery => Kernel.GetMock<PreferencesQuery>();
 
         [SetUp]

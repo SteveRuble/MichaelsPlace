@@ -25,10 +25,9 @@ namespace MichaelsPlace.Tests
         {
             Kernel = new MoqMockingKernel();
             ((NinjectSettings)Kernel.Settings).DefaultScopeCallback = StandardScopeCallbacks.Singleton;
-            Kernel.Bind<TListener>().ToSelf();
-            Kernel.Bind<IMessageBus>().To<MessageBus>()
-                .OnActivation((ctx, bus) => ctx.Kernel.Get<TListener>().SubscribeTo(bus));
-            
+            Kernel.Bind(typeof(TListener), typeof(IListener)).To<TListener>().InSingletonScope();
+            Kernel.Load<TestModules.MessageBus>();
+
         }
 
         [SetUp]

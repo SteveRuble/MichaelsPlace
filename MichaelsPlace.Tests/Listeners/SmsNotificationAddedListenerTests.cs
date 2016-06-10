@@ -10,7 +10,7 @@ namespace MichaelsPlace.Tests
     [TestFixture]
     public class SmsNotificationAddedListenerTests : ListenerTestBase<SmsNotificationAddedListener>
     {
-        public Mock<ISmsSender> MockEmailSender => Kernel.GetMock<ISmsSender>();
+        public Mock<ISmsService> MockEmailSender => Kernel.GetMock<ISmsService>();
 
         [Test]
         public void message_is_received()

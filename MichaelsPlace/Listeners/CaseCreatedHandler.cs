@@ -20,12 +20,12 @@ namespace MichaelsPlace.Handlers
     public class CaseAddedListener : IListener
     {
         private readonly PreferencesQuery _preferencesQuery;
-        private readonly IEntitySaver _entitySaver;
+        private readonly ISingleEntityService _singleEntityService;
 
-        public CaseAddedListener(PreferencesQuery preferencesQuery, IEntitySaver entitySaver)
+        public CaseAddedListener(PreferencesQuery preferencesQuery, ISingleEntityService singleEntityService)
         {
             _preferencesQuery = preferencesQuery;
-            _entitySaver = entitySaver;
+            _singleEntityService = singleEntityService;
         }
 
         public IDisposable SubscribeTo(IMessageBus bus)
@@ -45,7 +45,7 @@ namespace MichaelsPlace.Handlers
             {
                 if (recipient.IsEmailRequested)
                 {
-                    _entitySaver.Save(new EmailNotification()
+                    _singleEntityService.Save(new EmailNotification()
                                       {
                                           ToAddress = recipient.EmailAddress,
                                           Content = $"New case created: {createdCase.Id}",
@@ -54,7 +54,7 @@ namespace MichaelsPlace.Handlers
                 }
                 if (recipient.IsSmsRequested)
                 {
-                    _entitySaver.Save(new SmsNotification()
+                    _singleEntityService.Save(new SmsNotification()
                                       {
                                           ToPhoneNumber = recipient.PhoneNumber,
                                           Content = $"New case created: {createdCase.Id}",

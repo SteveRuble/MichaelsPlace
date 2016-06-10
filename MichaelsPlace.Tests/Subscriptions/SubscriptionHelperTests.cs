@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using MichaelsPlace.Services;
 using MichaelsPlace.Subscriptions;
 using NUnit.Framework;
 
@@ -12,12 +13,12 @@ namespace MichaelsPlace.Tests.Subscriptions
     [TestFixture]
     public class SubscriptionHelperTests
     {
-        public SubscriptionHelper Target = new SubscriptionHelper();
+        public ReflectionService Target = new ReflectionService();
 
         [Test]
         public void attributed_listeners_are_found()
         {
-            Target.SubscriptionDescriptions.Should().Contain(d => d.Name == Constants.Subscriptions.UserCaseCreated);
+            Target.GetSubscriptionDescriptions().Should().Contain(d => d.Name == Constants.Subscriptions.UserCaseCreated);
         }
     }
 }

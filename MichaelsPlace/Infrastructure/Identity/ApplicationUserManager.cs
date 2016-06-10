@@ -46,8 +46,8 @@ namespace MichaelsPlace.Infrastructure.Identity
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
-            EmailService = new DevelopmentEmailSender();
-            SmsService = new DevelopmentSmsSender();
+            EmailService = new DevelopmentEmailService();
+            SmsService = new DevelopmentSmsService();
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)

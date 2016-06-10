@@ -6,9 +6,9 @@ using Ninject;
 using Serilog;
 using Twilio;
 
-namespace MichaelsPlace.Infrastructure.Messaging
+namespace MichaelsPlace.Services.Messaging
 {
-    public class DevelopmentSmsSender : ISmsSender
+    public class DevelopmentSmsService : ISmsService
     {
         private Injected<ILogger> _logger;
 
@@ -39,7 +39,7 @@ namespace MichaelsPlace.Infrastructure.Messaging
 
     }
 
-    public class SmsSender : ISmsSender
+    public class SmsService : ISmsService
     {
         private Injected<ILogger> _logger;
 

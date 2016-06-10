@@ -1,9 +1,9 @@
 using MichaelsPlace.Models.Persistence;
 using Microsoft.AspNet.Identity;
 
-namespace MichaelsPlace.Infrastructure.Messaging
+namespace MichaelsPlace.Services.Messaging
 {
-    public interface IEmailSender : IIdentityMessageService
+    public interface IEmailService : IIdentityMessageService
     {
         void Send(EmailNotification notification);
     }

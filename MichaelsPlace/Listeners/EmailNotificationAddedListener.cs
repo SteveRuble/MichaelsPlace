@@ -13,10 +13,10 @@ namespace MichaelsPlace.Listeners
     [UsedImplicitly]
     public class EmailNotificationAddedListener : ListenerBase<EntityAdded<EmailNotification>>
     {
-        private Injected<IEmailSender> _emailSender;
+        private Injected<IEmailService> _emailSender;
 
         [Inject]
-        public IEmailSender EmailSender
+        public IEmailService EmailService
         {
             get { return _emailSender.Value; }
             set { _emailSender.Value = value; }
@@ -24,7 +24,7 @@ namespace MichaelsPlace.Listeners
 
         public override void Handle(EntityAdded<EmailNotification> message)
         {
-            EmailSender.Send(message.Entity);
+            EmailService.Send(message.Entity);
         }
     }
 }

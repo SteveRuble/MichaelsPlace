@@ -361,9 +361,9 @@
     <Compile Include="GlobalSettings.secrets.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserStore.cs" />
     <Compile Include="Infrastructure\Messaging\EmailSender.cs" />
-    <Compile Include="Infrastructure\Messaging\IEmailSender.cs" />
-    <Compile Include="Infrastructure\Messaging\ISmsSender.cs" />
-    <Compile Include="Infrastructure\Messaging\SmsSender.cs" />
+    <Compile Include="Infrastructure\Messaging\IEmailService.cs" />
+    <Compile Include="Infrastructure\Messaging\ISmsService.cs" />
+    <Compile Include="Infrastructure\Messaging\SmsService.cs" />
     <Compile Include="Listeners\EmailNotificationAddedListener.cs" />
     <Compile Include="Listeners\IListener.cs" />
     <Compile Include="Listeners\ListenerBase.cs" />
@@ -384,8 +384,8 @@
     <Compile Include="Models\Admin\PersonModel.cs" />
     <Compile Include="Models\Persistence\IApplicationDbContextFactory.cs" />
     <Compile Include="Models\Persistence\Person.cs" />
-    <Compile Include="Subscriptions\SubscriptionDescriptionAttribute.cs" />
-    <Compile Include="Subscriptions\SubscriptionHelper.cs" />
+    <Compile Include="Services\ReflectionService.cs" />
+    <Compile Include="Services\Subscriptions\SubscriptionDescriptionAttribute.cs" />
     <Compile Include="Listeners\CaseCreatedHandler.cs" />
     <Compile Include="Infrastructure\MessageBus.cs" />
     <Compile Include="Infrastructure\EventStore.cs" />

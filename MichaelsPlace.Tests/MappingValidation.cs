@@ -21,7 +21,7 @@ namespace MichaelsPlace.Tests
         public void SetUpFixture()
         {
             var kernel = new StandardKernel();
-            kernel.Load(new MichaelsPlaceModule());
+            kernel.Load<Modules.Mapping>();
             Mapper = kernel.Get<IMapper>();
         }
 

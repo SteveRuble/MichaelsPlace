@@ -1,6 +1,6 @@
 using System;
 
-namespace MichaelsPlace.Subscriptions
+namespace MichaelsPlace.Attributes
 {
     /// <summary>
     /// Attribute which marks a listener as fulfilling subscriptions of the kind

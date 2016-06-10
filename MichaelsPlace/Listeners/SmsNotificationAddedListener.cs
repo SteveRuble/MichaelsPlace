@@ -9,10 +9,10 @@ namespace MichaelsPlace.Listeners
     [UsedImplicitly]
     public class SmsNotificationAddedListener : ListenerBase<EntityAdded<SmsNotification>>
     {
-        private Injected<ISmsSender> _smsSender;
+        private Injected<ISmsService> _smsSender;
 
         [Inject]
-        public ISmsSender SmsSender
+        public ISmsService SmsService
         {
             get { return _smsSender.Value; }
             set { _smsSender.Value = value; }
@@ -21,7 +21,7 @@ namespace MichaelsPlace.Listeners
 
         public override void Handle(EntityAdded<SmsNotification> message)
         {
-            SmsSender.Send(message.Entity);
+            SmsService.Send(message.Entity);
         }
     }
 }

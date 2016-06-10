@@ -12,10 +12,6 @@ namespace MichaelsPlace.Tests
 {
     public class IntegrationTestBase
     {
-        private DbConnection _dbConnection;
-
-        public DbTransaction Transaction { get; set; }
-
         public IMessageBus MessageBus { get; set; }
 
         public ApplicationDbContext DbContext { get; set; }
@@ -27,7 +23,11 @@ namespace MichaelsPlace.Tests
         {
             MockingKernel = new MoqMockingKernel();
 
-            MockingKernel.Load<DatabaseIntegrationTestModule>();
+            MockingKernel.Load<Modules.Mapping>();
+
+            MockingKernel.Load<TestModules.Logging>();
+            MockingKernel.Load<TestModules.MessageBus>();
+            MockingKernel.Load<TestModules.EntityFramework>();
 
             MessageBus = MockingKernel.Get<IMessageBus>();
 

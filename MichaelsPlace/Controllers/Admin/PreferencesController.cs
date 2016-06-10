@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using MichaelsPlace.Extensions;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
+using MichaelsPlace.Services;
 using MichaelsPlace.Subscriptions;
 
 namespace MichaelsPlace.Controllers.Admin
@@ -30,12 +31,12 @@ namespace MichaelsPlace.Controllers.Admin
     [Authorize]
     public class PreferencesController : AdminControllerBase
     {
-        private readonly SubscriptionHelper _subscriptionHelper;
+        private readonly ReflectionService _reflectionService;
         private readonly UserQueries _userQueries;
 
-        public PreferencesController(SubscriptionHelper subscriptionHelper)
+        public PreferencesController(ReflectionService reflectionService)
         {
-            _subscriptionHelper = subscriptionHelper;
+            _reflectionService = reflectionService;
         }
 
         public ActionResult Display()
@@ -58,7 +59,7 @@ namespace MichaelsPlace.Controllers.Admin
         private PreferencesViewModel BuildPreferencesViewModel(string userId)
         {
             var subscriptionPreferences = DbContext.UserPreferences.OfType<SubscriptionPreference>().Where(u => u.User.Id == userId).ToList();
-            var subscriptionPreferenceViewModels = from description in _subscriptionHelper.SubscriptionDescriptions
+            var subscriptionPreferenceViewModels = from description in _reflectionService.GetSubscriptionDescriptions()
                                                    from maybeNullPreference in subscriptionPreferences.Where(sp => sp.SubscriptionName == description.Name).DefaultIfEmpty()
                                                    orderby description.Name
                                                    select new SubscriptionPreferenceViewModel()

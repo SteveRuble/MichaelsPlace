@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Utilities;
 using Microsoft.AspNet.Identity;
 using Ninject;
 using Serilog;
 
-namespace MichaelsPlace.Infrastructure.Messaging
+namespace MichaelsPlace.Services.Messaging
 {
-    public class DevelopmentEmailSender : IEmailSender
+    public class DevelopmentEmailService : IEmailService
     {
         private Injected<ILogger> _logger;
 

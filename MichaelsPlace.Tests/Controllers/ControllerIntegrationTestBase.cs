@@ -11,5 +11,11 @@ namespace MichaelsPlace.Tests
         where T : Controller
     {
         public T Target => MockingKernel.Get<T>();
+
+        [SetUp]
+        public void SetUpControllerIntegrationTestBase()
+        {
+            MockingKernel.Load<TestModules.Http>();
+        }
     }
 }

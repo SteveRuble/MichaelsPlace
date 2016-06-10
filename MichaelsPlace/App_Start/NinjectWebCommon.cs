@@ -73,7 +73,12 @@ namespace MichaelsPlace.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Load<MichaelsPlaceModule>();
+            kernel.Load<Modules.Logging>();
+            kernel.Load<Modules.Mapping>();
+            kernel.Load<Modules.EntityFramework>();
+            kernel.Load<Modules.MessageBus>();
+            kernel.Load<Modules.Http>();
+            kernel.Load<Modules.Services>();
         }        
     }
 }
