@@ -3,13 +3,12 @@ using System.Linq;
 using MichaelsPlace.Handlers;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
-using MichaelsPlace.Utilities;
 using Moq;
 using Ninject.MockingKernel;
 using NUnit.Framework;
 using TestStack.BDDfy;
 
-namespace MichaelsPlace.Tests
+namespace MichaelsPlace.Tests.Listeners
 {
     [TestFixture]
     public class CaseAddedListenerTests : ListenerTestBase<CaseAddedListener>

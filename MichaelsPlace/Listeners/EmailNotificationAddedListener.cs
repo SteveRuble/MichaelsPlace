@@ -3,8 +3,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using MichaelsPlace.Infrastructure.Messaging;
 using MichaelsPlace.Models.Persistence;
+using MichaelsPlace.Services.Messaging;
 using MichaelsPlace.Utilities;
 using Ninject;
 

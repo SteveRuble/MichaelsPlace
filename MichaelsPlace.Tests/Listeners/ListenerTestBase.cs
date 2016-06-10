@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MichaelsPlace.Handlers;
+﻿using MichaelsPlace.Handlers;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Models.Persistence;
 using Ninject;
@@ -11,7 +6,7 @@ using Ninject.Infrastructure;
 using Ninject.MockingKernel.Moq;
 using NUnit.Framework;
 
-namespace MichaelsPlace.Tests
+namespace MichaelsPlace.Tests.Listeners
 {
     public abstract class ListenerTestBase<TListener> where TListener : IListener
     {

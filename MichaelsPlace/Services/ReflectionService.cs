@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MichaelsPlace.Subscriptions;
+using MichaelsPlace.Attributes;
 using MichaelsPlace.Utilities;
 
 namespace MichaelsPlace.Services

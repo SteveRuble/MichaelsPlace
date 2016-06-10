@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MichaelsPlace.Services;
-using MichaelsPlace.Subscriptions;
 using NUnit.Framework;
 
 namespace MichaelsPlace.Tests.Subscriptions

@@ -1,11 +1,10 @@
-using System;
-using MichaelsPlace.Infrastructure.Messaging;
 using MichaelsPlace.Listeners;
 using MichaelsPlace.Models.Persistence;
+using MichaelsPlace.Services.Messaging;
 using Moq;
 using NUnit.Framework;
 
-namespace MichaelsPlace.Tests
+namespace MichaelsPlace.Tests.Listeners
 {
     [TestFixture]
     public class SmsNotificationAddedListenerTests : ListenerTestBase<SmsNotificationAddedListener>

@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using MichaelsPlace.Infrastructure.Messaging;
 using MichaelsPlace.Models.Persistence;
+using MichaelsPlace.Services.Messaging;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;

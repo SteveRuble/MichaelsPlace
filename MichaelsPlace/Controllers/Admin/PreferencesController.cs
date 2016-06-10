@@ -9,7 +9,6 @@ using MichaelsPlace.Extensions;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
 using MichaelsPlace.Services;
-using MichaelsPlace.Subscriptions;
 
 namespace MichaelsPlace.Controllers.Admin
 {

@@ -7,10 +7,10 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using MichaelsPlace.Attributes;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
-using MichaelsPlace.Subscriptions;
 
 namespace MichaelsPlace.Handlers
 {
