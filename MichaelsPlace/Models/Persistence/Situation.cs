@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace MichaelsPlace.Models.Persistence
 {
-    public class Situation
+    public class Situation : ISoftDelete
     {
         private ICollection<LossTag> _losses;
 
@@ -43,5 +43,7 @@ namespace MichaelsPlace.Models.Persistence
                                   string.Join(".", Mourners.Select(x => x.Id)));
 
         }
-}
+
+        public virtual bool IsDeleted { get; set; }
+    }
 }

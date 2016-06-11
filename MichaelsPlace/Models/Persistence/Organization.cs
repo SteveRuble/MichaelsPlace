@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MichaelsPlace.Models.Persistence
 {
-    public class Organization
+    public class Organization : ISoftDelete
     {
         public virtual int Id { get; set; }
 
@@ -47,7 +47,6 @@ namespace MichaelsPlace.Models.Persistence
             set { _cases = value; }
         }
 
-
-
+        public virtual bool IsDeleted { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace MichaelsPlace.Models.Persistence
 {
-    public class Person
+    public class Person : ISoftDelete
     {
         public virtual string Id { get; set; } = Guid.NewGuid().ToString("N");
 
@@ -37,5 +37,6 @@ namespace MichaelsPlace.Models.Persistence
             set { _caseItems = value; }
         }
 
+        public virtual bool IsDeleted { get; set; }
     }
 }

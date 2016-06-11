@@ -42,5 +42,21 @@ namespace MichaelsPlace
             /// </summary>
             public static readonly DateTimeOffset DisabledLockoutEndDate = new DateTimeOffset(3141, 5, 9, 2, 6, 5, TimeSpan.Zero);
         }
+
+        /// <summary>
+        /// Keys for ViewData properties.
+        /// </summary>
+        public static class ViewData
+        {
+            public const string ScriptList = nameof(ScriptList);
+        }
+
+        /// <summary>
+        /// Names of Entity Framework filters which can be enabled or disabled.
+        /// </summary>
+        public static class EntityFrameworkFilters
+        {
+            public const string SoftDelete = nameof(SoftDelete);
+        }
     }
 }

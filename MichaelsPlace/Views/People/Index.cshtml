@@ -1,37 +1,39 @@
-﻿@model IEnumerable<MichaelsPlace.Models.Admin.PersonModel>
+﻿@using BootstrapSupport
+@model IEnumerable<MichaelsPlace.Models.Admin.PersonModel>
 
 @{
     ViewBag.Title = "User Index";
 }
 
-<h2>User Index</h2>
+<h2>People Index</h2>
 
-<table class="table table-bordered" id="index-table">
-    <thead>
-    <tr>
-        <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmailAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsDisabled)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsLockedOut)
-        </th>
-    </tr>
-    </thead>
-    <tbody>
+@using (var table = Html.DataTable().Begin())
+{
+        <thead>
+        <tr>
+            <th class="col-md-1"></th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDisabled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsLockedOut)
+            </th>
+        </tr>
+        </thead>
+        <tbody>
         @foreach (var item in Model)
-            {
+        {
             <tr>
-                <td>
+                <td  class="col-md-1">
                     @Html.Partial("_ItemActions", item)
                 </td>
                 <td>
@@ -52,13 +54,5 @@
             </tr>
         }
 
-    </tbody>
-</table>
-
-@section scripts{
-    <script>
-        $(document).ready(function () {
-            $('#index-table').DataTable();
-        });
-    </script>
+        </tbody>
 }

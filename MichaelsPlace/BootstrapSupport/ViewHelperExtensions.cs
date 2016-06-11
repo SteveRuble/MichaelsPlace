@@ -10,6 +10,9 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+using System.Web.Optimization;
+using MichaelsPlace;
 
 namespace BootstrapSupport
 {
@@ -106,6 +109,50 @@ namespace BootstrapSupport
         public static string ToSeparatedWords(this string value)
         {
             return Regex.Replace(value, "([A-Z][a-z])", " $1").Trim();
+        }
+
+        public static TItem GetOrAdd<TItem>(this IDictionary @this, string key) where TItem : new()
+        {
+            if (@this.Contains(key))
+            {
+                return (TItem) @this[key];
+            }
+            var item = new TItem();
+            @this[key] = item;
+            return item;
+        }
+
+        /// <summary>
+        /// Adds a scriptBundle to the list which will be rendered in the scripts section.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="script"></param>
+        /// <param name="callerFile"></param>
+        /// <param name="callerLineNumber"></param>
+        public static void AddScriptBundle(this HtmlHelper @this, string scriptBundleName, [CallerFilePath] string callerFile = null, [CallerLineNumber] int? callerLineNumber = null)
+        {
+            var script = $"<!-- {callerFile} : {callerLineNumber} -->\r\n" + Scripts.Render(scriptBundleName);
+
+            var scripts = @this.ViewContext.HttpContext.Items.GetOrAdd<List<string>>(Constants.ViewData.ScriptList);
+
+            scripts.Add(script);
+        }
+
+        /// <summary>
+        /// Gets the rendered scripts which should be written out to the scripts section.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static IEnumerable<MvcHtmlString> GetScripts(this HtmlHelper @this)
+        {
+            if (@this.ViewContext.HttpContext.Items.Contains(Constants.ViewData.ScriptList))
+            {
+                var scripts = @this.ViewContext.HttpContext.Items.GetOrAdd<List<string>>(Constants.ViewData.ScriptList);
+                foreach (var script in scripts)
+                {
+                    yield return new MvcHtmlString(script);
+                }
+            }
         }
 
     }

@@ -60,6 +60,10 @@
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.DynamicFilters, Version=1.4.10.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.DynamicFilters.1.4.10.2\lib\net40\EntityFramework.DynamicFilters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FluentBootstrap, Version=3.3.5.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentBootstrap.3.3.5.3\lib\net40\FluentBootstrap.dll</HintPath>
       <Private>True</Private>
@@ -329,6 +333,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\Startup.Data.cs" />
     <Compile Include="App_Start\Startup.WebApi.cs" />
+    <Compile Include="Attributes\IsDeletableAttribute.cs" />
     <Compile Include="Attributes\SubscriptionDescriptionAttribute.cs" />
     <Compile Include="BootstrapSupport\BootstrapHelperExtensions.cs" />
     <Compile Include="BootstrapSupport\ControlGroupExtensions.cs" />
@@ -376,6 +381,10 @@
     <Compile Include="Migrations\201606101418006_OrganizationHasCases.cs" />
     <Compile Include="Migrations\201606101418006_OrganizationHasCases.Designer.cs">
       <DependentUpon>201606101418006_OrganizationHasCases.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606111337442_SoftDelete.cs" />
+    <Compile Include="Migrations\201606111337442_SoftDelete.Designer.cs">
+      <DependentUpon>201606111337442_SoftDelete.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin\PersonModel.cs" />
@@ -444,6 +453,7 @@
     <Compile Include="Queries\PreferencesQuery.cs" />
     <Compile Include="Queries\UserQueries.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\DbContextFilterControl.cs" />
     <Compile Include="Utilities\InjectedProperty.cs" />
     <Compile Include="Utilities\SomeRandom.cs" />
     <Compile Include="Utilities\ReflectionUtils.cs" />
@@ -519,6 +529,7 @@
     <Content Include="Scripts\DataTables\DataTables-1.10.12\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\DataTables\datatables.js" />
     <Content Include="Scripts\DataTables\datatables.min.js" />
+    <Content Include="Scripts\DataTables\index.js" />
     <Content Include="Scripts\DataTables\Responsive-2.1.0\css\responsive.bootstrap.css" />
     <Content Include="Scripts\DataTables\Responsive-2.1.0\css\responsive.bootstrap.min.css" />
     <Content Include="Scripts\DataTables\Responsive-2.1.0\css\responsive.dataTables.css" />
@@ -685,6 +696,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606101418006_OrganizationHasCases.resx">
       <DependentUpon>201606101418006_OrganizationHasCases.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606111337442_SoftDelete.resx">
+      <DependentUpon>201606111337442_SoftDelete.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

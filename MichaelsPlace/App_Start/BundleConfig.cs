@@ -12,7 +12,6 @@ namespace MichaelsPlace
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery-migrate-{version}.js",
                 "~/Scripts/jquery-sortable.js",
-                "~/Scripts/DataTables/datatables.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/spin.js",
                 "~/Scripts/ladda.js",
@@ -21,6 +20,11 @@ namespace MichaelsPlace
                 "~/scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/jquery.validate.unobtrusive-custom-for-bootstrap.js"
                 ));
+
+            bundles.Add(new ScriptBundle("~/js/datatables")
+                            .Include("~/Scripts/DataTables/datatables.js",
+                                     "~/Scripts/DataTables/index.js"
+                            ));
 
             bundles.Add(new ScriptBundle("~/modernizr").Include(
                 "~/Scripts/modernizr-{version}.js"

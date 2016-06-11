@@ -1,9 +1,13 @@
 using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
+using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.WebPages;
 using FluentBootstrap;
+using FluentBootstrap.Mvc;
+using FluentBootstrap.Tables;
+using MichaelsPlace;
 
 namespace BootstrapSupport
 {
@@ -38,5 +42,16 @@ namespace BootstrapSupport
 
             return link;
         }
+
+        public static ComponentBuilder<MvcBootstrapConfig<TModel>, Table> DataTable<TModel>(this HtmlHelper<TModel> helper)
+        {
+            var bootstrap = helper.Bootstrap();
+            var table = bootstrap.Table().SetId("index-data-table");
+
+            helper.AddScriptBundle("~/js/datatables");
+
+            return table;
+        }
+
     }
 }

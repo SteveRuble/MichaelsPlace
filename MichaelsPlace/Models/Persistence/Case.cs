@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MichaelsPlace.Models.Persistence
 {
-    public class Case : ICreated
+    public class Case : ICreated, ISoftDelete
     {
         private ICollection<CaseItem> _caseItems;
 
@@ -56,5 +56,7 @@ namespace MichaelsPlace.Models.Persistence
         {
             return $"Id: {Id}, Title: {Title}";
         }
+
+        public virtual bool IsDeleted { get; set; }
     }
 }

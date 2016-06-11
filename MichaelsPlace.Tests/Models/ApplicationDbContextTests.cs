@@ -99,5 +99,27 @@ namespace MichaelsPlace.Tests.Models
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             return MessageBus.Observe<T>().Select(x => (object) x).FirstOrDefaultAsync().ToTask(cts.Token);
         }
+
+        [Test]
+        public void soft_delete_hides_entity()
+        {
+            var item = new Item() {Title = "test", Content = "content"};
+            DbContext.Items.Add(item);
+            DbContext.SaveChanges();
+
+            var retrievedItem = DbContext.Items.First(i => i.Id == item.Id);
+            retrievedItem.Should().NotBeNull();
+
+            DbContext.Items.Remove(retrievedItem);
+            DbContext.SaveChanges();
+
+            var deletedItem = DbContext.Items.FirstOrDefault(i => i.Id == item.Id);
+            deletedItem.Should().BeNull();
+
+            DbContext.SoftDeleteControl.Enabled = false;
+
+            var softDeletedItem = DbContext.Items.FirstOrDefault(i => i.Id == item.Id);
+            softDeletedItem.Should().NotBeNull();
+        }
     }
 }

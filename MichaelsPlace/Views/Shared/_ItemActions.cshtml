@@ -1,24 +1,23 @@
 ﻿@model object
 @using BootstrapSupport
+@* ReSharper disable Mvc.ActionNotResolved *@
 
-<div class="btn-group">
-    <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
-        Action
-        <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-        @* ReSharper disable Mvc.ActionNotResolved *@
-        @{
-            @Html.TryPartial("_actions", Model)
-            var routevalues = Model.GetIdValue();
-            <li>@Html.ActionLink("Edit", "Edit", routevalues)</li>
-                        <li>@Html.ActionLink("Details", "Details", routevalues)</li>
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Delete", "Delete", routevalues)</li>
+@{
+    var routevalues = Model.GetIdValue();
 
-        }
-        @* ReSharper restore Mvc.ActionNotResolved *@
-    </ul>
-</div>
+}
+
+<form action="@Url.Action("Delete", routevalues)" method="post">
+    
+    @using (var group = Bootstrap.ButtonGroup().SetSize(ButtonGroupSize.Sm).Begin())
+    {
+        @group.LinkButton("", Url.Action("Edit", routevalues)).SetIcon(Icon.Edit)
+        @group.LinkButton("", Url.Action("Details", routevalues)).SetIcon(Icon.Expand)
+
+        @group.Button("", ButtonType.Submit).SetIcon(Icon.Remove).SetState(ButtonState.Danger).AddCss("delete-item")
+    }
+</form>
+
+@* ReSharper restore Mvc.ActionNotResolved *@
 
 

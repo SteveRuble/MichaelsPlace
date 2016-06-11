@@ -13,14 +13,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Elmah;
+using EntityFramework.DynamicFilters;
 using JetBrains.Annotations;
 using MichaelsPlace.Infrastructure;
+using MichaelsPlace.Utilities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Ninject;
 using Serilog;
 
 namespace MichaelsPlace.Models.Persistence
 {
+    public interface ISoftDelete
+    {
+        bool IsDeleted { get; set; }
+    }
+
     /// <summary>
     /// Interface which allows reads of data, but does not expose any SaveChanges functionality.
     /// </summary>
@@ -76,7 +83,7 @@ namespace MichaelsPlace.Models.Persistence
         /// </summary>
         public ApplicationDbContext() : base("DefaultConnection", false)
         {
-            
+            Initialize();
         }
 
         /// <summary>
@@ -84,8 +91,15 @@ namespace MichaelsPlace.Models.Persistence
         /// </summary>
         public ApplicationDbContext(DbConnection connection) : base(connection, false)
         {
-            
+            Initialize();
         }
+
+        private void Initialize()
+        {
+            SoftDeleteControl = new DbContextFilterControl(Constants.EntityFrameworkFilters.SoftDelete, this, true);
+        }
+
+        public DbContextFilterControl SoftDeleteControl { get; private set; }
 
         /// <summary>
         /// Table of <see cref="Person"/> records, which represent individuals we know about (and which may or may not have logins).
@@ -192,6 +206,8 @@ namespace MichaelsPlace.Models.Persistence
             modelBuilder.Entity<Organization>().HasMany(o => o.Cases).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
             modelBuilder.Entity<Organization>().HasMany(o => o.People).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
             modelBuilder.Entity<Organization>().HasMany(o => o.Situations).WithMany();
+
+            modelBuilder.Filter(Constants.EntityFrameworkFilters.SoftDelete, (ISoftDelete e) => e.IsDeleted != true);
         }
 
         /// <summary>
@@ -278,10 +294,11 @@ namespace MichaelsPlace.Models.Persistence
                     "Recursive SaveChanges call detected. If you are responding to a EntityChanging event, do not call SaveChanges on the associated DbContext instance.");
             }
             _saving = true;
-            using (Disposable.Create(() => _saving = false))
+            try
             {
                 UpdateSituationMementos();
                 UpdateTimestamps();
+                ApplySoftDelete();
                 var errors = GetValidationErrors().ToList();
                 if (errors.Any())
                 {
@@ -290,6 +307,22 @@ namespace MichaelsPlace.Models.Persistence
                 PublishChangingEntities();
                 var added = GetAddedEntities();
                 return added;
+            }
+            finally
+            {
+                _saving = false;
+            }
+        }
+
+        private void ApplySoftDelete()
+        {
+            var deletedEntries= ChangeTracker.Entries().Where(t => t.State == EntityState.Deleted && t.Entity is ISoftDelete)
+                                              .Select(e => e.Cast<ISoftDelete>())
+                                              .ToList();
+            foreach (var dbEntityEntry in deletedEntries)
+            {
+                dbEntityEntry.Entity.IsDeleted = true;
+                dbEntityEntry.State = EntityState.Modified;
             }
         }
 

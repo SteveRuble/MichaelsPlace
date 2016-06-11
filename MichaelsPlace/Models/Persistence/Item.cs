@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MichaelsPlace.Models.Persistence
 {
-    public class Item : ICreated
+    public class Item : ICreated, ISoftDelete
     {
         private ICollection<Situation> _situations;
         public virtual int Id { get; set; }
@@ -30,7 +30,8 @@ namespace MichaelsPlace.Models.Persistence
 
         [Required]
         public virtual DateTimeOffset CreatedUtc { get; set; }
-        
+
+        public virtual bool IsDeleted { get; set; }
     }
 
     public class Article : Item
