@@ -13,6 +13,7 @@ using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
 using MichaelsPlace.Models.Admin;
 using MichaelsPlace.Models.Persistence;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Ninject;
 using NUnit.Framework;
 
@@ -25,15 +26,15 @@ namespace MichaelsPlace.Tests.Controllers
         public void get_index()
         {
             Target.Index().Should().BeViewResult()
-                  .ModelAs<IEnumerable<PersonModel>>().Should().NotBeEmpty();
+                  .ModelAs<PeopleIndexViewModel> ().People.Should().NotBeEmpty();
         }
 
         [Test]
         public void get_edit()
         {
             var id = DbContext.People.First().Id;
-            Target.Edit(id).Should().BeViewResult()
-                  .ModelAs<PersonModel>().Should().NotBeNull();
+            Target.Edit(id).Should().BePartialViewResult()
+                  .ModelAs<PersonEditViewModel>().Should().NotBeNull();
         }
 
         [Test]
@@ -46,8 +47,8 @@ namespace MichaelsPlace.Tests.Controllers
             model.FirstName = "first";
             model.LastName = "last";
             model.EmailAddress = "email@example.com";
-            var result = await Target.Edit(person.Id, model);
-            result.Should().BeRedirectToRouteResult().WithAction("Index");
+            var result = await Target.Edit(person.Id, new PersonEditViewModel() {Person = model}, null);
+            result.Should().BePartialViewResult().WithViewName("EditCompleted");
 
             var actual = DbContext.People.ProjectTo<PersonModel>(Target.Mapper).First();
             actual.ShouldBeEquivalentTo(model);
@@ -60,12 +61,35 @@ namespace MichaelsPlace.Tests.Controllers
             await MockingKernel.Get<ApplicationUserManager>().SetLockoutEndDateAsync(person.Id, DateTimeOffset.Now.AddHours(1));
             var model = MockingKernel.Get<IMapper>().Map<PersonModel>(person);
             model.IsDisabled = true;
-            var result = await Target.Edit(person.Id, model);
-            result.Should().BeRedirectToRouteResult().WithAction("Index");
+            var result = await Target.Edit(person.Id, new PersonEditViewModel() { Person = model }, null);
+            result.Should().BePartialViewResult().WithViewName("EditCompleted");
 
             var actualPerson = DbContext.People.First();
             var actual = DbContext.People.ProjectTo<PersonModel>(Target.Mapper).First();
             actual.IsDisabled.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task post_edit_roles()
+        {
+            var person = DbContext.People.First();
+            var applicationUserManager = MockingKernel.Get<ApplicationUserManager>();
+            var applicationRoleManager = MockingKernel.Get<ApplicationRoleManager>();
+            await applicationRoleManager.CreateAsync(new IdentityRole(TestConstants.IdA));
+            await applicationRoleManager.CreateAsync(new IdentityRole(TestConstants.IdB));
+            await applicationRoleManager.CreateAsync(new IdentityRole(TestConstants.IdC));
+            await applicationUserManager.AddToRoleAsync(person.Id, TestConstants.IdA);
+            var expectedRoles = new List<string>() {TestConstants.IdB, TestConstants.IdC};
+
+            var model = MockingKernel.Get<IMapper>().Map<PersonModel>(person);
+
+            var result = await Target.Edit(person.Id, new PersonEditViewModel() { Person = model }, expectedRoles);
+
+            result.Should().BePartialViewResult().WithViewName("EditCompleted");
+
+            var roles = await applicationUserManager.GetRolesAsync(person.Id);
+
+            roles.Should().BeEquivalentTo(expectedRoles);
         }
     }
 }

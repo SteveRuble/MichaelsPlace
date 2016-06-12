@@ -56,6 +56,10 @@
       <HintPath>..\packages\Castle.Core.3.2.0\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DataTables.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\datatables.mvc5.0.1.0\lib\net45\DataTables.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
       <Private>True</Private>
@@ -365,6 +369,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSettings.secrets.cs" />
+    <Compile Include="Infrastructure\Identity\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserStore.cs" />
     <Compile Include="Listeners\EmailNotificationAddedListener.cs" />
     <Compile Include="Listeners\IListener.cs" />
@@ -385,6 +390,10 @@
     <Compile Include="Migrations\201606111337442_SoftDelete.cs" />
     <Compile Include="Migrations\201606111337442_SoftDelete.Designer.cs">
       <DependentUpon>201606111337442_SoftDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606121028262_NoExplicitIsDisabledOnUser.cs" />
+    <Compile Include="Migrations\201606121028262_NoExplicitIsDisabledOnUser.Designer.cs">
+      <DependentUpon>201606121028262_NoExplicitIsDisabledOnUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin\PersonModel.cs" />
@@ -487,6 +496,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Queries\gulpfile.js" />
+    <Content Include="Scripts\admin.js" />
+    <Content Include="Scripts\bootstrap-validation.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTables\AutoFill-2.1.2\css\autoFill.bootstrap.css" />
@@ -573,6 +584,8 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive-custom-for-bootstrap.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js" />
     <Content Include="Scripts\ladda.js" />
     <Content Include="Scripts\ladda.min.js" />
     <Content Include="Scripts\spin.js" />
@@ -595,6 +608,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -659,6 +674,8 @@
     <Content Include="Views\Item\Index.cshtml" />
     <Content Include="Views\Item\Ordering.cshtml" />
     <Content Include="Views\Item\_ItemsNav.cshtml" />
+    <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js.map" />
     <None Include="Views\Preferences\Display.cshtml" />
     <None Include="Views\Preferences\Edit.cshtml" />
     <None Include="Views\Preferences\StaffAlerts.cshtml" />
@@ -668,9 +685,13 @@
     <Content Include="Views\People\Edit.cshtml" />
     <None Include="Views\People\PickUser.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PickUsers.cshtml" />
+    <Content Include="Views\Shared\Templates\_IndexItemButtons.cshtml" />
+    <Content Include="Views\Shared\Templates\_IndexEditModal.cshtml" />
+    <Content Include="Views\Shared\EditCompleted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Infrastructure\DataTables\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\Situation\" />
     <Folder Include="Views\Tags\" />
@@ -699,6 +720,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606111337442_SoftDelete.resx">
       <DependentUpon>201606111337442_SoftDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606121028262_NoExplicitIsDisabledOnUser.resx">
+      <DependentUpon>201606121028262_NoExplicitIsDisabledOnUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -8,6 +8,7 @@ using FluentBootstrap;
 using FluentBootstrap.Mvc;
 using FluentBootstrap.Tables;
 using MichaelsPlace;
+using MichaelsPlace.Utilities;
 
 namespace BootstrapSupport
 {
@@ -20,6 +21,23 @@ namespace BootstrapSupport
             where TConfig : BootstrapConfig where TTag : Tag
         {
             return builder.AddCss("ladda-button").AddData("style", style);
+        }
+
+        public static ComponentBuilder<TConfig, FluentBootstrap.Forms.Form> AjaxForm<TConfig, TComponent>(
+            this BootstrapHelper<TConfig, TComponent> helper,
+            string formAction,
+            System.Web.Mvc.Ajax.AjaxOptions ajaxOptions = null
+        ) where TConfig : BootstrapConfig where TComponent : Component, ICanCreate<FluentBootstrap.Forms.Form>
+        {
+            var id = SomeRandom.Id();
+
+            var form = helper.Form()
+                             .AddAttribute("action", formAction)
+                             .AddAttribute("method", "post")
+                             .AddAttributes(ajaxOptions.ToUnobtrusiveHtmlAttributes())
+                             .SetId(id);
+
+            return form;
         }
 
         public static ComponentBuilder<TConfig, FluentBootstrap.Links.Link> AjaxLinkButton<TConfig, TComponent>(
@@ -43,10 +61,18 @@ namespace BootstrapSupport
             return link;
         }
 
-        public static ComponentBuilder<MvcBootstrapConfig<TModel>, Table> DataTable<TModel>(this HtmlHelper<TModel> helper)
+        public static ComponentBuilder<MvcBootstrapConfig<TModel>, Table> DataTable<TModel>(this HtmlHelper<TModel> helper, UrlHelper url)
         {
             var bootstrap = helper.Bootstrap();
-            var table = bootstrap.Table().SetId("index-data-table");
+
+            var table = bootstrap.Table().SetId("index-data-table")
+                // ReSharper disable Mvc.ActionNotResolved
+                                 .AddData("ajax-url", url.Action("JsonIndex"))
+                                 .AddData("details-url", url.Action("Details"))
+                                 .AddData("edit-url", url.Action("Edit"))
+                                 .AddData("delete-url", url.Action("Delete"));
+
+                // ReSharper restore Mvc.ActionNotResolved
 
             helper.AddScriptBundle("~/js/datatables");
 

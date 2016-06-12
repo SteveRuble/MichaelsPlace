@@ -1,73 +1,55 @@
-﻿@model MichaelsPlace.Models.Admin.PersonModel
+﻿@using BootstrapSupport
+@model MichaelsPlace.Controllers.Admin.PersonEditViewModel
 
-@{
-    ViewBag.Title = "Edit User";
-}
 
-<h2>Edit User</h2>
-
-@using (Html.BeginForm())
+@using (var form = Bootstrap.AjaxForm(Url.Action("Edit"), new AjaxOptions()
+{
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "edit-modal-container",
+    //OnBegin = "$('form').validate().form()",
+    OnSuccess = "indexViewModel.editComplete",
+    OnComplete = "Ladda.bind('.ladda-button')",
+}).Begin())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>User Model</h4>
-        <hr />
+    <div>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Person.Id)
 
+        @Bootstrap.DisplayFor(m => m.Person.HasApplicationUser)
+
+        @Bootstrap.EditorFor(m => m.Person.FirstName)
+
+        @Bootstrap.EditorFor(m => m.Person.LastName)
+
+        @Bootstrap.EditorFor(m => m.Person.EmailAddress)
+
+        @Bootstrap.InputFor(m => m.Person.PhoneNumber)
+
+        @form.EditorFor(m => m.Person.IsStaff)
+
+        @form.EditorFor(m => m.Person.IsDisabled)
+
+        @form.EditorFor(m => m.Person.IsLockedOut)
+
+        
         <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-            </div>
+            @Html.Label("Roles", new {@class = "control-label"})
+            @using (form.FormGroup().Begin())
+            {
+                foreach (var item in Model.RolesList)
+                {
+                    <input type="checkbox" name="SelectedRoles" value="@item.Text" id="@item.Value" checked="@item.Selected" class="checkbox-inline" />
+                    @Html.Label(item.Text, new { @class = "control-label", @for = @item.Value })
+                }
+            }
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @form.ValidationSummary()
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsDisabled, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsDisabled)
-                    @Html.ValidationMessageFor(model => model.IsDisabled, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsLockedOut, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsLockedOut)
-                    @Html.ValidationMessageFor(model => model.IsLockedOut, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+            @Bootstrap.Submit("Save").AddCss("btn-success").AddFeedback()
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

@@ -181,7 +181,7 @@ namespace MichaelsPlace.Models.Persistence
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             //modelBuilder.Entity<Case>().HasRequired(c => c.CreatedBy).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<Case>().HasKey(c => c.Id).Property(c => c.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Case>().HasMany(c => c.CaseUsers).WithRequired(u => u.Case).WillCascadeOnDelete(false);

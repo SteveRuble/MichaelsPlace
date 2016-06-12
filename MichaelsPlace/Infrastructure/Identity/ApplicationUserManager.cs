@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Services.Messaging;
@@ -61,6 +63,26 @@ namespace MichaelsPlace.Infrastructure.Identity
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+
+        public async Task<IdentityResult> EnsureHasClaimAsync(string userId, string claimType, string claimValue)
+        {
+            var claims = await GetClaimsAsync(userId);
+            if (claims.Any(c => c.Type == claimType && c.Value == claimValue))
+            {
+                return IdentityResult.Success;
+            }
+            return await AddClaimAsync(userId, new Claim(claimType, claimValue));
+        }
+
+        public async Task<IdentityResult> EnsureDoesNotHaveClaimAsync(string userId, string claimType, string claimValue)
+        {
+            var claim = (await GetClaimsAsync(userId)).FirstOrDefault(c => c.Type == claimType && c.Value == claimValue);
+            if (claim != null)
+            {
+                return await RemoveClaimAsync(userId, new Claim(claimType, claimValue));
+            }
+            return IdentityResult.Success;
         }
     }
 }

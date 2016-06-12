@@ -4,7 +4,7 @@
 
 @if (Model == null || !(Model is IEnumerable))
 {
-    <h1> No view defined. Please create an Index.cshtml view in the folder for this controller.</h1 >
+    <h1> No view defined. Please create an Index.cshtml view in the folder for this controller.</h1>
 }
 else
 {
@@ -40,6 +40,7 @@ else
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
+                            @* ReSharper disable Mvc.ActionNotResolved *@
                             @{
                                 @Html.TryPartial("_actions", model)
                                 var routevalues = model.GetIdValue();
@@ -49,6 +50,7 @@ else
                                 <li>@Html.ActionLink("Delete", "Delete", routevalues)</li>
 
                             }
+                            @* ReSharper restore Mvc.ActionNotResolved *@
                         </ul>
                     </div>
                 </td>
@@ -56,9 +58,11 @@ else
                                     index++;
                                 }
     </table>
+    @* ReSharper disable Mvc.ActionNotResolved *@
     <p>
         @Html.ActionLink("Create New", "Create", null, new { @class = "btn" })
     </p>
+    @* ReSharper restore Mvc.ActionNotResolved *@
 
 
                                 }

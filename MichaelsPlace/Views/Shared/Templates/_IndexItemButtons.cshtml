@@ -1,0 +1,13 @@
+﻿<script id="_IndexItemButtons" type="text/template" class="template">
+    <div class="btn-group btn-group-sm">
+        <a data-ajax="true" data-ajax-success="indexViewModel.editLoaded" role="button" href="{{editUrl}}/{{Id}}" class="btn btn-default">
+            <span class="glyphicon glyphicon-edit"></span>
+        </a>
+        <a role="button" href="{{detailsUrl}}/{{Id}}" class="btn btn-default">
+            <span class="glyphicon glyphicon-expand"></span>
+        </a>
+        <button type="submit" class="btn btn-danger delete-item" formaction="{{deleteUrl}}/{{Id}}" formmethod="post">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    </div>
+</script>

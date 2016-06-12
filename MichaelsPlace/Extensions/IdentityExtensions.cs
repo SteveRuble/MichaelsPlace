@@ -46,5 +46,10 @@ namespace MichaelsPlace.Extensions
             var claimsIdentity = principal?.Identity as ClaimsIdentity;
             return claimsIdentity ?? new ClaimsIdentity();
         }
+
+        public static bool IsAdmin(this IPrincipal principal)
+        {
+            return principal.IsInRole(Constants.Roles.Administrator);
+        }
     }
 }

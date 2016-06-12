@@ -11,7 +11,9 @@ namespace MichaelsPlace
     {
         public static class Roles
         {
-            public const string Administrator = "Administrator";
+            public const string Administrator = nameof(Administrator);
+            public const string ArticleEditor = nameof(ArticleEditor);
+            public const string CaseManager = nameof(CaseManager);
         }
 
         public static class Claims

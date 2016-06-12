@@ -50,6 +50,9 @@ namespace MichaelsPlace
                 Bind<IAuthenticationManager>().ToMethod(ctx => HttpContext.Current.GetOwinContext().Authentication);
                 Bind<ApplicationUserManager>().ToMethod(ctx => HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>());
 
+                Bind<ApplicationRoleStore>().ToSelf().InRequestScope();
+                Bind<ApplicationRoleManager>().ToSelf().InRequestScope();
+
             }
         }
 

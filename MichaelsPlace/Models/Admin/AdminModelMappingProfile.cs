@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using MichaelsPlace.Extensions;
 using MichaelsPlace.Models.Admin;
@@ -43,6 +44,11 @@ namespace MichaelsPlace.Models.Api
             CreateMap<Person, PersonModel>()
                 .ForMember(um => um.IsLockedOut, o => o.MapFrom(au => au.ApplicationUser.LockoutEndDateUtc != null && au.ApplicationUser.LockoutEndDateUtc > DateTime.UtcNow))
                 .ForMember(um => um.IsDisabled, o => o.MapFrom(au => au.ApplicationUser.LockoutEndDateUtc == Constants.Magic.DisabledLockoutEndDate))
+                .ForMember(um => um.IsStaff, o => o.MapFrom(au => au.ApplicationUser.Claims.Any(c => c.ClaimType == Constants.Claims.Staff)))
+                .ForMember(pm => pm.IsEmailConfirmed, o => o.MapFrom(p => p.ApplicationUser.EmailConfirmed))
+                .ForMember(pm => pm.IsPhoneNumberConfirmed, o => o.MapFrom(p => p.ApplicationUser.PhoneNumberConfirmed))
+                .ForMember(pm => pm.HasApplicationUser, o => o.MapFrom(p => p.ApplicationUser != null))
+                .ForMember(m => m.Roles, o => o.MapFrom(au => au.ApplicationUser.Roles.Select(r => r.RoleId)))
                 .IgnoreAllNonExisting()
                 .ReverseMap()
                 .IgnoreAllNonExisting();

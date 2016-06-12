@@ -2,6 +2,7 @@
 @model Object
 @using (Html.BeginForm())
 {
+    @* ReSharper disable Mvc.ActionNotResolved *@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>@Model.GetLabel() <small>Create</small></legend>
@@ -24,3 +25,4 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+@* ReSharper restore Mvc.ActionNotResolved *@

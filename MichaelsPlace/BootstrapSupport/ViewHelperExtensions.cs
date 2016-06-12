@@ -129,7 +129,7 @@ namespace BootstrapSupport
         /// <param name="script"></param>
         /// <param name="callerFile"></param>
         /// <param name="callerLineNumber"></param>
-        public static void AddScriptBundle(this HtmlHelper @this, string scriptBundleName, [CallerFilePath] string callerFile = null, [CallerLineNumber] int? callerLineNumber = null)
+        public static void AddScriptBundle(this HtmlHelper @this, string scriptBundleName, [CallerFilePath] string callerFile = null, [CallerLineNumber] int callerLineNumber = 0)
         {
             var script = $"<!-- {callerFile} : {callerLineNumber} -->\r\n" + Scripts.Render(scriptBundleName);
 
