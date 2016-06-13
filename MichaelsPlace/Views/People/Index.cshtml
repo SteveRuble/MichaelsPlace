@@ -38,7 +38,7 @@
         <th data-property="@nameof(PersonModel.IsLockedOut)">
             @Html.DisplayNameFor(model => model.People[0].IsLockedOut)
         </th>
-        <th class="col-md-1" id="item-buttons" data-priority="2"></th>
+        <th class="col-md-1" id="item-buttons">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -46,4 +46,5 @@
 }
 
 @Html.Partial("Templates/_IndexEditModal")
+@Html.Partial("Templates/_IndexDetailsModal")
 @Html.Partial("Templates/_IndexItemButtons")

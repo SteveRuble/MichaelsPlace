@@ -20,6 +20,7 @@ namespace MichaelsPlace
                 "~/scripts/jquery.validate.unobtrusive.js",
                 "~/scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/jquery.validate.unobtrusive.bootstrap.js",
+                "~/Scripts/toastr.js",
                 "~/Scripts/admin.js"
                 ));
 
@@ -38,7 +39,8 @@ namespace MichaelsPlace
                 "~/Content/site.css",
                 "~/Content/datatables.css",
                 "~/Content/bootstrap-mvc-validation.css",
-                "~/Content/font-awesome.css"
+                "~/Content/font-awesome.css",
+                "~/Content/toastr.css"
                 ));
         }
     }

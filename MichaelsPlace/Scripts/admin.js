@@ -5,23 +5,29 @@
         interpolate: /\{\{(.+?)\}\}/g
     };
 
-    jQuery.validator.setDefaults({
-        highlight: function (element, errorClass, validClass) {
-            if (element.type === 'radio') {
-                this.findByName(element.name).addClass(errorClass).removeClass(validClass);
-            } else {
-                $(element).addClass(errorClass).removeClass(validClass);
-                $(element).closest('.control-group').removeClass('success').addClass('error');
-            }
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            if (element.type === 'radio') {
-                this.findByName(element.name).removeClass(errorClass).addClass(validClass);
-            } else {
-                $(element).removeClass(errorClass).addClass(validClass);
-                $(element).closest('.control-group').removeClass('error').addClass('success');
-            }
-        }
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "5000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    $(function() {
+        $(document)
+            .ajaxError(function(e, jqXHR, ajaxSettings, error) {
+                toastr.error("AJAX error: " + error);
+            });
     });
 
 })($,_,window);
