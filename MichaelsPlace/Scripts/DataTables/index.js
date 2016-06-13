@@ -1,24 +1,5 @@
 ﻿(function ($, _, window) {
 
-    var buttonTemplate = _.template($("#_IndexItemButtons").html());
-
-    var indexViewModel = {
-        editLoaded: function(html) {
-            $("#edit-modal-container").html(html);
-            $.validator.unobtrusive.parse($("#edit-modal-container"));
-            $("#edit-modal-container form").validateBootstrap(true);
-            $("#edit-modal").modal('show');
-        },
-        editCompleted: function () {
-            $("#edit-modal-container").html("");
-            $("#edit-modal").modal('hide');
-            indexViewModel.dataTable.ajax.reload();
-        }
-    }
-
-    window.indexViewModel = indexViewModel;
-
-
 
     $(document)
         .ready(function() {
@@ -30,12 +11,14 @@
                     detailsUrl: $table.data('details-url'),
                     deleteUrl: $table.data('delete-url')
                 },
-            columns = $table.find('th')
+
+
+                columns = $table.find('th')
                     .map(function(i, el) {
-                        if (i === 0) {
+                        if ($(el).attr('id') === 'item-buttons') {
                             return {
                                 orderable: false,
-                                render: function (data, type, row, meta) {
+                                render: function(data, type, row, meta) {
                                     return buttonTemplate(_.defaults(row, urls));
                                 }
                             };
@@ -46,9 +29,44 @@
                         };
                     });
 
-            indexViewModel.dataTable = $table.DataTable({
+            var buttonTemplate = _.template($("#_IndexItemButtons").html());
+
+            var vm = {
+                editLoaded: function(html) {
+                    $("#edit-modal-container").html(html);
+                    $.validator.unobtrusive.parse($("#edit-modal-container"));
+                    $("#edit-modal-container form").validateBootstrap(true);
+                    $("#edit-modal").modal('show');
+                },
+                detailsLoaded: function (html) {
+                    $("#details-modal-container").html(html);
+                    $("#details-modal").modal('show');
+                },
+                editCompleted: function() {
+                    $("#edit-modal-container").html("");
+                    $("#edit-modal").modal('hide');
+                    vm.reload();
+                },
+                reload: function() {
+                    vm.dataTable.ajax.reload();
+                },
+                deleteClicked: function(e) {
+                    var confirmed = confirm("Are you sure you want to delete this item?");
+                    if (!confirmed) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    var url = $(this).attr('formaction');
+                    $.post(url).then(vm.reload);
+
+                    return true;
+                }
+            }
+
+            vm.dataTable = $table.DataTable({
                 serverSide: true,
                 processing: true,
+                responsive: true,
                 ajax: {
                     url: urls.ajaxUrl,
                     data: ajaxData
@@ -61,13 +79,10 @@
             $('#index-data-table')
                 .on('click',
                     '.delete-item',
-                    function(e) {
-                        var confirmed = confirm("Are you sure you want to delete this item?");
-                        if (!confirmed) {
-                            e.preventDefault();
-                            return false;
-                        }
-                        return true;
-                    });
+                    vm.deleteClicked);
+
+            window.indexViewModel = vm;
         });
+
+
 })($, _, window);

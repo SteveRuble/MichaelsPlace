@@ -1,0 +1,13 @@
+﻿@model Boolean
+
+<label>
+    @if (Model)
+    {
+        <i class="fa fa-check-square-o pull-right"></i>
+    }
+    else
+    {
+        <i class="fa fa-square-o pull-right"></i>
+    }
+    @Html.LabelForModel()
+</label>

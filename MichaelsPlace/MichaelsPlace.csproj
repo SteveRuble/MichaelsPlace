@@ -676,6 +676,7 @@
     <Content Include="Views\Item\_ItemsNav.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js.map" />
+    <Content Include="Views\People\Details.cshtml" />
     <None Include="Views\Preferences\Display.cshtml" />
     <None Include="Views\Preferences\Edit.cshtml" />
     <None Include="Views\Preferences\StaffAlerts.cshtml" />
@@ -688,6 +689,7 @@
     <Content Include="Views\Shared\Templates\_IndexItemButtons.cshtml" />
     <Content Include="Views\Shared\Templates\_IndexEditModal.cshtml" />
     <Content Include="Views\Shared\EditCompleted.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

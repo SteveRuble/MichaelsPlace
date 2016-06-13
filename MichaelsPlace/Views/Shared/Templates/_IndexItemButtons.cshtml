@@ -3,7 +3,7 @@
         <a data-ajax="true" data-ajax-success="indexViewModel.editLoaded" role="button" href="{{editUrl}}/{{Id}}" class="btn btn-default">
             <span class="glyphicon glyphicon-edit"></span>
         </a>
-        <a role="button" href="{{detailsUrl}}/{{Id}}" class="btn btn-default">
+        <a  data-ajax="true" data-ajax-success="indexViewModel.detailsLoaded" role="button" href="{{detailsUrl}}/{{Id}}" class="btn btn-default">
             <span class="glyphicon glyphicon-expand"></span>
         </a>
         <button type="submit" class="btn btn-danger delete-item" formaction="{{deleteUrl}}/{{Id}}" formmethod="post">

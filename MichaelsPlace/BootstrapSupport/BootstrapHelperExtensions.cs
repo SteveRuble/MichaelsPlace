@@ -1,11 +1,14 @@
 using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
+using System.Web.Mvc.Html;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.WebPages;
 using FluentBootstrap;
+using FluentBootstrap.Internals;
 using FluentBootstrap.Mvc;
+using FluentBootstrap.Mvc.Internals;
 using FluentBootstrap.Tables;
 using MichaelsPlace;
 using MichaelsPlace.Utilities;
@@ -61,11 +64,15 @@ namespace BootstrapSupport
             return link;
         }
 
-        public static ComponentBuilder<MvcBootstrapConfig<TModel>, Table> DataTable<TModel>(this HtmlHelper<TModel> helper, UrlHelper url)
-        {
-            var bootstrap = helper.Bootstrap();
+        public static ComponentBuilder<MvcBootstrapConfig<TModel>, FluentBootstrap.Tables.Table> AjaxDataTable<TModel>(
+            this MvcBootstrapHelper<TModel> 
+            helper, UrlHelper url)
 
-            var table = bootstrap.Table().SetId("index-data-table")
+        {
+            //helper.RenderPartial("Templates/_IndexEditModal");
+            //helper.RenderPartial("Templates/_IndexItemButtons");
+
+            var table = helper.Table().SetId("index-data-table")
                 // ReSharper disable Mvc.ActionNotResolved
                                  .AddData("ajax-url", url.Action("JsonIndex"))
                                  .AddData("details-url", url.Action("Details"))
@@ -74,10 +81,12 @@ namespace BootstrapSupport
 
                 // ReSharper restore Mvc.ActionNotResolved
 
-            helper.AddScriptBundle("~/js/datatables");
-
+            helper.GetConfig().GetHtmlHelper().AddScriptBundle("~/js/datatables");
+            
             return table;
         }
+
+
 
     }
 }

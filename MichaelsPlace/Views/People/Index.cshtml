@@ -17,40 +17,32 @@
     @tabs.Tab("Clients", Url.Action("Index", new { displayMode = PeopleIndexDisplayMode.Clients})).SetActive(Model.DisplayMode == PeopleIndexDisplayMode.Clients)
 }
 
-@Ajax.ActionLink("Edit", "Edit", new AjaxOptions()
-                                 {
-                                     OnSuccess = "editLoaded"
-                                 })
-
-
-
-@using (Html.BeginForm())
+@using (var table = Bootstrap.AjaxDataTable(Url)
+    .AddData("ajax-data", Json.Encode(new {Model.DisplayMode}))
+    .Begin())
 {
-    using (var table = Html.DataTable(Url).AddData("ajax-data", Json.Encode(new {Model.DisplayMode})).Begin())
-    {
-     <thead>
-     <tr>
-         <th class="col-md-1"></th>
-         <th data-property="@nameof(PersonModel.FirstName)">
-             @Html.DisplayNameFor(model => model.People[0].FirstName)
-         </th>
-         <th data-property="@nameof(PersonModel.LastName)">
-             @Html.DisplayNameFor(model => model.People[0].LastName)
-         </th>
-         <th data-property="@nameof(PersonModel.EmailAddress)">
-             @Html.DisplayNameFor(model => model.People[0].EmailAddress)
-         </th>
-         <th data-property="@nameof(PersonModel.IsDisabled)">
-             @Html.DisplayNameFor(model => model.People[0].IsDisabled)
-         </th>
-         <th data-property="@nameof(PersonModel.IsLockedOut)">
-             @Html.DisplayNameFor(model => model.People[0].IsLockedOut)
-         </th>
-     </tr>
-     </thead>
-     <tbody>
-     </tbody>
-    }
+    <thead>
+    <tr>
+        <th data-property="@nameof(PersonModel.EmailAddress)"  data-priority="1">
+            @Html.DisplayNameFor(model => model.People[0].EmailAddress)
+        </th>
+        <th data-property="@nameof(PersonModel.FirstName)">
+            @Html.DisplayNameFor(model => model.People[0].FirstName)
+        </th>
+        <th data-property="@nameof(PersonModel.LastName)">
+            @Html.DisplayNameFor(model => model.People[0].LastName)
+        </th>
+        <th data-property="@nameof(PersonModel.IsDisabled)">
+            @Html.DisplayNameFor(model => model.People[0].IsDisabled)
+        </th>
+        <th data-property="@nameof(PersonModel.IsLockedOut)">
+            @Html.DisplayNameFor(model => model.People[0].IsLockedOut)
+        </th>
+        <th class="col-md-1" id="item-buttons" data-priority="2"></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
 }
 
 @Html.Partial("Templates/_IndexEditModal")

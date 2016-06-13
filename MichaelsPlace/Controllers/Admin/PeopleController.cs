@@ -116,6 +116,26 @@ namespace MichaelsPlace.Controllers.Admin
             return people;
         }
 
+        public ActionResult Details(string id)
+        {
+            var person = DbContext.People.ProjectTo<PersonModel>(Mapper).First(u => u.Id == id);
+
+            var viewModel = new PersonEditViewModel()
+                            {
+                                Person = person,
+                                RolesList = RoleManager.Roles.ToList()
+                                                   .Select(r => new SelectListItem()
+                                                                {
+                                                                    Selected = person.Roles.Contains(r.Id),
+                                                                    Text = r.Name,
+                                                                    Value = r.Id
+                                                                })
+                                                   .ToList()
+                            };
+
+            return PartialView(viewModel);
+        }
+
         public ActionResult Edit(string id)
         {
             var person = DbContext.People.ProjectTo<PersonModel>(Mapper).First(u => u.Id == id);
