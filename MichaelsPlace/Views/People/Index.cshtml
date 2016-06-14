@@ -1,4 +1,4 @@
-﻿@using BootstrapSupport
+﻿@using MichaelsPlace.Extensions
 @model MichaelsPlace.Controllers.Admin.PeopleIndexViewModel
 
 @{
@@ -8,6 +8,7 @@
 @using BootstrapSupport
 @using MichaelsPlace.Controllers.Admin
 @using MichaelsPlace.Models.Admin
+@using RestSharp.Extensions
 
 @using (var tabs = Bootstrap.Tabs().AddStyle("margin-bottom","10px").Begin())
 {
@@ -23,19 +24,19 @@
 {
     <thead>
     <tr>
-        <th data-property="@nameof(PersonModel.EmailAddress)"  data-priority="1">
+        <th data-property="@nameof(PersonModel.EmailAddress).ToCamelCase()"  data-priority="1">
             @Html.DisplayNameFor(model => model.People[0].EmailAddress)
         </th>
-        <th data-property="@nameof(PersonModel.FirstName)">
+        <th data-property="@nameof(PersonModel.FirstName).ToCamelCase()">
             @Html.DisplayNameFor(model => model.People[0].FirstName)
         </th>
-        <th data-property="@nameof(PersonModel.LastName)">
+        <th data-property="@nameof(PersonModel.LastName).ToCamelCase()">
             @Html.DisplayNameFor(model => model.People[0].LastName)
         </th>
-        <th data-property="@nameof(PersonModel.IsDisabled)">
+        <th data-property="@nameof(PersonModel.IsDisabled).ToCamelCase()">
             @Html.DisplayNameFor(model => model.People[0].IsDisabled)
         </th>
-        <th data-property="@nameof(PersonModel.IsLockedOut)">
+        <th data-property="@nameof(PersonModel.IsLockedOut).ToCamelCase()">
             @Html.DisplayNameFor(model => model.People[0].IsLockedOut)
         </th>
         <th class="col-md-1" id="item-buttons">Actions</th>

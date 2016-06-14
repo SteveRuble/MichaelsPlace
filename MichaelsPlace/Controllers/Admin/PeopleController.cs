@@ -7,7 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using DataTables.Mvc;
+using DataTables.AspNet.Core;
+using DataTables.AspNet.Mvc5;
+using MichaelsPlace.Extensions;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
 using MichaelsPlace.Models.Admin;
@@ -78,21 +80,13 @@ namespace MichaelsPlace.Controllers.Admin
             return View(model);
         }
         
-        public JsonResult JsonIndex([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel, PeopleIndexDisplayMode displayMode = PeopleIndexDisplayMode.All)
+        public JsonResult JsonIndex([ModelBinder(typeof(DataTables.AspNet.Mvc5.ModelBinder))] IDataTablesRequest requestModel, PeopleIndexDisplayMode displayMode = PeopleIndexDisplayMode.All)
         {
-            var models = GetPersonModels(displayMode).OrderBy(m => m.FirstName);
+            var models = GetPersonModels(displayMode);
 
-            var searchString = requestModel.Search.Value;
-            var filtered = searchString == null
-                ? models
-                : models.Where(m => m.FirstName.Contains(searchString)
-                                    || m.LastName.Contains(searchString)
-                                    || m.EmailAddress.Contains(searchString));
+            var response = requestModel.ApplyTo(models);
 
-            
-            var paged = filtered.Skip(requestModel.Start).Take(requestModel.Length);
-
-            return Json(new DataTablesResponse(requestModel.Draw, paged, models.Count(), models.Count()), JsonRequestBehavior.AllowGet);
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
         
         private IQueryable<PersonModel> GetPersonModels(PeopleIndexDisplayMode displayMode)
