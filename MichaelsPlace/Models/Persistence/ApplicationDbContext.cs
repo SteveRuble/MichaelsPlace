@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Elmah;
 using EntityFramework.DynamicFilters;
 using JetBrains.Annotations;
+using MediatR;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Utilities;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -43,16 +44,16 @@ namespace MichaelsPlace.Models.Persistence
     {
         private ILogger _logger;
 
-        private IMessageBus _messageBus;
+        private IMediator _mediator;
 
         private bool _saving;
 
         [Inject]
         [CanBeNull]
-        public IMessageBus MessageBus
+        public IMediator Mediator
         {
-            get { return _messageBus; }
-            set { _messageBus = value; }
+            get { return _mediator; }
+            set { _mediator = value; }
         }
 
         [Inject]
@@ -398,29 +399,29 @@ namespace MichaelsPlace.Models.Persistence
         [UsedImplicitly]
         private void PublishAdded<T>(T entity) where T : class
         {
-            if (_messageBus != null)
+            if (_mediator != null)
             {
                 var entityAdded = new EntityAdded<T>(this, entity);
-                _messageBus.Publish(entityAdded);
+                _mediator.Publish(entityAdded);
             }
         }
 
         [UsedImplicitly]
         private void PublishChanging<T>(DbEntityEntry dbEntityEntry) where T : class
         {
-            if (_messageBus != null)
+            if (_mediator != null)
             {
                 var previous = (T) dbEntityEntry.OriginalValues.ToObject();
                 var current = (T)dbEntityEntry.Entity;
                 var entityChanging = new EntityUpdating<T>(this, previous, current);
-                _messageBus.Publish(entityChanging);
+                _mediator.Publish(entityChanging);
             }
         }
 
         IDbSet<TEntity> IDbSetAdapter.Set<TEntity>() => Set<TEntity>();
     }
 
-    public class EntityUpdating<T>
+    public class EntityUpdating<T> : INotification
     {
         public EntityUpdating(IDbSetAdapter dbSetAdapter, T previous, T current)
         {
@@ -434,7 +435,7 @@ namespace MichaelsPlace.Models.Persistence
         public T Current { get; set; }
     }
 
-    public class EntityAdded<T>
+    public class EntityAdded<T> : INotification
     {
         public EntityAdded(IDbSetAdapter dbSetAdapter, T entity)
         {

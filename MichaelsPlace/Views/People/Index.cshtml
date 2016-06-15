@@ -33,12 +33,6 @@
         <th data-property="@nameof(PersonModel.LastName).ToCamelCase()">
             @Html.DisplayNameFor(model => model.People[0].LastName)
         </th>
-        <th data-property="@nameof(PersonModel.IsDisabled).ToCamelCase()">
-            @Html.DisplayNameFor(model => model.People[0].IsDisabled)
-        </th>
-        <th data-property="@nameof(PersonModel.IsLockedOut).ToCamelCase()">
-            @Html.DisplayNameFor(model => model.People[0].IsLockedOut)
-        </th>
         <th class="col-md-1" id="item-buttons">Actions</th>
     </tr>
     </thead>
@@ -48,4 +42,24 @@
 
 @Html.Partial("Templates/_IndexEditModal")
 @Html.Partial("Templates/_IndexDetailsModal")
-@Html.Partial("Templates/_IndexItemButtons")
+@*@Html.Partial("Templates/_IndexItemButtons")*@
+
+<div id="ajax-modal"></div>
+
+<script id="_IndexItemButtons" type="text/template" class="template">
+    <div class="btn-group btn-group-sm">
+        <a data-ajax="true" data-ajax-success="indexViewModel.modalLoaded" role="button" href="@Url.Action("Details")/{{id}}" class="btn btn-default" title="Details">
+            <span class="glyphicon glyphicon-th-list"></span>
+        </a>
+        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="More Actions">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-right">
+            @Bootstrap.AjaxDropdownLinkButton("Edit", @Url.Action("Edit") + "/{{id}}")
+            @Bootstrap.DropdownLink("Edit Security Settings").SetHref(@Url.Action("Edit", "User") + "/{{id}}").AddData("ajax", "true").AddData("ajax-success", "indexViewModel.modalLoaded")
+            @Bootstrap.DropdownLink("Delete").SetHref(@Url.Action("Delete") + "/{{id}}").AddCss("delete-item").SetState(TextState.Danger)
+        </ul>
+</div>
+</script>

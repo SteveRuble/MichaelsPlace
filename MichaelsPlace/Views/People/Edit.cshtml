@@ -2,67 +2,32 @@
 @model MichaelsPlace.Controllers.Admin.PersonEditViewModel
 
 
-@using (var form = Bootstrap.AjaxForm(Url.Action("Edit"), new AjaxOptions()
+@using (Html.BeginModal("Edit Person"))
 {
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "edit-modal-container",
-    //OnBegin = "$('form').validate().form()",
-    OnSuccess = "indexViewModel.editComplete",
-    OnComplete = "Ladda.bind('.ladda-button')",
-}).Begin())
-{
-    @Html.AntiForgeryToken()
+    using (var form = Bootstrap.AjaxForm(Url.Action("Edit")).Begin())
+     {
+         @Html.AntiForgeryToken()
 
-    <div>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Person.Id)
+         <div>
+             @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+             @Html.HiddenFor(model => model.Person.Id)
 
-        @Html.DisplayFor(m => m.Person.HasApplicationUser)
+             @Bootstrap.EditorFor(m => m.Person.FirstName)
 
-        @Bootstrap.EditorFor(m => m.Person.FirstName)
+             @Bootstrap.EditorFor(m => m.Person.LastName)
 
-        @Bootstrap.EditorFor(m => m.Person.LastName)
+             @Bootstrap.EditorFor(m => m.Person.EmailAddress)
 
-        @Bootstrap.EditorFor(m => m.Person.EmailAddress)
-
-        @Bootstrap.InputFor(m => m.Person.PhoneNumber)
-
-        <div class="form-group">
-            <label for="@Html.IdFor(m => m.Person.IsStaff)" class="control-label">
-                @Html.DisplayNameFor(m => m.Person.IsStaff)
-                @Html.CheckBoxFor(m => m.Person.IsStaff, new { @class = "check-box" })
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label for="@Html.IdFor(m => m.Person.IsDisabled)" class="control-label">
-                @Html.DisplayNameFor(m => m.Person.IsDisabled)
-                @Html.CheckBoxFor(m => m.Person.IsDisabled, new { @class = "check-box" })
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label for="@Html.IdFor(m => m.Person.IsLockedOut)" class="control-label">
-                @Html.DisplayNameFor(m => m.Person.IsLockedOut)
-                @Html.CheckBoxFor(m => m.Person.IsLockedOut, new { @class = "check-box" })
-            </label>
-        </div>
+             @Bootstrap.InputFor(m => m.Person.PhoneNumber)
 
 
-        <div class="form-group">
-            <label>Roles</label>
-            @foreach (var item in Model.RolesList)
-            {
-                @Bootstrap.CheckBox(item.Text, null, item.Text, item.Selected)
-            }
+             @form.ValidationSummary()
 
+             <div class="form-group">
+                 @Bootstrap.Submit("Save").AddCss("btn-success").AddFeedback()
+             </div>
+         </div>
+     }
 
-        </div>
+}
 
-            @form.ValidationSummary()
-
-            <div class="form-group">
-                @Bootstrap.Submit("Save").AddCss("btn-success").AddFeedback()
-            </div>
-        </div>
-    }

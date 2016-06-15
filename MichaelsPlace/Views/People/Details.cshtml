@@ -1,29 +1,19 @@
 ﻿@using BootstrapSupport
 @model MichaelsPlace.Controllers.Admin.PersonEditViewModel
 
-@Html.DisplayFor(m => m.Person.HasApplicationUser)
+@using (Html.BeginModal("Person Details"))
+{
+    @Bootstrap.DisplayFor(m => m.Person.FirstName)
 
-@Bootstrap.DisplayFor(m => m.Person.FirstName)
+    @Bootstrap.DisplayFor(m => m.Person.LastName)
 
-@Bootstrap.DisplayFor(m => m.Person.LastName)
+    @Bootstrap.DisplayFor(m => m.Person.EmailAddress)
 
-@Bootstrap.DisplayFor(m => m.Person.EmailAddress)
+    @Bootstrap.DisplayFor(m => m.Person.PhoneNumber)
 
-@Bootstrap.DisplayFor(m => m.Person.PhoneNumber)
-
-@Html.DisplayFor(m => m.Person.IsStaff)
-@Html.DisplayFor(m => m.Person.IsDisabled)
-@Html.DisplayFor(m => m.Person.IsLockedOut)
+}
 
 
-<div class="form-group">
-    <label>Roles</label>
-    @foreach (var item in Model.RolesList)
-            {
-        @Bootstrap.CheckBox(item.Text, null, item.Text, item.Selected).IsDisabled(true);
-    }
 
-
-</div>
 
 

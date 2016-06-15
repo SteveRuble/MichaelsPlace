@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using DataTables.AspNet.Core;
 using DataTables.AspNet.Mvc5;
+using MichaelsPlace.CommandHandlers;
 using MichaelsPlace.Extensions;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
@@ -38,7 +40,6 @@ namespace MichaelsPlace.Controllers.Admin
     public class PersonEditViewModel
     {
         public PersonModel Person { get; set; }
-        public List<SelectListItem> RolesList { get; set; } 
     }
 
     public class PeopleController : AdminControllerBase
@@ -117,14 +118,6 @@ namespace MichaelsPlace.Controllers.Admin
             var viewModel = new PersonEditViewModel()
                             {
                                 Person = person,
-                                RolesList = RoleManager.Roles.ToList()
-                                                   .Select(r => new SelectListItem()
-                                                                {
-                                                                    Selected = person.Roles.Contains(r.Id),
-                                                                    Text = r.Name,
-                                                                    Value = r.Id
-                                                                })
-                                                   .ToList()
                             };
 
             return PartialView(viewModel);
@@ -137,14 +130,6 @@ namespace MichaelsPlace.Controllers.Admin
             var viewModel = new PersonEditViewModel()
                             {
                                 Person = person,
-                                RolesList = RoleManager.Roles.ToList()
-                                                   .Select(r => new SelectListItem()
-                                                                {
-                                                                    Selected = person.Roles.Contains(r.Id),
-                                                                    Text = r.Name,
-                                                                    Value = r.Id
-                                                                })
-                                                   .ToList()
                             };
 
             return PartialView(viewModel);
@@ -155,61 +140,16 @@ namespace MichaelsPlace.Controllers.Admin
         public async Task<ActionResult> Edit(string id, PersonEditViewModel model, List<string> selectedRoles)
         {
             selectedRoles = selectedRoles ?? new List<string>();
-            model.RolesList = RoleManager.Roles.ToList()
-                                            .Select(r => new SelectListItem()
-                                                        {
-                                                            Selected = selectedRoles.Contains(r.Id),
-                                                            Text = r.Name,
-                                                            Value = r.Id
-                                                        })
-                                            .ToList();
+
             if (ModelState.IsValid)
             {
-                var person = DbContext.People.Include(p => p.ApplicationUser).First(u => u.Id == id);
+                var command = new AddOrEditPersonCommand(model.Person, ModelState);
 
-                Mapper.Map(model.Person, person);
-
-                DbContext.SaveChanges();
-
-                if (person.ApplicationUser != null)
+                var commandResult = await Mediator.SendAsync(command);
+                if (commandResult.IsSuccess)
                 {
-                    if (model.Person.IsLockedOut == false && await UserManager.IsLockedOutAsync(id))
-                    {
-                        await UserManager.SetLockoutEndDateAsync(id, DateTimeOffset.MinValue);
-                    }
-                    if (model.Person.IsDisabled)
-                    {
-                        await UserManager.SetLockoutEndDateAsync(id, Constants.Magic.DisabledLockoutEndDate);
-                    }
-                    if (model.Person.IsStaff)
-                    {
-                        await UserManager.EnsureHasClaimAsync(id, Constants.Claims.Staff, Boolean.TrueString);
-                    }
-                    else
-                    {
-                        await UserManager.EnsureDoesNotHaveClaimAsync(id, Constants.Claims.Staff, Boolean.TrueString);
-                    }
-
-                    var userRoles = await UserManager.GetRolesAsync(id);
-
-
-                    var result = await UserManager.AddToRolesAsync(id, selectedRoles.Except(userRoles).ToArray<string>());
-
-                    if (!result.Succeeded)
-                    {
-                        ModelState.AddModelError("", result.Errors.First());
-                        return PartialView();
-                    }
-                    result = await UserManager.RemoveFromRolesAsync(id, userRoles.Except(selectedRoles).ToArray<string>());
-
-                    if (!result.Succeeded)
-                    {
-                        ModelState.AddModelError("", result.Errors.First());
-                        return PartialView();
-                    }
+                    return new HttpStatusCodeResult(HttpStatusCode.Accepted);
                 }
-
-                return PartialView("EditCompleted");
             }
 
             return PartialView(model);

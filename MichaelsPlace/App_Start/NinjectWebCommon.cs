@@ -76,9 +76,9 @@ namespace MichaelsPlace.App_Start
             kernel.Load<Modules.Logging>();
             kernel.Load<Modules.Mapping>();
             kernel.Load<Modules.EntityFramework>();
-            kernel.Load<Modules.MessageBus>();
-            kernel.Load<Modules.Http>();
+            kernel.Load<Modules.Mediatr>();
             kernel.Load<Modules.Services>();
+            kernel.Load<Modules.Http>();
         }        
     }
 }

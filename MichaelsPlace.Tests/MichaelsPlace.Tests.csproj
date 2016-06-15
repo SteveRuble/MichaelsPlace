@@ -74,6 +74,9 @@
       <HintPath>..\packages\Glimpse.1.8.0\lib\net45\Glimpse.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR">
+      <HintPath>..\packages\MediatR.2.0.2\lib\net45\MediatR.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -200,25 +203,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\PeopleControllerTests.cs" />
-    <Compile Include="Infrastructure\DataTables\DataTablesModelApplicatorTests.cs" />
-    <Compile Include="IntegrationTestBase.cs" />
-    <Compile Include="Infrastructure\Identity\ApplicationUserManagerTests.cs" />
-    <Compile Include="Infrastructure\MessageBusTests.cs" />
-    <Compile Include="Infrastructure\EventStoreIntegrationTests.cs" />
+    <Compile Include="Integration\CommandHandlers\UpdateUserCommandHandlerTests.cs" />
+    <Compile Include="Integration\CommandHandlers\AddOrUpdatePersonCommandHandlerTests.cs" />
+    <Compile Include="Integration\Controllers\PeopleControllerTests.cs" />
+    <Compile Include="Unit\Infrastructure\DataTables\DataTablesModelApplicatorTests.cs" />
+    <Compile Include="Integration\IntegrationTestBase.cs" />
+    <Compile Include="Integration\Identity\ApplicationUserManagerTests.cs" />
+    <Compile Include="Unit\Infrastructure\MediatorTests.cs" />
+    <Compile Include="Unit\Infrastructure\EventStoreIntegrationTests.cs" />
     <Compile Include="TestModules.cs" />
-    <Compile Include="Controllers\ControllerIntegrationTestBase.cs" />
-    <Compile Include="Listeners\CaseAddedListenerTests.cs" />
-    <Compile Include="Listeners\EmailListenerTests.cs" />
-    <Compile Include="Listeners\SmsNotificationAddedListenerTests.cs" />
-    <Compile Include="MappingValidation.cs" />
-    <Compile Include="Listeners\ListenerTestBase.cs" />
-    <Compile Include="Models\ApplicationDbContextTests.cs" />
-    <Compile Include="Models\SituationModelTests.cs" />
+    <Compile Include="Integration\Controllers\ControllerIntegrationTestBase.cs" />
+    <Compile Include="Unit\Listeners\CaseAddedListenerTests.cs" />
+    <Compile Include="Unit\Listeners\EmailListenerTests.cs" />
+    <Compile Include="Unit\Listeners\SmsNotificationAddedListenerTests.cs" />
+    <Compile Include="Unit\MappingValidation.cs" />
+    <Compile Include="Unit\Listeners\ListenerTestBase.cs" />
+    <Compile Include="Unit\Models\ApplicationDbContextTests.cs" />
+    <Compile Include="Unit\Models\SituationModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="SetUpDatabase.cs" />
-    <Compile Include="Subscriptions\SubscriptionHelperTests.cs" />
+    <Compile Include="Unit\Controllers\HomeControllerTest.cs" />
+    <Compile Include="Integration\SetUpDatabase.cs" />
+    <Compile Include="Unit\Subscriptions\SubscriptionHelperTests.cs" />
     <Compile Include="TestConstants.cs" />
     <Compile Include="TestHelpers\KernelExtensions.cs" />
   </ItemGroup>
@@ -234,6 +239,7 @@
       <Name>MichaelsPlace</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,4 +1,5 @@
 using System;
+using System.Reactive.Disposables;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Mvc.Html;
@@ -6,6 +7,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.WebPages;
 using FluentBootstrap;
+using FluentBootstrap.Dropdowns;
+using FluentBootstrap.Html;
 using FluentBootstrap.Internals;
 using FluentBootstrap.Mvc;
 using FluentBootstrap.Mvc.Internals;
@@ -33,6 +36,12 @@ namespace BootstrapSupport
         ) where TConfig : BootstrapConfig where TComponent : Component, ICanCreate<FluentBootstrap.Forms.Form>
         {
             var id = SomeRandom.Id();
+
+            ajaxOptions = ajaxOptions ?? new AjaxOptions()
+                                         {
+                                             OnSuccess = "indexViewModel.modalLoaded",
+                                             OnComplete = "Ladda.bind('.ladda-button')",
+                                         };
 
             var form = helper.Form()
                              .AddAttribute("action", formAction)
@@ -64,6 +73,25 @@ namespace BootstrapSupport
             return link;
         }
 
+        public static ComponentBuilder<TConfig, FluentBootstrap.Dropdowns.DropdownLink> AjaxDropdownLinkButton<TConfig, TComponent>(
+            this BootstrapHelper<TConfig, TComponent> helper,
+            string linkText,
+            string href,
+            TextState state = TextState.Primary
+            ) where TConfig : BootstrapConfig where TComponent : Component, ICanCreate<DropdownLink>
+        {
+            var ajaxOptions = new AjaxOptions()
+                              {
+                                  OnSuccess = "indexViewModel.modalLoaded"
+                              };
+
+            var attributes = ajaxOptions.ToUnobtrusiveHtmlAttributes();
+
+            var link = helper.DropdownLink(linkText, href).AddAttributes(attributes);
+            
+            return link;
+        }
+
         public static ComponentBuilder<MvcBootstrapConfig<TModel>, FluentBootstrap.Tables.Table> AjaxDataTable<TModel>(
             this MvcBootstrapHelper<TModel> 
             helper, UrlHelper url)
@@ -84,6 +112,30 @@ namespace BootstrapSupport
             helper.GetConfig().GetHtmlHelper().AddScriptBundle("~/js/datatables");
             
             return table;
+        }
+
+        public static IDisposable BeginModal<TModel>(this HtmlHelper<TModel> @this, string title)
+        {
+            @this.ViewContext.Writer.Write(
+                $@"<div class='modal fade' tabindex='-1' role='dialog'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                <h4 class='modal-title'>{title}</h4>
+            </div>
+            <div class='modal-body' id='edit-modal-container'>");
+
+
+
+            return Disposable.Create(() =>
+            {
+                @this.ViewContext.Writer.Write(@"
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->");
+            });
         }
 
 

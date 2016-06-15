@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Web;
 using AutoMapper;
+using MediatR;
 using MichaelsPlace.Handlers;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
@@ -14,9 +19,13 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Ninject;
 using Ninject.Activation;
+using Ninject.Components;
 using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Factory;
+using Ninject.Infrastructure;
 using Ninject.Modules;
+using Ninject.Planning.Bindings;
+using Ninject.Planning.Bindings.Resolvers;
 using Ninject.Web.Common;
 using Serilog;
 using Serilog.Filters;
@@ -76,30 +85,6 @@ namespace MichaelsPlace
             }
         }
 
-        public class MessageBus : NinjectModule
-        {
-            public override void Load()
-            {
-                Kernel.Bind(c => c.FromAssemblyContaining<IListener>()
-                     .SelectAllClasses()
-                     .InheritedFrom<IListener>()
-                     .BindAllInterfaces()
-                     .Configure(ca => ca.InSingletonScope()));
-
-                Kernel.Bind<IMessageBus>()
-                      .To<MichaelsPlace.Infrastructure.MessageBus>()
-                      .InSingletonScope()
-                      .OnActivation((ctx, bus) =>
-                      {
-                          var listeners = ctx.Kernel.GetAll<IListener>();
-                          foreach (var listener in listeners)
-                          {
-                              listener.SubscribeTo(bus);
-                          }
-                      });
-            }
-        }
-
         public class Mapping : NinjectModule
         {
             public override void Load()
@@ -133,5 +118,74 @@ namespace MichaelsPlace
                 Kernel.Bind<ISingleEntityService>().To<SingleEntityService>().InSingletonScope();
             }
         }
+
+        public class Mediatr : NinjectModule
+        {
+            public override void Load()
+            {
+                Kernel.Bind(scan => scan.FromAssemblyContaining<IMediator>().SelectAllClasses().BindDefaultInterface());
+                Kernel.Bind(scan => scan.FromAssemblyContaining<MichaelsPlace.Modules>()
+                                        .SelectAllClasses()
+                                        .InheritedFrom(typeof(IAsyncNotificationHandler<>))
+                                        .BindAllInterfaces());
+
+                Kernel.Bind(scan => scan.FromAssemblyContaining<MichaelsPlace.Modules>()
+                                        .SelectAllClasses()
+                                        .InheritedFrom(typeof(IAsyncRequestHandler<,>))
+                                        .BindAllInterfaces());
+                
+                Bind<SingleInstanceFactory>().ToMethod(ctx => t => ctx.Kernel.Get(t));
+                Bind<MultiInstanceFactory>().ToMethod(ctx => t => ctx.Kernel.GetAll(t));
+
+                Rebind<IMediator>().To<Mediator>().InSingletonScope();
+            }
+        }
     }
+
+
+    public class ContravariantBindingResolver : NinjectComponent, IBindingResolver
+    {
+        /// <summary>
+        /// Returns any bindings from the specified collection that match the specified service.
+        /// </summary>
+        public IEnumerable<IBinding> Resolve(Multimap<Type, IBinding> bindings, Type service)
+        {
+            if (service.IsGenericType)
+            {
+                var genericType = service.GetGenericTypeDefinition();
+                var genericArguments = genericType.GetGenericArguments();
+                if (genericArguments.Any(ga => ga.GenericParameterAttributes.HasFlag(GenericParameterAttributes.Contravariant)))
+                {
+                    var requestedGenericArguments = service.GetGenericArguments();
+                    var candidateBindings = bindings.Where(binding => binding.Key.IsGenericType
+                                                                      && binding.Key.GetGenericTypeDefinition() == genericType);
+
+
+                    var matches = new List<IBinding>();
+
+                    foreach (var candidateBinding in candidateBindings)
+                    {
+                        var candidateGenericArguments = candidateBinding.Key.GetGenericArguments();
+                        var matched = true;
+                        var contra = false;
+                        for (int i = 0; i < candidateGenericArguments.Length; i++)
+                        {
+                            contra |= candidateGenericArguments[i] != requestedGenericArguments[i];
+                            matched &= genericArguments[i].GenericParameterAttributes.HasFlag(GenericParameterAttributes.Contravariant)
+                                       && candidateGenericArguments[i].IsAssignableFrom(requestedGenericArguments[i]);
+                        }
+                        if (contra && matched)
+                        {
+                            matches.AddRange(candidateBinding.Value);
+                        }
+                    }
+
+                    return matches;
+                }
+            }
+
+            return Enumerable.Empty<IBinding>();
+        }
+    }
+
 }

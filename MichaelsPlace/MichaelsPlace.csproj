@@ -120,6 +120,10 @@
       <HintPath>..\packages\ReSharper.Annotations.7.1.3.130415\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.0.2\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -347,7 +351,10 @@
     <Compile Include="BootstrapSupport\BootstrapHelperExtensions.cs" />
     <Compile Include="BootstrapSupport\ControlGroupExtensions.cs" />
     <Compile Include="BootstrapSupport\ViewHelperExtensions.cs" />
+    <Compile Include="CommandHandlers\AddOrEditPersonCommand.cs" />
+    <Compile Include="CommandHandlers\UpdateUserCommand.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Api\SpaApiControllerBase.cs" />
     <Compile Include="Controllers\Api\UserApiController.cs" />
     <Compile Include="Controllers\Identity\AccountController.cs" />
@@ -378,10 +385,9 @@
     <Compile Include="GlobalSettings.secrets.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserStore.cs" />
-    <Compile Include="Listeners\EmailNotificationAddedListener.cs" />
-    <Compile Include="Listeners\IListener.cs" />
-    <Compile Include="Listeners\ListenerBase.cs" />
-    <Compile Include="Listeners\SmsNotificationAddedListener.cs" />
+    <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
+    <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
+    <Compile Include="NotificationHandlers\SmsNotificationAddedNotificationHandler.cs" />
     <Compile Include="Migrations\201606071038453_initial.cs" />
     <Compile Include="Migrations\201606071038453_initial.Designer.cs">
       <DependentUpon>201606071038453_initial.cs</DependentUpon>
@@ -411,13 +417,11 @@
     <Compile Include="Services\Messaging\ISmsService.cs" />
     <Compile Include="Services\Messaging\SmsService.cs" />
     <Compile Include="Services\ReflectionService.cs" />
-    <Compile Include="Listeners\CaseCreatedHandler.cs" />
-    <Compile Include="Infrastructure\MessageBus.cs" />
+    <Compile Include="NotificationHandlers\CaseCreatedHandler.cs" />
     <Compile Include="Infrastructure\EventStore.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationSignInManager.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserManager.cs" />
     <Compile Include="Infrastructure\IPersistedEvent.cs" />
-    <Compile Include="Infrastructure\IMessageBus.cs" />
     <Compile Include="Infrastructure\IEventStore.cs" />
     <Compile Include="Infrastructure\IProjectableQuery.cs" />
     <Compile Include="Infrastructure\IQuery.cs" />
@@ -430,7 +434,6 @@
     <Compile Include="Models\Admin\AdminModelMappingProfile.cs" />
     <Compile Include="Models\Api\ApiModelMappingProfile.cs" />
     <Compile Include="Models\Api\BrowsingItemModel.cs" />
-    <Compile Include="Models\EntitySavingMessage.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Persistence\Address.cs" />
     <Compile Include="Models\Persistence\ApplicationDbContext.cs" />
@@ -704,14 +707,13 @@
     <Content Include="Views\Shared\EditCompleted.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\Templates\_IndexEditModal.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Infrastructure\DataTables\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\Situation\" />
-    <Folder Include="Views\Tags\" />
-    <Folder Include="Views\Tag\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

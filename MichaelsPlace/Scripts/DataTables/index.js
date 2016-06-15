@@ -7,9 +7,6 @@
                 ajaxData = $table.data('ajax-data'),
                 urls = {
                     ajaxUrl: $table.data('ajax-url'),
-                    editUrl: $table.data('edit-url'),
-                    detailsUrl: $table.data('details-url'),
-                    deleteUrl: $table.data('delete-url')
                 },
 
 
@@ -32,20 +29,21 @@
             var buttonTemplate = _.template($("#_IndexItemButtons").html());
 
             var vm = {
-                editLoaded: function(html) {
-                    $("#edit-modal-container").html(html);
-                    $.validator.unobtrusive.parse($("#edit-modal-container"));
-                    $("#edit-modal-container form").validateBootstrap(true);
-                    $("#edit-modal").modal('show');
+                modalLoaded: function (html, status, jqXHR) {
+                    if (jqXHR.status === 202) {
+                        var $container = $("#ajax-modal");
+                        $container.find(".modal").modal('hide');
+                        $container.html("");
+                        vm.reload();
+                    } else {
+                        var $container = $("#ajax-modal");
+                        $container.html(html);
+                        $.validator.unobtrusive.parse($container);
+                        $container.find("form").validateBootstrap(true);
+                        $container.find(".modal").modal('show');
+                    }
                 },
-                detailsLoaded: function (html) {
-                    $("#details-modal-container").html(html);
-                    $("#details-modal").modal('show');
-                },
-                editCompleted: function() {
-                    $("#edit-modal-container").html("");
-                    $("#edit-modal").modal('hide');
-                    vm.reload();
+                modalCompleted: function() {
                 },
                 reload: function() {
                     vm.dataTable.ajax.reload();

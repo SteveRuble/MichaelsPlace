@@ -1,0 +1,53 @@
+﻿@using BootstrapSupport
+@model MichaelsPlace.Controllers.Admin.UserEditViewModel
+
+@using (Html.BeginModal($"Security Settings for {Model.Person.EmailAddress}"))
+{
+    using (var form = Bootstrap.AjaxForm(Url.Action("Edit")).Begin())
+    {
+     @Html.AntiForgeryToken()
+
+     <div>
+         @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+         @Html.HiddenFor(model => model.User.Id)
+
+         <div class="form-group">
+             <label for="@Html.IdFor(m => m.User.IsStaff)" class="control-label">
+                 @Html.CheckBoxFor(m => m.User.IsStaff, new { @class = "check-box" })
+                 @Html.DisplayNameFor(m => m.User.IsStaff)
+             </label>
+         </div>
+
+         <div class="form-group">
+             <label for="@Html.IdFor(m => m.User.IsDisabled)" class="control-label">
+                 @Html.CheckBoxFor(m => m.User.IsDisabled, new { @class = "check-box" })
+                 @Html.DisplayNameFor(m => m.User.IsDisabled)
+             </label>
+         </div>
+
+         <div class="form-group">
+             <label for="@Html.IdFor(m => m.User.IsLockedOut)" class="control-label">
+                 @Html.CheckBoxFor(m => m.User.IsLockedOut, new { @class = "check-box" })
+                 @Html.DisplayNameFor(m => m.User.IsLockedOut)
+             </label>
+         </div>
+
+
+         <div class="form-group">
+             <label>Roles</label>
+             @foreach (var item in Model.RolesList)
+             {
+                 @Bootstrap.CheckBox("selectedRoles", null, item.Text, item.Selected).SetValue(item.Text)
+             }
+
+
+         </div>
+
+         @form.ValidationSummary()
+
+         <div class="form-group">
+             @Bootstrap.Submit("Save").AddCss("btn-success").AddFeedback()
+         </div>
+     </div>
+ }
+}

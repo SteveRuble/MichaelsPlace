@@ -18,8 +18,6 @@ namespace MichaelsPlace.Models.Admin
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
-        [DisplayName("Disabled")]
-        public bool IsDisabled { get; set; }
 
         [DisplayName("Email")]
         [Required]
@@ -30,15 +28,21 @@ namespace MichaelsPlace.Models.Admin
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
+
+    }
+
+    public class UserModel
+    {
+        public string Id { get; set; }
+
+        [DisplayName("Account Disabled")]
+        public bool IsDisabled { get; set; }
+
         [DisplayName("Locked Out")]
         public bool IsLockedOut { get; set; }
 
         [DisplayName("On Staff")]
         public bool IsStaff { get; set; }
-
-        [DisplayName("Has Login")]
-        [ReadOnly(true)]
-        public bool HasApplicationUser { get; set; }
 
         [DisplayName("Email Confirmed")]
         [ReadOnly(true)]

@@ -42,16 +42,24 @@ namespace MichaelsPlace.Models.Api
                 ;
 
             CreateMap<Person, PersonModel>()
-                .ForMember(um => um.IsLockedOut, o => o.MapFrom(au => au.ApplicationUser.LockoutEndDateUtc != null && au.ApplicationUser.LockoutEndDateUtc > DateTime.UtcNow))
-                .ForMember(um => um.IsDisabled, o => o.MapFrom(au => au.ApplicationUser.LockoutEndDateUtc == Constants.Magic.DisabledLockoutEndDate))
-                .ForMember(um => um.IsStaff, o => o.MapFrom(au => au.ApplicationUser.Claims.Any(c => c.ClaimType == Constants.Claims.Staff)))
-                .ForMember(pm => pm.IsEmailConfirmed, o => o.MapFrom(p => p.ApplicationUser.EmailConfirmed))
-                .ForMember(pm => pm.IsPhoneNumberConfirmed, o => o.MapFrom(p => p.ApplicationUser.PhoneNumberConfirmed))
-                .ForMember(pm => pm.HasApplicationUser, o => o.MapFrom(p => p.ApplicationUser != null))
-                .ForMember(m => m.Roles, o => o.MapFrom(au => au.ApplicationUser.Roles.Select(r => r.RoleId)))
                 .IgnoreAllNonExisting()
                 .ReverseMap()
+                .ForMember(p => p.Id, o => o.Condition((ResolutionContext rc) => rc.DestinationValue == null))
                 .IgnoreAllNonExisting();
+
+            CreateMap<ApplicationUser, UserModel>()
+                .ForMember(um => um.IsLockedOut, o => o.MapFrom(au => au.LockoutEndDateUtc != null && au.LockoutEndDateUtc > DateTime.UtcNow))
+                .ForMember(um => um.IsDisabled, o => o.MapFrom(au => au.LockoutEndDateUtc == Constants.Magic.DisabledLockoutEndDate))
+                .ForMember(um => um.IsStaff, o => o.MapFrom(au => au.Claims.Any(c => c.ClaimType == Constants.Claims.Staff)))
+                .ForMember(pm => pm.IsEmailConfirmed, o => o.MapFrom(p => p.EmailConfirmed))
+                .ForMember(pm => pm.IsPhoneNumberConfirmed, o => o.MapFrom(p => p.PhoneNumberConfirmed))
+                .ForMember(m => m.Roles, o => o.MapFrom(au => au.Roles.Select(r => r.RoleId)))
+                .IgnoreAllNonExisting()
+                .ReverseMap()
+                .ForMember(p => p.Id, o => o.Condition((ResolutionContext rc) => rc.DestinationValue == null))
+                .ForMember(p => p.Roles, o => o.Ignore())
+                .IgnoreAllNonExisting();
+
         }
     }
 }

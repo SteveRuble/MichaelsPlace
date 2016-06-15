@@ -5,9 +5,11 @@ using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
+using MediatR;
 using MichaelsPlace.Handlers;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
@@ -17,6 +19,7 @@ using MichaelsPlace.Services.Messaging;
 using MichaelsPlace.Tests.TestHelpers;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using Moq;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Extensions.Factory;
@@ -75,6 +78,10 @@ namespace MichaelsPlace.Tests
 
                 Bind<ApplicationUserManager>().ToMethod(ctx => new ApplicationUserManager(new ApplicationUserStore(ctx.Kernel.Get<ApplicationDbContext>())))
                                               .InSingletonScope();
+
+                Bind<ApplicationRoleStore>().ToSelf().InSingletonScope();
+                Bind<ApplicationRoleManager>().ToSelf().InSingletonScope();
+
             }
         }
 
@@ -96,24 +103,33 @@ namespace MichaelsPlace.Tests
         }
 
         /// <summary>
-        /// Configures message bus as a singleton with listeners subscribed, but does not bind any listeners.
-        /// Any listeners which are bound when the message bus is first activated will be automatically subscribed.
+        /// Configures mediator, but does not bind any handlers.
         /// </summary>
-        public class MessageBus : NinjectModule
+        public class Mediatr : NinjectModule
         {
             public override void Load()
             {
-                Kernel.Bind<IMessageBus>()
-                      .To<MichaelsPlace.Infrastructure.MessageBus>()
-                      .InSingletonScope()
-                      .OnActivation((ctx, bus) =>
-                      {
-                          var listeners = ctx.Kernel.GetAll<IListener>();
-                          foreach (var listener in listeners)
-                          {
-                              listener.SubscribeTo(bus);
-                          }
-                      });
+                Kernel.Bind(scan => scan.FromAssemblyContaining<IMediator>().SelectAllClasses().BindDefaultInterface());
+                Bind<SingleInstanceFactory>().ToMethod(ctx => t => ctx.Kernel.Get(t));
+                Bind<MultiInstanceFactory>().ToMethod(ctx => t =>
+                {
+                    var handlers = ctx.Kernel.GetAll(t);
+                    return handlers;
+                });
+            }
+        }
+
+        /// <summary>
+        /// Configures <see cref="IMediator"/> to be a mock, which can be obtained from the mocking kernal via GetMock.
+        /// Loading this module will set the global mock behavior to <see cref="MockBehavior.Strict"/>,
+        /// because otherwise awaiting async methods which haven't been set up will cause confusing null ref exceptions.
+        /// </summary>
+        public class MockMediatr : NinjectModule
+        {
+            public override void Load()
+            {
+                Kernel.Settings.SetMockBehavior(MockBehavior.Strict);
+                Rebind<IMediator>().ToMock().InSingletonScope();
             }
         }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using BootstrapMvcSample.Controllers;
+using MediatR;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Utilities;
 using Ninject;
@@ -17,6 +18,16 @@ namespace MichaelsPlace.Controllers.Admin
     {
         private Injected<IMapper> _mapper;
         private Injected<ApplicationDbContext> _dbContext;
+
+        private Injected<IMediator> _mediator;
+
+        [Inject]
+        public IMediator Mediator
+        {
+            get { return _mediator.Value; }
+            set { _mediator.Value = value; }
+        }
+
 
         [Inject]
         public IMapper Mapper
