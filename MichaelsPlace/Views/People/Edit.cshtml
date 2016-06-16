@@ -1,33 +1,31 @@
 ﻿@using BootstrapSupport
 @model MichaelsPlace.Controllers.Admin.PersonEditViewModel
 
+@DataTableHelpers.Modal(this, "Edit Security",
+                        @<div>
+                            @using (var form = Bootstrap.AjaxForm(Url.Action("Edit")).Begin())
+                            {
+                                @Html.AntiForgeryToken()
 
-@using (Html.BeginModal("Edit Person"))
-{
-    using (var form = Bootstrap.AjaxForm(Url.Action("Edit")).Begin())
-     {
-         @Html.AntiForgeryToken()
+                                <div>
+                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                    @Html.HiddenFor(model => model.Person.Id)
 
-         <div>
-             @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-             @Html.HiddenFor(model => model.Person.Id)
+                                    @Bootstrap.EditorFor(m => m.Person.FirstName)
 
-             @Bootstrap.EditorFor(m => m.Person.FirstName)
+                                    @Bootstrap.EditorFor(m => m.Person.LastName)
 
-             @Bootstrap.EditorFor(m => m.Person.LastName)
+                                    @Bootstrap.EditorFor(m => m.Person.EmailAddress)
 
-             @Bootstrap.EditorFor(m => m.Person.EmailAddress)
-
-             @Bootstrap.InputFor(m => m.Person.PhoneNumber)
+                                    @Bootstrap.InputFor(m => m.Person.PhoneNumber)
 
 
-             @form.ValidationSummary()
+                                    @form.ValidationSummary()
 
-             <div class="form-group">
-                 @Bootstrap.Submit("Save").AddCss("btn-success").AddFeedback()
-             </div>
-         </div>
-     }
-
-}
+                                    <div class="form-group">
+                                        @Bootstrap.Submit("Save").AddCss("btn-success").AddFeedback()
+                                    </div>
+                                </div>
+                            }
+                        </div>)
 

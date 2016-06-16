@@ -100,6 +100,8 @@ namespace BootstrapSupport
             //helper.RenderPartial("Templates/_IndexEditModal");
             //helper.RenderPartial("Templates/_IndexItemButtons");
 
+            helper.GetConfig().GetHtmlHelper().ViewContext.Writer.Write("<div id=\"ajax-modal\"></div>");
+
             var table = helper.Table().SetId("index-data-table")
                 // ReSharper disable Mvc.ActionNotResolved
                                  .AddData("ajax-url", url.Action("JsonIndex"))
@@ -137,8 +139,5 @@ namespace BootstrapSupport
 </div><!-- /.modal -->");
             });
         }
-
-
-
     }
 }

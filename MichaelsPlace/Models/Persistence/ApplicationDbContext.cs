@@ -322,8 +322,8 @@ namespace MichaelsPlace.Models.Persistence
                                               .ToList();
             foreach (var dbEntityEntry in deletedEntries)
             {
-                dbEntityEntry.Entity.IsDeleted = true;
                 dbEntityEntry.State = EntityState.Modified;
+                dbEntityEntry.Entity.IsDeleted = true;
             }
         }
 

@@ -156,9 +156,14 @@ namespace MichaelsPlace.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Delete()
+        public ActionResult Delete(string id)
         {
-            return null;
+            var person = DbContext.People.First(u => u.Id == id);
+            DbContext.People.Remove(person);
+
+            DbContext.SaveChanges();
+
+            return new HttpStatusCodeResult(HttpStatusCode.Accepted);
         }
     }
 }

@@ -1,17 +1,17 @@
 ﻿@using BootstrapSupport
 @model MichaelsPlace.Controllers.Admin.PersonEditViewModel
 
-@using (Html.BeginModal("Person Details"))
-{
-    @Bootstrap.DisplayFor(m => m.Person.FirstName)
+@DataTableHelpers.Modal(this, "Person Details",
+    @<div>
+        @Bootstrap.DisplayFor(m => m.Person.FirstName)
 
-    @Bootstrap.DisplayFor(m => m.Person.LastName)
+        @Bootstrap.DisplayFor(m => m.Person.LastName)
 
-    @Bootstrap.DisplayFor(m => m.Person.EmailAddress)
+        @Bootstrap.DisplayFor(m => m.Person.EmailAddress)
 
-    @Bootstrap.DisplayFor(m => m.Person.PhoneNumber)
+        @Bootstrap.DisplayFor(m => m.Person.PhoneNumber)
 
-}
+      </div>)
 
 
 

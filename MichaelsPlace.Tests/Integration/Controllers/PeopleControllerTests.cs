@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
@@ -11,6 +12,7 @@ using MichaelsPlace.Controllers.Admin;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
 using MichaelsPlace.Models.Admin;
+using MichaelsPlace.Tests.TestHelpers;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Moq;
 using Ninject;
@@ -50,7 +52,7 @@ namespace MichaelsPlace.Tests.Integration.Controllers
 
             var result = await Target.Edit(model.Id, new PersonEditViewModel() {Person = model}, null);
 
-            result.Should().BePartialViewResult().WithViewName("EditCompleted");
+            result.Should().BeHttpStatusResult(HttpStatusCode.Accepted);
 
             mockMediator.Verify(m => m.SendAsync(It.Is<AddOrEditPersonCommand>(c => c.Person == model)));
             //mockMediator.Verify(m => m.SendAsync(It.Is<UpdateRolesCommand>(c => c.User == model)));

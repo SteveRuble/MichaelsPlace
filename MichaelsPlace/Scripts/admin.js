@@ -26,8 +26,17 @@
     $(function() {
         $(document)
             .ajaxError(function(e, jqXHR, ajaxSettings, error) {
-                toastr.error("AJAX error: " + error);
+                toastr.error("AJAX error: <a href='/elmah.axd'>" + error + "</a>");
+            })
+        .ajaxSend(function() {
+                $("#ajax-spinner").show();
+        })
+        .ajaxComplete(function() {
+                $("#ajax-spinner").hide();
+                
             });
     });
+
+
 
 })($,_,window);

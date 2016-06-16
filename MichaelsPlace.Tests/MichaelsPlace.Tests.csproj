@@ -206,6 +206,7 @@
     <Compile Include="Integration\CommandHandlers\UpdateUserCommandHandlerTests.cs" />
     <Compile Include="Integration\CommandHandlers\AddOrUpdatePersonCommandHandlerTests.cs" />
     <Compile Include="Integration\Controllers\PeopleControllerTests.cs" />
+    <Compile Include="TestHelpers\FluentAssertionExtensions.cs" />
     <Compile Include="Unit\Infrastructure\DataTables\DataTablesModelApplicatorTests.cs" />
     <Compile Include="Integration\IntegrationTestBase.cs" />
     <Compile Include="Integration\Identity\ApplicationUserManagerTests.cs" />
