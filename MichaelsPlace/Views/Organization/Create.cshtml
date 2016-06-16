@@ -1,12 +1,13 @@
-﻿@model MichaelsPlace.Models.Persistence.Organization
+﻿@using BootstrapSupport
+@model MichaelsPlace.Models.Persistence.Organization
 
 @{
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
+
 }
 
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
+@using (var form = Bootstrap.AjaxForm(Url.Action("Create")).Begin())
 {
     @Html.AntiForgeryToken()
     
@@ -61,7 +62,3 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

@@ -1,101 +1,38 @@
-﻿@model IEnumerable<MichaelsPlace.Models.Persistence.Organization>
+﻿@using BootstrapSupport
+@model IEnumerable<MichaelsPlace.Models.Persistence.Organization>
 
 @{
     ViewBag.Title = "Organizations Index";
 }
 
-<h2>Organizations Index</h2>
+<h2>Organizations</h2>
 
 <p>
-    @Bootstrap.LinkButton("Create New", Url.Action("Create")).SetState(ButtonState.Success)
+    @Bootstrap.AjaxLinkButton("Create", Url.Action("Create"))
 </p>
-<table class="table table-bordered" id="index-table">
+
+@using (var table = Bootstrap.AjaxDataTable(Url).Begin())
+{
+
     <thead>
     <tr>
-        <th style="width:0%"></th>
-        <th>
+        <th data-property="@Html.JsonNameFor(m => m.Name)">
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
+        <th data-property="@Html.JsonNameFor(m => m.PhoneNumber)">
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </th>
-        <th>
+        <th data-property="@Html.JsonNameFor(m => m.FaxNumber)">
             @Html.DisplayNameFor(model => model.FaxNumber)
         </th>
-        <th>
+        <th data-property="@Html.JsonNameFor(m => m.Notes)">
             @Html.DisplayNameFor(model => model.Notes)
         </th>
+        <th class="col-md-1" id="item-buttons">Actions</th>
     </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-            {
-            <tr>
-                <td>
-                    @Html.Partial("_ItemActions", item)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FaxNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-            </tr>
-        }
-
     </tbody>
-</table>
-
-@section scripts{
-    <script>
-        $(document).ready(function () {
-            $('#index-table').DataTable();
-        });
-    </script>
 }
 
-@*<table class="table">
-            <tr>
-                <th class="col-md-1"></th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FaxNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Notes)
-                </th>
-            </tr>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.Partial("_ItemActions", item)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FaxNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Notes)
-                    </td>
-                </tr>
-            }
-
-        </table>*@
-
+@DataTableHelpers.ItemButtonsTemplate(this)

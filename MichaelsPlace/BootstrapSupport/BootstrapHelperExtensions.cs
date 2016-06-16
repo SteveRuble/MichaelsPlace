@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reactive.Disposables;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
@@ -14,6 +17,7 @@ using FluentBootstrap.Mvc;
 using FluentBootstrap.Mvc.Internals;
 using FluentBootstrap.Tables;
 using MichaelsPlace;
+using MichaelsPlace.Extensions;
 using MichaelsPlace.Utilities;
 
 namespace BootstrapSupport
@@ -60,15 +64,13 @@ namespace BootstrapSupport
             System.Web.Mvc.Ajax.AjaxOptions ajaxOptions = null
             ) where TConfig : BootstrapConfig where TComponent : Component, ICanCreate<FluentBootstrap.Links.Link>
         {
-            ajaxOptions = ajaxOptions ?? new AjaxOptions();
-            var attributes = ajaxOptions.ToUnobtrusiveHtmlAttributes();
+            ajaxOptions = ajaxOptions ?? new AjaxOptions()
+                                         {
+                                             OnSuccess = "indexViewModel.modalLoaded"
+                                         };
 
-            var link = helper.Link(linkText, href).AddCss("btn", "ladda-button", btnStyle).AddData("style", "zoom-out");
-
-            foreach (var attribute in attributes)
-            {
-                link = link.AddAttribute(attribute.Key, attribute.Value);
-            }
+            var link = helper.Link(linkText, href).AddCss("btn", btnStyle)
+                .AddAttributes(ajaxOptions.ToUnobtrusiveHtmlAttributes());
 
             return link;
         }
@@ -116,28 +118,7 @@ namespace BootstrapSupport
             return table;
         }
 
-        public static IDisposable BeginModal<TModel>(this HtmlHelper<TModel> @this, string title)
-        {
-            @this.ViewContext.Writer.Write(
-                $@"<div class='modal fade' tabindex='-1' role='dialog'>
-    <div class='modal-dialog'>
-        <div class='modal-content'>
-            <div class='modal-header'>
-                <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-                <h4 class='modal-title'>{title}</h4>
-            </div>
-            <div class='modal-body' id='edit-modal-container'>");
-
-
-
-            return Disposable.Create(() =>
-            {
-                @this.ViewContext.Writer.Write(@"
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->");
-            });
-        }
+        public static string JsonNameFor<TModel, TValue>(this HtmlHelper<TModel> @this, Expression<Func<TModel, TValue>> expression) => @this.IdFor(expression).ToString().Split('_').Last().ToCamelCase();
+        public static string JsonNameFor<TModel, TValue>(this HtmlHelper<IEnumerable<TModel>> @this, Expression<Func<TModel, TValue>> expression) => ExpressionHelper.GetExpressionText(expression).Split('_').Last().ToCamelCase();
     }
 }

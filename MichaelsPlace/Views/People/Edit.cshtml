@@ -1,8 +1,11 @@
 ﻿@using BootstrapSupport
 @model MichaelsPlace.Controllers.Admin.PersonEditViewModel
 
-@DataTableHelpers.Modal(this, "Edit Security",
-                        @<div>
+@{
+    ViewBag.Title = "Edit Person";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
+}
+
                             @using (var form = Bootstrap.AjaxForm(Url.Action("Edit")).Begin())
                             {
                                 @Html.AntiForgeryToken()
@@ -27,5 +30,4 @@
                                     </div>
                                 </div>
                             }
-                        </div>)
 

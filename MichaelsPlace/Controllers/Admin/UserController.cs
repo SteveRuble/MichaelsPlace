@@ -35,15 +35,6 @@ namespace MichaelsPlace.Controllers.Admin
 
     public class UserController : AdminControllerBase
     {
-        private Injected<ApplicationUserManager> _userManager;
-
-        [Inject]
-        public ApplicationUserManager UserManager
-        {
-            get { return _userManager.Value; }
-            set { _userManager.Value = value; }
-        }
-
         private Injected<ApplicationRoleManager> _roleManager;
 
         [Inject]

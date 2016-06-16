@@ -55,7 +55,6 @@ namespace MichaelsPlace.Tests.Integration.Controllers
             result.Should().BeHttpStatusResult(HttpStatusCode.Accepted);
 
             mockMediator.Verify(m => m.SendAsync(It.Is<AddOrEditPersonCommand>(c => c.Person == model)));
-            //mockMediator.Verify(m => m.SendAsync(It.Is<UpdateRolesCommand>(c => c.User == model)));
         }
     }
 }

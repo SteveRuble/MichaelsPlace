@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DataTables.AspNet.Core;
+using DataTables.AspNet.Mvc5;
+using MichaelsPlace.Extensions;
 using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Controllers.Admin
@@ -17,6 +20,15 @@ namespace MichaelsPlace.Controllers.Admin
         public async Task<ActionResult> Index()
         {
             return View(await DbContext.Organizations.ToListAsync());
+        }
+
+        public async Task<JsonResult> JsonIndex([ModelBinder(typeof(DataTables.AspNet.Mvc5.ModelBinder))] IDataTablesRequest requestModel)
+        {
+            var models = DbContext.Organizations;
+
+            var response = requestModel.ApplyTo(models);
+
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Organization/Details/5
@@ -51,7 +63,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 DbContext.Organizations.Add(organization);
                 await DbContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Accepted();
             }
 
             return View(organization);
@@ -84,35 +96,20 @@ namespace MichaelsPlace.Controllers.Admin
                 DbContext.Entry(organization).State = EntityState.Modified;
 
                 await DbContext.SaveChangesAsync();
-                return PartialView("Index", await DbContext.Organizations.ToListAsync());
-            }
-            return View(organization);
-        }
-
-        // GET: Organization/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Organization organization = await DbContext.Organizations.FindAsync(id);
-            if (organization == null)
-            {
-                return HttpNotFound();
+                return Accepted();
             }
             return View(organization);
         }
 
         // POST: Organization/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             Organization organization = await DbContext.Organizations.FindAsync(id);
             DbContext.Organizations.Remove(organization);
             await DbContext.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Accepted();
         }
 
         protected override void Dispose(bool disposing)

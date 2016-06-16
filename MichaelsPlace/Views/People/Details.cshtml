@@ -1,8 +1,14 @@
 ﻿@using BootstrapSupport
 @model MichaelsPlace.Controllers.Admin.PersonEditViewModel
 
-@DataTableHelpers.Modal(this, "Person Details",
-    @<div>
+
+@{
+    ViewBag.Title = "Person Details";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
+}
+
+
+    <div>
         @Bootstrap.DisplayFor(m => m.Person.FirstName)
 
         @Bootstrap.DisplayFor(m => m.Person.LastName)
@@ -11,7 +17,7 @@
 
         @Bootstrap.DisplayFor(m => m.Person.PhoneNumber)
 
-      </div>)
+      </div>
 
 
 

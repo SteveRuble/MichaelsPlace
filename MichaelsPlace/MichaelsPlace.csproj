@@ -680,7 +680,6 @@
     <Content Include="Views\Case\Edit.cshtml" />
     <Content Include="Views\Case\Index.cshtml" />
     <Content Include="Views\Organization\Create.cshtml" />
-    <Content Include="Views\Organization\Delete.cshtml" />
     <Content Include="Views\Organization\Details.cshtml" />
     <Content Include="Views\Organization\Edit.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
@@ -701,7 +700,6 @@
     <Content Include="Views\Shared\_ItemActions.cshtml" />
     <Content Include="Views\People\Index.cshtml" />
     <Content Include="Views\People\Edit.cshtml" />
-    <None Include="Views\People\PickUser.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PickUsers.cshtml" />
     <Content Include="Views\Shared\Templates\_IndexItemButtons.cshtml" />
     <Content Include="Views\Shared\Templates\_IndexDetailsModal.cshtml" />
@@ -709,6 +707,7 @@
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\Templates\_IndexEditModal.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Shared\_ModalLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
