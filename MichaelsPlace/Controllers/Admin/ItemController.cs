@@ -22,6 +22,8 @@ namespace MichaelsPlace.Controllers.Admin
     {
         public virtual string Prefix => "Item";
 
+        private string ControllerName { get { return RouteData?.GetRequiredString("controller"); } }
+        
         protected override void OnResultExecuting(ResultExecutingContext filterContext)
         {
             ViewBag.Prefix = Prefix;
@@ -34,7 +36,7 @@ namespace MichaelsPlace.Controllers.Admin
 
             return View($"~/Views/Item/Index.cshtml", data);
         }
-
+        
         public async Task<JsonResult> JsonIndex([ModelBinder(typeof(DataTables.AspNet.Mvc5.ModelBinder))] IDataTablesRequest requestModel)
         {
             var models = DbContext.Set<TEntity>()
@@ -107,7 +109,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return HttpNotFound();
             }
-            return View(article);
+            return View($"~/Views/{ControllerName}/Details.cshtml",article);
         }
 
         private async Task<TModel> FindItem(int? id)
@@ -119,7 +121,7 @@ namespace MichaelsPlace.Controllers.Admin
         // GET: Articles/Create
         public ActionResult Create()
         {
-            return View();
+            return View($"~/Views/{ControllerName}/Create.cshtml");
         }
 
         // POST: Articles/Create
@@ -134,10 +136,10 @@ namespace MichaelsPlace.Controllers.Admin
                 var article = Mapper.Map<TEntity>(model);
                 DbContext.Set<TEntity>().Add(article);
                 await DbContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Accepted();
             }
 
-            return View(model);
+            return View($"~/Views/{ControllerName}/Create.cshtml", model);
         }
 
         // GET: Articles/Edit/5
@@ -152,7 +154,7 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return HttpNotFound();
             }
-            return View(model);
+            return View($"~/Views/{ControllerName}/Edit.cshtml", model);
         }
 
         // POST: Articles/Edit/5
@@ -164,7 +166,7 @@ namespace MichaelsPlace.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var article = await FindItem(model.Id);
+                var article = await DbContext.Set<TEntity>().FirstOrDefaultAsync(i => i.Id == model.Id);
                 if (article == null)
                 {
                     return HttpNotFound();
@@ -172,36 +174,20 @@ namespace MichaelsPlace.Controllers.Admin
                 Mapper.Map(model, article);
                 DbContext.Entry(article).State = EntityState.Modified;
                 await DbContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Accepted();
             }
-            return View(model);
-        }
-
-        // GET: Articles/Delete/5
-        public virtual async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var article = await FindItem(id);
-            if (article == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(article);
+            return View($"~/Views/{ControllerName}/Edit.cshtml", model);
         }
 
         // POST: Articles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public virtual async Task<ActionResult> DeleteConfirmed(int id)
+        public virtual async Task<ActionResult> Delete(int id)
         {
             Article article = (Article) await DbContext.Items.FindAsync(id);
             DbContext.Items.Remove(article);
             await DbContext.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Accepted();
         }
 
         protected override void Dispose(bool disposing)

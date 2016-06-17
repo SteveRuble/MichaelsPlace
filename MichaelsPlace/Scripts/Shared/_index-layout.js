@@ -21,28 +21,37 @@
                                 }
                             };
                         }
-                        return {
+                        var col = {
                             orderable: $el.data('orderable') || false,
                             searchable: $el.data('searchable') || false,
                             data: $(el).data('property')
                         };
+
+                        if (col.data === "createdUtc") {
+                            col.render = function(data, type, row, meta) {
+                                var date = moment(data);
+                                return date.format('MMMM Do YYYY, h:mm:ss a');
+                            }
+                        }
+                        return col;
                     });
 
             var buttonTemplate = _.template($("#_IndexItemButtons").html());
 
             var vm = {
                 modalLoaded: function (html, status, jqXHR) {
+                    var $container = $("#ajax-modal");
                     if (jqXHR.status === 202) {
-                        var $container = $("#ajax-modal");
                         $container.find(".modal").modal('hide');
-                        $container.html("");
                         vm.reload();
                     } else {
-                        var $container = $("#ajax-modal");
                         $container.html(html);
                         $.validator.unobtrusive.parse($container);
                         $container.find("form").validateBootstrap(true);
-                        $container.find(".modal").modal('show');
+                        $container.find(".modal").modal('show')
+                            .on('hidden.bs.modal', function() {
+                                $container.html("");
+                            });
                     }
                 },
                 modalCompleted: function() {

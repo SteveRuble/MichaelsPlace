@@ -546,6 +546,10 @@
     <Content Include="Scripts\DataTables\DataTables-1.10.12\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\DataTables\datatables.js" />
     <Content Include="Scripts\DataTables\datatables.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\Shared\_index-layout.js" />
     <Content Include="Scripts\DataTables\Responsive-2.1.0\css\responsive.bootstrap.css" />
     <Content Include="Scripts\DataTables\Responsive-2.1.0\css\responsive.bootstrap.min.css" />
@@ -657,7 +661,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Article\Create.cshtml" />
-    <Content Include="Views\Article\Delete.cshtml" />
     <Content Include="Views\Article\Details.cshtml" />
     <Content Include="Views\Article\Edit.cshtml" />
     <Content Include="Views\Shared\_validationSummary.cshtml" />
@@ -675,16 +678,15 @@
     <Content Include="Views\Organization\Details.cshtml" />
     <Content Include="Views\Organization\Edit.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
-    <Content Include="Views\Item\Create.cshtml" />
-    <Content Include="Views\Item\Delete.cshtml" />
-    <Content Include="Views\Item\Details.cshtml" />
-    <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Item\Index.cshtml" />
     <Content Include="Views\Item\Ordering.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js.map" />
     <Content Include="Views\People\Details.cshtml" />
     <Content Include="Views\Item\_ItemsNav.cshtml" />
+    <Content Include="Views\ToDo\Create.cshtml" />
+    <Content Include="Views\ToDo\Details.cshtml" />
+    <Content Include="Views\ToDo\Edit.cshtml" />
     <None Include="Views\Preferences\Display.cshtml" />
     <None Include="Views\Preferences\Edit.cshtml" />
     <None Include="Views\Preferences\StaffAlerts.cshtml" />
@@ -701,10 +703,12 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Shared\_ModalLayout.cshtml" />
     <Content Include="Views\Shared\_IndexLayout.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTimeOffset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Infrastructure\DataTables\" />
+    <Folder Include="Infrastructure\Mvc\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\Situation\" />
   </ItemGroup>

@@ -42,6 +42,9 @@ else
 
 @* ReSharper restore Mvc.ActionNotResolved *@
 
+<div id="ajax-modal"></div>
+
 @section scripts{
     @Scripts.Render("~/js/datatables")
+    @RenderSection("scripts", false)
 }

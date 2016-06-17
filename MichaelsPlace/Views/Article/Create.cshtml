@@ -1,12 +1,13 @@
-﻿@model MichaelsPlace.Models.Admin.AdminArticleModel
+﻿@using BootstrapSupport
+@model MichaelsPlace.Models.Admin.AdminArticleModel
 
 @{
     ViewBag.Title = "Create";
+    ViewBag.ModalSize = "modal-lg";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
 }
 
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
+@using (var form = Bootstrap.AjaxForm(Url.Action("Create")).Begin())
 {
     @Html.AntiForgeryToken()
     
@@ -19,14 +20,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Order, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -46,12 +39,12 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
-
-@section scripts{
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'#@Html.IdFor(m => m.Content)' });</script>
-}
+<script>
+    tinymce.init({ selector: '#@Html.IdFor(m => m.Content)' });
+    $('#main-modal')
+        .on('hide.bs.modal',
+            function() {
+                tinymce.remove('#@Html.IdFor(m => m.Content)');
+            });
+</script>

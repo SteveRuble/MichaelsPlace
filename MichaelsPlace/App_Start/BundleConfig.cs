@@ -16,6 +16,7 @@ namespace MichaelsPlace
                 "~/Scripts/underscore.js",
                 "~/Scripts/spin.js",
                 "~/Scripts/ladda.js",
+                "~/Scripts/moment.js",
                 "~/Scripts/jquery.validate.js",
                 "~/scripts/jquery.validate.unobtrusive.js",
                 "~/scripts/jquery.unobtrusive-ajax.js",
