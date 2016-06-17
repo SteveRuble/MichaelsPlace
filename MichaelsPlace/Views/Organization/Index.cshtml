@@ -3,9 +3,10 @@
 
 @{
     ViewBag.Title = "Organizations Index";
+    Layout = "~/Views/Shared/_IndexLayout.cshtml";
 }
 
-<h2>Organizations</h2>
+
 
 <p>
     @Bootstrap.AjaxLinkButton("Create", Url.Action("Create"))
@@ -34,5 +35,3 @@
     <tbody>
     </tbody>
 }
-
-@DataTableHelpers.ItemButtonsTemplate(this)

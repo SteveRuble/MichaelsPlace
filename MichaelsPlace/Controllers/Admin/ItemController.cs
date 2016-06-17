@@ -8,6 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper.QueryableExtensions;
+using DataTables.AspNet.Core;
+using DataTables.AspNet.Mvc5;
+using MichaelsPlace.Extensions;
 using MichaelsPlace.Models.Admin;
 using MichaelsPlace.Models.Persistence;
 
@@ -27,13 +30,22 @@ namespace MichaelsPlace.Controllers.Admin
 
         public virtual async Task<ActionResult> Index()
         {
-            var data = await DbContext.Set<TEntity>()
-                                      .OrderBy(o => o.Order)
-                                      .ProjectTo<TModel>(Mapper.ConfigurationProvider)
-                                      .ToListAsync();
+            var data = Enumerable.Empty<TModel>();
 
             return View($"~/Views/Item/Index.cshtml", data);
         }
+
+        public async Task<JsonResult> JsonIndex([ModelBinder(typeof(DataTables.AspNet.Mvc5.ModelBinder))] IDataTablesRequest requestModel)
+        {
+            var models = DbContext.Set<TEntity>()
+                                  .OrderBy(o => o.Order)
+                                  .ProjectTo<TModel>(Mapper.ConfigurationProvider);
+
+            var response = requestModel.ApplyTo(models);
+
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+        }
+
 
         public virtual async Task<ActionResult> Programs()
         {

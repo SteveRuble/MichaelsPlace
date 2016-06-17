@@ -11,8 +11,9 @@
 
 
                 columns = $table.find('th')
-                    .map(function(i, el) {
-                        if ($(el).attr('id') === 'item-buttons') {
+                    .map(function (i, el) {
+                        var $el = $(el);
+                        if ($el.attr('id') === 'item-buttons') {
                             return {
                                 orderable: false,
                                 render: function(data, type, row, meta) {
@@ -21,7 +22,8 @@
                             };
                         }
                         return {
-                            orderable: false,
+                            orderable: $el.data('orderable') || false,
+                            searchable: $el.data('searchable') || false,
                             data: $(el).data('property')
                         };
                     });

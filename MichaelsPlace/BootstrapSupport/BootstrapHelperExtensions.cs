@@ -56,20 +56,20 @@ namespace BootstrapSupport
             return form;
         }
 
-        public static ComponentBuilder<TConfig, FluentBootstrap.Links.Link> AjaxLinkButton<TConfig, TComponent>(
+        public static ComponentBuilder<TConfig, FluentBootstrap.Buttons.LinkButton> AjaxLinkButton<TConfig, TComponent>(
             this BootstrapHelper<TConfig, TComponent> helper,
             string linkText,
             string href,
             string btnStyle = "btn-primary",
             System.Web.Mvc.Ajax.AjaxOptions ajaxOptions = null
-            ) where TConfig : BootstrapConfig where TComponent : Component, ICanCreate<FluentBootstrap.Links.Link>
+            ) where TConfig : BootstrapConfig where TComponent : Component, ICanCreate<FluentBootstrap.Buttons.LinkButton>
         {
             ajaxOptions = ajaxOptions ?? new AjaxOptions()
                                          {
                                              OnSuccess = "indexViewModel.modalLoaded"
                                          };
 
-            var link = helper.Link(linkText, href).AddCss("btn", btnStyle)
+            var link = helper.LinkButton(linkText, href).AddCss("btn", btnStyle)
                 .AddAttributes(ajaxOptions.ToUnobtrusiveHtmlAttributes());
 
             return link;
@@ -99,11 +99,6 @@ namespace BootstrapSupport
             helper, UrlHelper url)
 
         {
-            //helper.RenderPartial("Templates/_IndexEditModal");
-            //helper.RenderPartial("Templates/_IndexItemButtons");
-
-            helper.GetConfig().GetHtmlHelper().ViewContext.Writer.Write("<div id=\"ajax-modal\"></div>");
-
             var table = helper.Table().SetId("index-data-table")
                 // ReSharper disable Mvc.ActionNotResolved
                                  .AddData("ajax-url", url.Action("JsonIndex"))
@@ -111,10 +106,7 @@ namespace BootstrapSupport
                                  .AddData("edit-url", url.Action("Edit"))
                                  .AddData("delete-url", url.Action("Delete"));
 
-                // ReSharper restore Mvc.ActionNotResolved
-
-            helper.GetConfig().GetHtmlHelper().AddScriptBundle("~/js/datatables");
-            
+           
             return table;
         }
 

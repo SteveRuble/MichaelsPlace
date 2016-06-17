@@ -26,7 +26,7 @@ namespace MichaelsPlace
 
             bundles.Add(new ScriptBundle("~/js/datatables")
                             .Include("~/Scripts/DataTables/datatables.js",
-                                     "~/Scripts/DataTables/index.js"
+                                     "~/Scripts/Shared/_index-layout.js"
                             ));
 
             bundles.Add(new ScriptBundle("~/modernizr").Include(

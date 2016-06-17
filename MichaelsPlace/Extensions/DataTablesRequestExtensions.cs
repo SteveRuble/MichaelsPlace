@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -71,7 +72,12 @@ namespace MichaelsPlace.Extensions
                           .OrderBy(c => c.Sort.Order)
                           .Aggregate(filtered.OrderBy(x => 1), (f, c) =>
                           {
-                              var property = itemType.GetProperty(c.Field);
+                              var property = itemType.GetProperty(c.Field, BindingFlags.Public|BindingFlags.Instance|BindingFlags.IgnoreCase);
+                              if (property == null)
+                              {
+                                  return f;
+                              }
+
                               var method = typeof(DataTablesRequestExtensions).GetMethod("ApplySortingColumn", BindingFlags.Static | BindingFlags.NonPublic)
                                                                             .MakeGenericMethod(itemType, property.PropertyType);
                               return (IOrderedQueryable<TItem>) method.Invoke(null, new object[] {f, c});
@@ -96,7 +102,7 @@ namespace MichaelsPlace.Extensions
             }
             try
             {
-                var value = Convert.ChangeType(searchString, memberAccess.Type);
+                var value = TypeDescriptor.GetConverter(memberAccess.Type).ConvertFromString(searchString);
                 return Expression.Equal(memberAccess, Expression.Constant(value));
             }
             catch(FormatException)

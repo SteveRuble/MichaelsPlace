@@ -68,7 +68,7 @@ namespace MichaelsPlace.Controllers.Admin
                                                    .ToList()
                             };
 
-            return PartialView(viewModel);
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -97,7 +97,7 @@ namespace MichaelsPlace.Controllers.Admin
                 }
             }
 
-            return PartialView(model);
+            return View(model);
         }
 
         [HttpPost]

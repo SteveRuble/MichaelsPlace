@@ -7,9 +7,15 @@
 
 }
 
+    @using (var tabs = Bootstrap.Tabs().AddStyle("margin-bottom", "10px").Begin())
+    {
+<li>
+    <h2 style="margin: 0 15px 0 0; text-transform: none;">@ViewBag.Title</h2>
+</li>
 @Html.Partial("~/Views/Item/_ItemsNav.cshtml")
+    }
 
-<h2>@ViewBag.Title</h2>
+
 
 @using (var form = Bootstrap.Form().SetId("ordering-form").Begin())
 {

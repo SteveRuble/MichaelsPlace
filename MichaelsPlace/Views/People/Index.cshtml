@@ -1,21 +1,20 @@
-﻿@using MichaelsPlace.Extensions
+﻿@using BootstrapSupport
+@using MichaelsPlace.Controllers.Admin
+@using MichaelsPlace.Models.Admin
+@using MichaelsPlace.Extensions
 @model MichaelsPlace.Controllers.Admin.PeopleIndexViewModel
 
 @{
-    ViewBag.Title = "User Index";
+    ViewBag.Title = "People";
+    Layout = "~/Views/Shared/_IndexLayout.cshtml";
 }
 
-@using BootstrapSupport
-@using MichaelsPlace.Controllers.Admin
-@using MichaelsPlace.Models.Admin
-@using RestSharp.Extensions
 
-@using (var tabs = Bootstrap.Tabs().AddStyle("margin-bottom","10px").Begin())
+@section tabs
 {
-    <li><h2 style="margin: 0 15px 0 0; text-transform: none;">People</h2></li>
-    @tabs.Tab("All", Url.Action("Index", new { displayMode = PeopleIndexDisplayMode.All })).SetActive(Model.DisplayMode == PeopleIndexDisplayMode.All)
-    @tabs.Tab("Staff", Url.Action("Index", new { displayMode = PeopleIndexDisplayMode.Staff })).SetActive(Model.DisplayMode == PeopleIndexDisplayMode.Staff)
-    @tabs.Tab("Clients", Url.Action("Index", new { displayMode = PeopleIndexDisplayMode.Clients})).SetActive(Model.DisplayMode == PeopleIndexDisplayMode.Clients)
+   @Bootstrap.Tab("All", Url.Action("Index", new { displayMode = PeopleIndexDisplayMode.All })).SetActive(Model.DisplayMode == PeopleIndexDisplayMode.All)
+    @Bootstrap.Tab("Staff", Url.Action("Index", new { displayMode = PeopleIndexDisplayMode.Staff })).SetActive(Model.DisplayMode == PeopleIndexDisplayMode.Staff)
+    @Bootstrap.Tab("Clients", Url.Action("Index", new { displayMode = PeopleIndexDisplayMode.Clients })).SetActive(Model.DisplayMode == PeopleIndexDisplayMode.Clients)
 }
 
 @using (var table = Bootstrap.AjaxDataTable(Url)
@@ -24,13 +23,13 @@
 {
     <thead>
     <tr>
-        <th data-property="@nameof(PersonModel.EmailAddress).ToCamelCase()"  data-priority="1">
+        <th data-property="@Html.JsonNameFor(m => m.People[0].EmailAddress)" data-priority="1" data-searchable="true" data-orderable="true">
             @Html.DisplayNameFor(model => model.People[0].EmailAddress)
         </th>
-        <th data-property="@nameof(PersonModel.FirstName).ToCamelCase()">
+        <th data-property="@nameof(PersonModel.FirstName).ToCamelCase()" data-searchable="true" data-orderable="true">
             @Html.DisplayNameFor(model => model.People[0].FirstName)
         </th>
-        <th data-property="@nameof(PersonModel.LastName).ToCamelCase()">
+        <th data-property="@nameof(PersonModel.LastName).ToCamelCase()" data-searchable="true" data-orderable="true">
             @Html.DisplayNameFor(model => model.People[0].LastName)
         </th>
         <th class="col-md-1" id="item-buttons">Actions</th>
@@ -40,8 +39,10 @@
     </tbody>
 }
 
+<div id="ajax-modal"></div>
 
-
-@DataTableHelpers.ItemButtonsTemplate(this,
-    Bootstrap.DropdownLink("Edit Security Settings").SetHref(@Url.Action("Edit", "User") + "/{{id}}").AddData("ajax", "true").AddData("ajax-success", "indexViewModel.modalLoaded").ToString())
+@section buttons{
+     @Bootstrap.AjaxLinkButton("", @Url.Action("Edit", "User") + "/{{id}}").AddAttribute("title","Edit Security").AddChild(Bootstrap.Icon(Icon.Lock))
+   
+}
 

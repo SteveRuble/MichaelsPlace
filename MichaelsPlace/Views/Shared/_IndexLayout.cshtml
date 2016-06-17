@@ -1,0 +1,47 @@
+﻿@using BootstrapSupport
+
+
+@{
+    Layout = "_Layout.cshtml";
+}
+
+@if (IsSectionDefined("tabs"))
+{
+    using (var tabs = Bootstrap.Tabs().AddStyle("margin-bottom", "10px").Begin())
+    {
+        <li>
+            <h2 style="margin: 0 15px 0 0; text-transform: none;">@ViewBag.Title</h2>
+        </li>
+        @RenderSection("tabs", false)
+    }
+}
+else
+{
+    <h2 style="margin: 0 15px 0 0; text-transform: none;"> @ViewBag.Title </h2>
+}
+
+@RenderBody()
+
+@* ReSharper disable Mvc.ActionNotResolved *@
+
+<script id='_IndexItemButtons' type='text/template' class='template'>
+    <div class='btn-group btn-group-xs'>
+        @Bootstrap.AjaxLinkButton("", Url.Action("Details") + "/{{id}}").SetState(ButtonState.Default).AddAttribute("title","Details").AddChild(Bootstrap.Icon(Icon.List))
+        @Bootstrap.AjaxLinkButton("", Url.Action("Edit") + "/{{id}}").SetState(ButtonState.Default).AddAttribute("title","Edit").AddChild(Bootstrap.Icon(Icon.Edit))
+
+        @RenderSection("buttons", false)
+
+        @(Bootstrap.LinkButton("").AddAttribute("formaction", Url.Action("Delete") + "/{{id}}")
+                   .AddCss("delete-item")
+                   .SetState(ButtonState.Danger)
+                   .AddAttribute("title", "Delete")
+              .AddChild(Bootstrap.Icon(Icon.Remove)))
+        </ul>
+    </div>
+</script>
+
+@* ReSharper restore Mvc.ActionNotResolved *@
+
+@section scripts{
+    @Scripts.Render("~/js/datatables")
+}

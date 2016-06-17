@@ -132,7 +132,7 @@ namespace MichaelsPlace.Controllers.Admin
                                 Person = person,
                             };
 
-            return PartialView(viewModel);
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -152,7 +152,7 @@ namespace MichaelsPlace.Controllers.Admin
                 }
             }
 
-            return PartialView(model);
+            return View(model);
         }
 
         [HttpPost]

@@ -489,19 +489,13 @@
     <Content Include="CodeTemplates\AddView\CSHTML\List.tt" />
     <Content Include="Content\bootstrap-mvc-validation.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datatables.css" />
-    <Content Include="Content\datatables.min.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\font-awesome.css" />
-    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\ladda-themeless.css" />
-    <Content Include="Content\ladda-themeless.min.css" />
     <Content Include="Content\ladda.css" />
-    <Content Include="Content\ladda.min.css" />
     <Content Include="Content\toastr.css" />
-    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -552,7 +546,7 @@
     <Content Include="Scripts\DataTables\DataTables-1.10.12\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\DataTables\datatables.js" />
     <Content Include="Scripts\DataTables\datatables.min.js" />
-    <Content Include="Scripts\DataTables\index.js" />
+    <Content Include="Scripts\Shared\_index-layout.js" />
     <Content Include="Scripts\DataTables\Responsive-2.1.0\css\responsive.bootstrap.css" />
     <Content Include="Scripts\DataTables\Responsive-2.1.0\css\responsive.bootstrap.min.css" />
     <Content Include="Scripts\DataTables\Responsive-2.1.0\css\responsive.dataTables.css" />
@@ -609,8 +603,6 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\toastr.scss" />
-    <Content Include="Content\toastr.less" />
     <Content Include="App_Code\DataTableHelpers.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -689,10 +681,10 @@
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Item\Index.cshtml" />
     <Content Include="Views\Item\Ordering.cshtml" />
-    <Content Include="Views\Item\_ItemsNav.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js.map" />
     <Content Include="Views\People\Details.cshtml" />
+    <Content Include="Views\Item\_ItemsNav.cshtml" />
     <None Include="Views\Preferences\Display.cshtml" />
     <None Include="Views\Preferences\Edit.cshtml" />
     <None Include="Views\Preferences\StaffAlerts.cshtml" />
@@ -708,6 +700,7 @@
     <Content Include="Views\Shared\Templates\_IndexEditModal.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Shared\_ModalLayout.cshtml" />
+    <Content Include="Views\Shared\_IndexLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

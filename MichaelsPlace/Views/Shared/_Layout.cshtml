@@ -14,55 +14,55 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        @using (var navbar = Html.Bootstrap().Navbar().SetFluid().SetInverse().Begin())
+    @using (var navbar = Html.Bootstrap().Navbar().SetFluid().SetInverse().Begin())
+    {
+        using (var navbarHeader = navbar.NavbarHeader().Begin())
         {
-            using (var navbarHeader = navbar.NavbarHeader().Begin())
+            @navbarHeader.Brand("Michael's Place", "/")
+            @navbarHeader.NavbarToggle()
+        }
+        using (var navCollapse = navbar.NavbarCollapse().Begin())
+        {
+            using (var nav = navCollapse.NavbarNav().Begin())
             {
-                @navbarHeader.Brand("Michael's Place", "/")
-                @navbarHeader.NavbarToggle()
-            }
-            using (var navCollapse = navbar.NavbarCollapse().Begin())
-            {
-                using (var nav = navCollapse.NavbarNav().Begin())
+                if (ViewContext.HttpContext.Request.IsLocal)
                 {
-                    if (ViewContext.HttpContext.Request.IsLocal)
+                    using (var dropdown = nav.Dropdown("DevTools").Begin())
                     {
-                        using (var dropdown = nav.Dropdown("DevTools").Begin())
-                        {
-                            @dropdown.DropdownLink("App (IIS)", "http://localhost:8080/app/index.html")
-                            @dropdown.DropdownLink("App (gulp watch)", "http://localhost:8081")
-                            @dropdown.DropdownLink("API Documentation", "/api/swagger/ui/index")
-                            @dropdown.DropdownLink("IdentityManager", "/idm")
-                            @dropdown.DropdownLink("Error Log", "/elmah.axd")
-                            @dropdown.DropdownLink("Glimpse", "/glimpse.axd")
-
-                        }
-                    }
-                    using (var dropdown = nav.Dropdown("Management Areas").Begin())
-                    {
-                        //@dropdown.DropdownLink("Admin Users", "/idm")
-                        //@dropdown.DropdownLink("Staff Alerts", Url.Action("StaffAlerts","Preferences"))
-                        @dropdown.DropdownDivider()
-                        @dropdown.DropdownLink("Tags (Filters)", Url.Action("Index", "Tag"))
-                        @dropdown.DropdownLink("Situations (Programs)", Url.Action("Index", "Situation"))
-                        @dropdown.DropdownLink("Articles", Url.Action("Index", "Article"))
-                        @dropdown.DropdownLink("ToDos", Url.Action("Index", "Article"))
-                        @dropdown.DropdownDivider()
-                        @dropdown.DropdownLink("People", Url.Action("Index", "People"))
-                        @dropdown.DropdownLink("Organizations", Url.Action("Index", "Organization"))
-                        @dropdown.DropdownLink("Cases", Url.Action("Index", "Case"))
-                        @dropdown.DropdownLink("Reports", Url.Action("Index", "Report"))
+                        @dropdown.DropdownLink("App (IIS)", "http://localhost:8080/app/index.html")
+                        @dropdown.DropdownLink("App (gulp watch)", "http://localhost:8081")
+                        @dropdown.DropdownLink("API Documentation", "/api/swagger/ui/index")
+                        @dropdown.DropdownLink("IdentityManager", "/idm")
+                        @dropdown.DropdownLink("Error Log", "/elmah.axd")
+                        @dropdown.DropdownLink("Glimpse", "/glimpse.axd")
 
                     }
+                }
+                using (var dropdown = nav.Dropdown("Management Areas").Begin())
+                {
+                    //@dropdown.DropdownLink("Admin Users", "/idm")
+                    //@dropdown.DropdownLink("Staff Alerts", Url.Action("StaffAlerts","Preferences"))
+                    @dropdown.DropdownDivider()
+                    @dropdown.DropdownLink("Tags (Filters)", Url.Action("Index", "Tag"))
+                    @dropdown.DropdownLink("Situations (Programs)", Url.Action("Index", "Situation"))
+                    @dropdown.DropdownLink("Articles", Url.Action("Index", "Article"))
+                    @dropdown.DropdownLink("ToDos", Url.Action("Index", "ToDo"))
+                    @dropdown.DropdownDivider()
+                    @dropdown.DropdownLink("People", Url.Action("Index", "People"))
+                    @dropdown.DropdownLink("Organizations", Url.Action("Index", "Organization"))
+                    @dropdown.DropdownLink("Cases", Url.Action("Index", "Case"))
+                    @dropdown.DropdownLink("Reports", Url.Action("Index", "Report"))
 
                 }
-                <i id="ajax-spinner" class="fa fa-cog fa-spin fa-3x fa-fw" style="display: none;" title="Working..."></i>
+
+            }
+            <i id="ajax-spinner" class="fa fa-cog fa-spin fa-3x fa-fw" style="display: none;" title="Working..."></i>
                 @Html.Partial("_LoginPartial")
 
 
-            }
         }
+    }
+    <div class="container-fluid">
 
 
         <div class="body-content">
