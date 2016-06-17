@@ -12,9 +12,6 @@
 @Html.Partial("~/Views/Item/_ItemsNav.cshtml")
 }
 
-<p>
-    @Bootstrap.LinkButton("Create New", Url.Action("Create")).SetState(ButtonState.Success)
-</p>
 
 @using (var table = Bootstrap.AjaxDataTable(Url).Begin())
 {
@@ -36,4 +33,14 @@
 
 @section scripts{
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+
+        $('#create-button').appendTo('#index-data-table_length');
+
+    </script>
+
 }
+
+<div style="display: none;">
+    @Bootstrap.AjaxLinkButton("Create New", Url.Action("Create")).SetState(ButtonState.Success).SetId("create-button").AddStyle("margin-left", "10px")
+</div>

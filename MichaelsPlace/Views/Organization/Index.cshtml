@@ -8,9 +8,6 @@
 
 
 
-<p>
-    @Bootstrap.AjaxLinkButton("Create", Url.Action("Create"))
-</p>
 
 @using (var table = Bootstrap.AjaxDataTable(Url).Begin())
 {
@@ -35,3 +32,7 @@
     <tbody>
     </tbody>
 }
+
+<div style="display: none;">
+    @Bootstrap.AjaxLinkButton("Create New", Url.Action("Create")).SetState(ButtonState.Success).SetId("create-button").AddStyle("margin-left", "10px")
+</div>

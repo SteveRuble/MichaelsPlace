@@ -81,7 +81,10 @@
                     data: ajaxData
                 },
                 order: [[1, 'asc']],
-                columns: columns
+                columns: columns,
+                initComplete: function() {
+                    $('#create-button').appendTo('#index-data-table_length');
+                }
             });
 
 
