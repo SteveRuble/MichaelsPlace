@@ -30,6 +30,11 @@ namespace MichaelsPlace
                                      "~/Scripts/Shared/_index-layout.js"
                             ));
 
+            bundles.Add(new ScriptBundle("~/js/person-reference-model")
+                            .Include("~/Content/Selectize/js/standalone/selectize.js",
+                                     "~/Scripts/Shared/EditorTemplates/person-reference-model.js"
+                            ));
+
             bundles.Add(new ScriptBundle("~/modernizr").Include(
                 "~/Scripts/modernizr-{version}.js"
                 ));
@@ -41,6 +46,8 @@ namespace MichaelsPlace
                 "~/Content/datatables.css",
                 "~/Content/bootstrap-mvc-validation.css",
                 "~/Content/font-awesome.css",
+//                "~/Content/Selectize/css/selectize.css",
+                "~/Content/Selectize/css/selectize.bootstrap3.css",
                 "~/Content/toastr.css"
                 ));
         }

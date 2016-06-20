@@ -5,7 +5,7 @@
         "**/.svn": true,
         "**/.DS_Store": true,
         "**/*.log": true,
-        "**/dist/": true,
+        //"**/dist/": true,
         "node_modules": true,
         "jspm_packages": true
     }

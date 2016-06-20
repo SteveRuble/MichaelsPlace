@@ -11,7 +11,7 @@ namespace MichaelsPlace.Models
 {
     /// <summary>
     /// Represents a situation in an easily serialized/deserialized form.
-    /// Serializes to a semi-colon delimited list of comma-delimited lists of tag IDs.
+    /// Serializes to a dash delimited list of dot-delimited lists of tag IDs.
     /// The order is <see cref="Demographics"/>-<see cref="Losses"/>-<see cref="Mourners"/>
     /// </summary>
     [TypeConverter(typeof(SituationTypeConverter))]

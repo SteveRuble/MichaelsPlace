@@ -374,6 +374,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Identity\ManageController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Extensions\AutoMapperExtensions.cs" />
     <Compile Include="Extensions\DataTablesRequestExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
@@ -385,6 +386,7 @@
     <Compile Include="GlobalSettings.secrets.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserStore.cs" />
+    <Compile Include="Models\Admin\UserReferenceModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
     <Compile Include="NotificationHandlers\SmsNotificationAddedNotificationHandler.cs" />
@@ -412,6 +414,7 @@
     <Compile Include="Models\Admin\PersonModel.cs" />
     <Compile Include="Models\Persistence\IApplicationDbContextFactory.cs" />
     <Compile Include="Models\Persistence\Person.cs" />
+    <Compile Include="Queries\ByIdQuery.cs" />
     <Compile Include="Services\Messaging\DevelopmentEmailService.cs" />
     <Compile Include="Services\Messaging\IEmailService.cs" />
     <Compile Include="Services\Messaging\ISmsService.cs" />
@@ -495,6 +498,15 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\ladda-themeless.css" />
     <Content Include="Content\ladda.css" />
+    <Content Include="Content\Selectize\css\selectize.bootstrap2.css" />
+    <Content Include="Content\Selectize\css\selectize.bootstrap3.css" />
+    <Content Include="Content\Selectize\css\selectize.css" />
+    <Content Include="Content\Selectize\css\selectize.default.css" />
+    <Content Include="Content\Selectize\css\selectize.legacy.css" />
+    <Content Include="Content\Selectize\js\selectize.js" />
+    <Content Include="Content\Selectize\js\selectize.min.js" />
+    <Content Include="Content\Selectize\js\standalone\selectize.js" />
+    <Content Include="Content\Selectize\js\standalone\selectize.min.js" />
     <Content Include="Content\toastr.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -512,6 +524,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\Shared\EditorTemplates\person-reference-model.js" />
     <Content Include="Scripts\Shared\_index-layout.js" />
     <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\jquery-migrate-1.0.0.js" />
@@ -534,6 +547,15 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="App_Code\DataTableHelpers.cshtml" />
+    <Content Include="Content\Selectize\less\selectize.less" />
+    <Content Include="Content\Selectize\less\selectize.legacy.less" />
+    <Content Include="Content\Selectize\less\selectize.default.less" />
+    <Content Include="Content\Selectize\less\selectize.bootstrap3.less" />
+    <Content Include="Content\Selectize\less\selectize.bootstrap2.less" />
+    <Content Include="Content\Selectize\less\plugins\remove_button.less" />
+    <Content Include="Content\Selectize\less\plugins\optgroup_columns.less" />
+    <Content Include="Content\Selectize\less\plugins\dropdown_header.less" />
+    <Content Include="Content\Selectize\less\plugins\drag_drop.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -630,6 +652,8 @@
     <Content Include="Views\Shared\_ModalLayout.cshtml" />
     <Content Include="Views\Shared\_IndexLayout.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTimeOffset.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PersonReferenceModel.cshtml" />
+    <None Include="Views\Test\PersonReferenceModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

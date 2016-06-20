@@ -89,11 +89,12 @@ namespace MichaelsPlace.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,PhoneNumber,FaxNumber,Notes")] Organization organization)
+        public async Task<ActionResult> Edit(Organization organization)
         {
             if (ModelState.IsValid)
             {
                 DbContext.Entry(organization).State = EntityState.Modified;
+                DbContext.Entry(organization.Address).State = EntityState.Modified;
 
                 await DbContext.SaveChangesAsync();
                 return Accepted();

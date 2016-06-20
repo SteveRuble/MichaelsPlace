@@ -54,6 +54,12 @@
                             });
                     }
                 },
+                postFailed: function(html, status, jqXHR) {
+                    //var $container = $("#ajax-modal");
+                    //$container.html(html);
+                    //$.validator.unobtrusive.parse($container);
+                    //$container.find("form").validateBootstrap(true);
+                },
                 modalCompleted: function() {
                 },
                 reload: function() {

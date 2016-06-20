@@ -27,6 +27,23 @@ namespace MichaelsPlace.Controllers.Api
         }
 
         /// <summary>
+        /// Returns the article with <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet, Route("article/{id}")]
+        public BrowsingItemModel ArticleById(int id) => _queryFactory.Create<ByIdQuery<Article>>().Execute<BrowsingItemModel>(id);
+
+        /// <summary>
+        /// Returns the to-do with <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet, Route("todo/{id}")]
+        public BrowsingItemModel ToDoById(int id) => _queryFactory.Create<ByIdQuery<ToDo>>().Execute<BrowsingItemModel>(id);
+
+
+        /// <summary>
         /// Returns all articles which match the provided <paramref name="situation"/>.
         /// The situation should be provided in serialized form, like 1.2-3-4.5.6.
         /// </summary>

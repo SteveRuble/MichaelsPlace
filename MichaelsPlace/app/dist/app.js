@@ -43,6 +43,12 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                         moduleId: 'routes/guided-path/tag-steps',
                         nav: true,
                         title: 'Guided Path'
+                    }, {
+                        route: 'anon-case',
+                        name: 'anon-case',
+                        moduleId: 'routes/anon-case/index',
+                        nav: true,
+                        title: 'Anonymous Case'
                     }]);
 
                     this.router = router;

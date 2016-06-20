@@ -43,7 +43,10 @@ namespace BootstrapSupport
 
             ajaxOptions = ajaxOptions ?? new AjaxOptions()
                                          {
+                                             InsertionMode = InsertionMode.Replace,
+                                             UpdateTargetId = "main-modal-body",
                                              OnSuccess = "indexViewModel.modalLoaded",
+                                             OnFailure = "indexViewModel.postFailed",
                                              OnComplete = "Ladda.bind('.ladda-button')",
                                          };
 

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace MichaelsPlace
 {
@@ -26,6 +28,18 @@ namespace MichaelsPlace
                                                                                 {
                                                                                     TypeNameHandling = TypeNameHandling.All
                                                                                 };
+
+        /// <summary>
+        /// JSON settings for AJAX serialization.
+        /// </summary>
+        public static readonly JsonSerializerSettings AjaxSerializerSettings = new JsonSerializerSettings()
+                                                                               {
+                                                                                   ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                                                                                   Converters =
+                                                                                   {
+                                                                                       new StringEnumConverter()
+                                                                                   }
+                                                                               };
 
         static GlobalSettings()
         {

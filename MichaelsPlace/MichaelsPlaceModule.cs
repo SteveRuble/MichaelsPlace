@@ -46,6 +46,7 @@ namespace MichaelsPlace
                 Kernel.Bind<ApplicationDbContext>().ToSelf().InRequestScope();
 
                 Kernel.Bind<IApplicationDbContextFactory>().ToFactory();
+                Kernel.Bind<IQueryFactory>().ToFactory();
             }
         }
 
@@ -61,7 +62,6 @@ namespace MichaelsPlace
 
                 Bind<ApplicationRoleStore>().ToSelf().InRequestScope();
                 Bind<ApplicationRoleManager>().ToSelf().InRequestScope();
-
             }
         }
 

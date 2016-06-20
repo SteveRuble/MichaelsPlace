@@ -89,6 +89,21 @@ namespace MichaelsPlace.Controllers.Admin
 
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult JsonReferenceSearch(string query)
+        {
+            var models = DbContext.People.Select(p => new PersonReferenceModel()
+                                                      {
+                                                          Id = p.Id,
+                                                          Email = p.EmailAddress,
+                                                          Name = p.FirstName + " " + p.LastName
+                                                      })
+                                  .Where(p => p.Name.Contains(query) || p.Email.Contains(query))
+                                  .OrderBy(p => p.Name)
+                                  .Take(10);
+
+            return Json(models, JsonRequestBehavior.AllowGet);
+        }
         
         private IQueryable<PersonModel> GetPersonModels(PeopleIndexDisplayMode displayMode)
         {

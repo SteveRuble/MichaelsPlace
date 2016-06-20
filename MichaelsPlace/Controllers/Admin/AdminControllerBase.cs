@@ -44,6 +44,13 @@ namespace MichaelsPlace.Controllers.Admin
             set { _dbContext.Value = value; }
         }
 
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            if (!ModelState.IsValid)
+            {
+                filterContext.HttpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+            }
+        }
 
         protected ActionResult Accepted() => new HttpStatusCodeResult(HttpStatusCode.Accepted);
     }
