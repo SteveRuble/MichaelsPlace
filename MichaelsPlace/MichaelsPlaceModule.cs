@@ -46,6 +46,7 @@ namespace MichaelsPlace
                 Kernel.Bind<ApplicationDbContext>().ToSelf().InRequestScope();
 
                 Kernel.Bind<IApplicationDbContextFactory>().ToFactory();
+                Kernel.Bind<IDbSetAdapter>().To<ApplicationDbContext>();
                 Kernel.Bind<IQueryFactory>().ToFactory();
             }
         }

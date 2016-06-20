@@ -20,7 +20,7 @@ namespace MichaelsPlace.Queries
         public virtual IProjectableQuery<TItem> Execute<TItem>(SituationModel situationModel)
             where TItem : Item
         {
-            var items = from item in DbContext.Items.OfType<TItem>()
+            var items = from item in DbSets.Set<TItem>()
                         from situation in item.Situations
                         where situation.Losses.Any(x => situationModel.Losses.Contains(x.Id))
                               && situation.Mourners.Any(x => situationModel.Mourners.Contains(x.Id))

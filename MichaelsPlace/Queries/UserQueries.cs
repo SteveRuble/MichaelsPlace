@@ -12,7 +12,7 @@ namespace MichaelsPlace.Queries
     {
         public virtual IQueryable<ApplicationUser> Execute(bool? isStaff)
         {
-            var query = DbContext.Users.AsQueryable();
+            var query = DbSets.Set<ApplicationUser>().AsQueryable();
             if (isStaff == true)
             {
                 query = query.Where(u => u.Claims.Any(c => c.ClaimType == Constants.Claims.Staff));

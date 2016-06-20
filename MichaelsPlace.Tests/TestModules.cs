@@ -27,6 +27,8 @@ using Ninject.MockingKernel;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using Ninject.Extensions.Conventions;
+using Ninject.Extensions.Conventions.BindingGenerators;
+using Ninject.Syntax;
 using Serilog;
 using Serilog.Filters;
 
@@ -58,7 +60,27 @@ namespace MichaelsPlace.Tests
 
                 Kernel.Bind<IApplicationDbContextFactory>().ToFactory();
             }
-        }
+        }      
+               
+        
+        /// <summary>
+        /// Binds everything derived from <see cref="QueryBase"/> to a mock instance.
+        /// </summary>
+        public class MockedQueries : NinjectModule
+        {
+            public override void Load()
+            {
+                Kernel.Bind(c => c.FromAssemblyContaining<QueryBase>()
+                                  .SelectAllClasses()
+                                  .InheritedFrom<QueryBase>()
+                                  .BindWith<MockBindingGenerator>()
+                                  .Configure(a => a.InSingletonScope())
+                    );
+
+                Bind<IQueryFactory>().ToFactory();
+            }
+        }      
+        
 
         /// <summary>
         /// Binds HTTP related components (<see cref="HttpContextBase"/>, <see cref="IOwinContext"/>) and
@@ -144,6 +166,14 @@ namespace MichaelsPlace.Tests
                 Kernel.Bind<ISmsService>().ToMock().InSingletonScope();
                 Kernel.Bind<ISingleEntityService>().ToMock().InSingletonScope();
             }
+        }
+    }
+
+    public class MockBindingGenerator : IBindingGenerator
+    {
+        public IEnumerable<IBindingWhenInNamedWithOrOnSyntax<object>> CreateBindings(Type type, IBindingRoot bindingRoot)
+        {
+            yield return bindingRoot.Bind(type).ToMock();
         }
     }
     

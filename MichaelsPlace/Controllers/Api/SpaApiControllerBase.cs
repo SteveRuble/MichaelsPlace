@@ -9,7 +9,6 @@ namespace MichaelsPlace.Controllers.Api
     public abstract class SpaApiControllerBase : ApiController
     {
         private Injected<IMapper> _mapper;
-        private Injected<ApplicationDbContext> _dbContext;
 
         [Inject]
         public IMapper Mapper
@@ -17,13 +16,5 @@ namespace MichaelsPlace.Controllers.Api
             get { return _mapper.Value; }
             set { _mapper.Value = value; }
         }
-
-        [Inject]
-        public ApplicationDbContext DbContext
-        {
-            get { return _dbContext.Value; }
-            set { _dbContext.Value = value; }
-        }
-
     }
 }

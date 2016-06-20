@@ -34,7 +34,7 @@ namespace MichaelsPlace.Tests.Integration.Controllers
         public void get_edit()
         {
             var id = DbContext.People.First().Id;
-            Target.Edit(id).Should().BePartialViewResult()
+            Target.Edit(id).Should().BeViewResult()
                   .ModelAs<PersonEditViewModel>().Should().NotBeNull();
         }
 

@@ -105,7 +105,8 @@ namespace MichaelsPlace.Extensions
                 var value = TypeDescriptor.GetConverter(memberAccess.Type).ConvertFromString(searchString);
                 return Expression.Equal(memberAccess, Expression.Constant(value));
             }
-            catch(FormatException)
+            catch(Exception ex)
+            when (ex is FormatException || ex.InnerException is FormatException)
             {
                 /* incompatible */
             }

@@ -15,7 +15,7 @@ namespace MichaelsPlace.Infrastructure
     public abstract class QueryBase : IQuery
     {
         [Inject]
-        public ApplicationDbContext DbContext { get; set; }
+        public IDbSetAdapter DbSets { get; set; }
 
         [Inject]
         public IMapper Mapper { get; set; }

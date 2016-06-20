@@ -35,7 +35,7 @@ namespace MichaelsPlace.Queries
         {
             if (subscriptionName == null) throw new ArgumentNullException(nameof(subscriptionName));
 
-            return DbContext.UserPreferences.OfType<SubscriptionPreference>()
+            return DbSets.Set<SubscriptionPreference>()
                             .Where(sp => sp.SubscriptionName == subscriptionName)
                             .Select(sp => new SubscriptionPreferenceDetails()
                                           {
@@ -55,7 +55,7 @@ namespace MichaelsPlace.Queries
         /// <returns></returns>
         public virtual IQueryable<UserPreferencesModel> Execute<TPreference>() where TPreference : UserPreference
         {
-            return DbContext.Users.Select(u => new UserPreferencesModel()
+            return DbSets.Set<ApplicationUser>().Select(u => new UserPreferencesModel()
                                                {
                                                    User = u,
                                                    Person = u.Person,
