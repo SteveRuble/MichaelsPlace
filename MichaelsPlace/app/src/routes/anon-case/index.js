@@ -2,13 +2,13 @@ import {
     inject
 } from 'aurelia-framework';
 import {
-    HttpClient
-} from 'aurelia-fetch-client';
+    Api
+} from 'services/api';
 import {
     activationStrategy
 } from 'aurelia-router';
 
-@inject(HttpClient)
+@inject(Api)
 export class Index {
     heading = 'Describe Yourself';
     situation = '1-5-9';
@@ -16,8 +16,8 @@ export class Index {
     todos = [];
     currentItem = [];
 
-    constructor(http) {
-        this.http = http;
+    constructor(api) {
+        this.api = api;
     }
 
     activate() {
@@ -47,11 +47,9 @@ export class Index {
     }
 
     update() {
-        return this.http.fetch(`browsing/bysituation/${this.situation}/article`)
-            .then(response => response.json())
+        return this.api.articles.getBySituation(this.situation)
             .then(items => this.articles = items)
-            .then(_ => this.http.fetch(`browsing/bysituation/${this.situation}/todo`))
-            .then(response => response.json())
+            .then(_ => this.api.todos.getBySituation(this.situation))
             .then(items => this.todos = items);
     }
 

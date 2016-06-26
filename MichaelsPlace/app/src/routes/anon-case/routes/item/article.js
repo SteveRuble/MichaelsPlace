@@ -2,20 +2,20 @@ import {
     inject
 } from 'aurelia-framework';
 import {
-    HttpClient
-} from 'aurelia-fetch-client';
+    Api
+} from 'services/api';
 
-@inject(HttpClient)
+@inject(Api)
 export class Article {
     title;
     content;
 
-    constructor(http) {
-        this.http = http;
+    constructor(api) {
+        this.api = api;
     }
 
     activate(params) {
-        return this.http.fetch(`browsing/article/${params.id}`).then(response => response.json())
+        return this.api.articles.getById(params.id)
             .then(article => {
                 this.title = article.title;
                 this.content = article.content;

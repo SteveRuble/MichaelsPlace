@@ -10,7 +10,9 @@ using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Filters;
+using System.Web.Http.Routing;
 using System.Web.Http.Validation;
+using MichaelsPlace.Controllers.Api;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Ninject;
@@ -48,7 +50,10 @@ namespace MichaelsPlace
                                   SupportsCredentials = true
                               });
 
-            config.MapHttpAttributeRoutes();
+            var constraintResolver = new DefaultInlineConstraintResolver();
+            constraintResolver.ConstraintMap.Add("situation", typeof(SituationConstraint));
+
+            config.MapHttpAttributeRoutes(constraintResolver);
 
             config.Routes.MapHttpRoute("Default", "{controller}/{id}");
 
