@@ -556,6 +556,7 @@
     <Content Include="Content\Selectize\less\plugins\optgroup_columns.less" />
     <Content Include="Content\Selectize\less\plugins\dropdown_header.less" />
     <Content Include="Content\Selectize\less\plugins\drag_drop.less" />
+    <None Include="Properties\PublishProfiles\FTP.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -577,6 +578,7 @@
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
