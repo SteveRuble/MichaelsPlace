@@ -21,10 +21,9 @@ namespace MichaelsPlace.Queries
             where TItem : Item
         {
             var items = from item in DbSets.Set<TItem>()
-                        from situation in item.Situations
-                        where situation.Losses.Any(x => situationModel.Losses.Contains(x.Id))
-                              && situation.Mourners.Any(x => situationModel.Mourners.Contains(x.Id))
-                              && situation.Demographics.Any(x => situationModel.Demographics.Contains(x.Id))
+                        where item.AppliesToContexts.Any(c => situationModel.Contexts.Contains(c.Id))
+                              && item.AppliesToLosses.Any(c => situationModel.Losses.Contains(c.Id))
+                              && item.AppliesToRelationships.Any(c => situationModel.Relationships.Contains(c.Id))
                         select item;
 
             return items.AsProjectable(Mapper);

@@ -118,11 +118,6 @@ namespace MichaelsPlace.Models.Persistence
         public DbSet<Tag> Tags { get; set; }
 
         /// <summary>
-        /// Situations describe the ways in which other entities are related - how a user is related to a case, or a case to an item.
-        /// </summary>
-        public DbSet<Situation> Situations { get; set; }
-
-        /// <summary>
         /// Items are pieces of content which are presented to users as part of a case.
         /// </summary>
         public DbSet<Item> Items { get; set; }
@@ -189,11 +184,9 @@ namespace MichaelsPlace.Models.Persistence
             modelBuilder.Entity<Case>().HasMany(c => c.CaseItems).WithRequired(u => u.Case).WillCascadeOnDelete(false);
 
             //modelBuilder.Entity<Item>().HasRequired(i => i.CreatedBy).WithMany().WillCascadeOnDelete(false);
-            modelBuilder.Entity<Item>().HasMany(i => i.Situations).WithMany();
-
-            modelBuilder.Entity<Situation>().HasMany(s => s.Losses).WithMany();
-            modelBuilder.Entity<Situation>().HasMany(s => s.Mourners).WithMany();
-            modelBuilder.Entity<Situation>().HasMany(s => s.Demographics).WithMany();
+            modelBuilder.Entity<Item>().HasMany(i => i.AppliesToContexts).WithMany();
+            modelBuilder.Entity<Item>().HasMany(i => i.AppliesToRelationships).WithMany();
+            modelBuilder.Entity<Item>().HasMany(i => i.AppliesToLosses).WithMany();
 
             //modelBuilder.Entity<Notification>().HasRequired(n => n.CreatedBy).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<Comment>().HasRequired(n => n.CaseItem).WithMany().WillCascadeOnDelete(false);
@@ -205,8 +198,7 @@ namespace MichaelsPlace.Models.Persistence
             modelBuilder.Entity<Person>().HasOptional(u => u.ApplicationUser).WithRequired(cu => cu.Person).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Organization>().HasMany(o => o.Cases).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
-            modelBuilder.Entity<Organization>().HasMany(o => o.People).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
-            modelBuilder.Entity<Organization>().HasMany(o => o.Situations).WithMany();
+            modelBuilder.Entity<Organization>().HasMany(o => o.OrganizationPeople).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
 
             modelBuilder.Filter(Constants.EntityFrameworkFilters.SoftDelete, (ISoftDelete e) => e.IsDeleted != true);
         }
@@ -297,7 +289,6 @@ namespace MichaelsPlace.Models.Persistence
             _saving = true;
             try
             {
-                UpdateSituationMementos();
                 UpdateTimestamps();
                 ApplySoftDelete();
                 var errors = GetValidationErrors().ToList();
@@ -365,17 +356,7 @@ namespace MichaelsPlace.Models.Persistence
                 }
             }
         }
-
-        private void UpdateSituationMementos()
-        {
-            var situationChanges = ChangeTracker.Entries<Situation>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
-
-            foreach (var situationChange in situationChanges)
-            {
-                situationChange.Entity.UpdateMemento();
-            }
-        }
-
+        
         private void PublishAddedEntities(List<object> addedEntities)
         {
             var methodDefinition = typeof(ApplicationDbContext).GetMethod("PublishAdded", BindingFlags.Instance|BindingFlags.NonPublic).GetGenericMethodDefinition();

@@ -6,7 +6,6 @@ namespace MichaelsPlace.Models.Persistence
 {
     public class Item : ICreated, ISoftDelete
     {
-        private ICollection<Situation> _situations;
         public virtual int Id { get; set; }
 
         [Required]
@@ -19,10 +18,28 @@ namespace MichaelsPlace.Models.Persistence
         [DataType(DataType.MultilineText)]
         public virtual int Order { get; set; }
 
-        public virtual ICollection<Situation> Situations
+        private ICollection<ContextTag> _appliesToContexts;
+
+        public virtual ICollection<ContextTag> AppliesToContexts
         {
-            get { return _situations ?? (_situations = new HashSet<Situation>()); }
-            set { _situations = value; }
+            get { return _appliesToContexts ?? (_appliesToContexts = new HashSet<ContextTag>()); }
+            set { _appliesToContexts = value; }
+        }
+
+        private ICollection<LossTag> _appliesToLosses;
+
+        public virtual ICollection<LossTag> AppliesToLosses
+        {
+            get { return _appliesToLosses ?? (_appliesToLosses = new HashSet<LossTag>()); }
+            set { _appliesToLosses = value; }
+        }
+
+        private ICollection<RelationshipTag> _appliesToRelationships;
+
+        public virtual ICollection<RelationshipTag> AppliesToRelationships
+        {
+            get { return _appliesToRelationships ?? (_appliesToRelationships = new HashSet<RelationshipTag>()); }
+            set { _appliesToRelationships = value; }
         }
 
         [Required]

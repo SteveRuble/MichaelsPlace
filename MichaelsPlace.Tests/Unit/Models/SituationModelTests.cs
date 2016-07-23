@@ -14,9 +14,9 @@ namespace MichaelsPlace.Tests.Unit.Models
         {
             var expected = new SituationModel()
                          {
-                             Demographics = {1, 2, 3},
+                             Contexts = {1, 2, 3},
                              Losses = {4, 5, 6},
-                             Mourners = {7, 8, 9}
+                             Relationships = {7, 8, 9}
                          };
             var serialized = expected.ToString();
             Console.WriteLine(serialized);
@@ -30,9 +30,9 @@ namespace MichaelsPlace.Tests.Unit.Models
         {
             var expected = new SituationModel()
                          {
-                             Demographics = {1, 2, 3},
+                             Contexts = {1, 2, 3},
                              Losses = {4, 5, 6},
-                             Mourners = {7, 8, 9}
+                             Relationships = {7, 8, 9}
                          };
             var serialized = expected.ToString();
             var converter = TypeDescriptor.GetConverter(typeof(SituationModel));

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MichaelsPlace.Utilities
 {
-    public class SomeRandom
+    public static class SomeRandom
     {
         private static readonly ThreadLocal<Random> _rng = new ThreadLocal<Random>(() => new Random());
 
@@ -31,6 +31,8 @@ namespace MichaelsPlace.Utilities
 
         public static string EmailAddress() => $"{String()}@example.com";
 
-    public static string PhoneNumber() => "555-" + _rng.Value.Next(100, 999) + "-" + _rng.Value.Next(1000, 9999);
+        public static string PhoneNumber() => "555-" + _rng.Value.Next(100, 999) + "-" + _rng.Value.Next(1000, 9999);
+
+        public static T RandomItem<T>(this IList<T> @this) => @this[_rng.Value.Next(0, @this.Count - 1)];
     }
 }

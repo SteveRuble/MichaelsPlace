@@ -13,8 +13,10 @@ namespace MichaelsPlace.Models.Admin
     {
         [Required]
         public int Id { get; set; }
+
         [Required]
         public string Title { get; set; }
+
         [Required]
         [DataType(DataType.MultilineText)]
         [AllowHtml]
@@ -30,6 +32,10 @@ namespace MichaelsPlace.Models.Admin
         [Display(Name = "Created By")]
         [ReadOnly(true)]
         public string CreatedBy { get; set; }
+
+        public List<int> ContextTagIds { get; set; }
+        public List<int> RelationshipTagIds { get; set; }
+        public List<int> LossTagIds { get; set; }
     }
 
     public class AdminArticleModel : AdminItemModel

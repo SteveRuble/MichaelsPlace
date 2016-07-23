@@ -9,6 +9,8 @@ namespace MichaelsPlace.Models.Persistence
         public virtual int Id { get; set; }
 
         public virtual string Name { get; set; }
+
+        public virtual ContextTag Context { get; set; }
         
         public virtual Address Address { get; set; }
 
@@ -23,20 +25,12 @@ namespace MichaelsPlace.Models.Persistence
         [DataType(DataType.MultilineText)]
         public virtual string Notes { get; set; }
 
-        private ICollection<Person> _people;
+        private ICollection<OrganizationPerson> _organizationPeople;
 
-        private ICollection<Situation> _situations;
-
-        public virtual ICollection<Situation> Situations
+        public virtual ICollection<OrganizationPerson> OrganizationPeople
         {
-            get { return _situations ?? (_situations = new HashSet<Situation>()); }
-            set { _situations = value; }
-        }
-
-        public virtual ICollection<Person> People
-        {
-            get { return _people ?? (_people = new HashSet<Person>()); }
-            set { _people = value; }
+            get { return _organizationPeople ?? (_organizationPeople = new HashSet<OrganizationPerson>()); }
+            set { _organizationPeople = value; }
         }
 
         private ICollection<Case> _cases;
@@ -48,5 +42,14 @@ namespace MichaelsPlace.Models.Persistence
         }
 
         public virtual bool IsDeleted { get; set; }
+    }
+
+    public class OrganizationPerson
+    {
+        public virtual int Id { get; set; }
+
+        public virtual Organization Organization { get; set; }
+        public virtual Person Person { get; set; }
+        public virtual RelationshipTag Relationship { get; set; }
     }
 }

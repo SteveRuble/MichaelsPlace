@@ -18,13 +18,16 @@ namespace MichaelsPlace.Controllers.Api
             _dbContext = dbContext.ConfiguredForFastQueries();
         }
 
-        [HttpGet, Route("demographic")]
-        public IEnumerable<Tag> TeamMember() =>_dbContext.Tags.OfType<DemographicTag>().ToList();
+        [HttpGet, Route("relationship")]
+        public IEnumerable<Tag> Relationship(int? contextId = null) =>
+            _dbContext.Tags.OfType<RelationshipTag>().Where(r => (contextId == null || contextId == r.Context.Id)).ToList();
 
         [HttpGet, Route("loss")]
-        public IEnumerable<Tag> Loss() =>_dbContext.Tags.OfType<LossTag>().ToList();
+        public IEnumerable<Tag> Loss(int? contextId = null) =>
+            _dbContext.Tags.OfType<LossTag>().Where(t => contextId == null || contextId == t.Context.Id).ToList();
 
-        [HttpGet, Route("mourner")]
-        public IEnumerable<Tag> Mourner() =>_dbContext.Tags.OfType<MournerTag>().ToList();
+        [HttpGet, Route("context")]
+        public IEnumerable<Tag> Context() =>_dbContext.Tags.OfType<ContextTag>().ToList();
+        
     }
 }

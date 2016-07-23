@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MichaelsPlace.Models.Persistence
 {
@@ -24,11 +25,17 @@ namespace MichaelsPlace.Models.Persistence
 
     public class RelationshipTag : Tag
     {
+        public virtual int? ContextId { get; set; }
+
+        [JsonIgnore]
         public virtual ContextTag Context { get; set; }
     }
 
     public class LossTag : Tag
     {
+        public virtual int? ContextId { get; set; }
+
+        [JsonIgnore]
         public virtual ContextTag Context { get; set; }
     }
 
@@ -36,6 +43,7 @@ namespace MichaelsPlace.Models.Persistence
     {
         private ICollection<LossTag> _losses;
 
+        [JsonIgnore]
         public virtual ICollection<LossTag> Losses
         {
             get { return _losses ?? (_losses = new HashSet<LossTag>()); }
@@ -44,6 +52,7 @@ namespace MichaelsPlace.Models.Persistence
 
         private ICollection<RelationshipTag> _relationships;
 
+        [JsonIgnore]
         public virtual ICollection<RelationshipTag> Relationships
         {
             get { return _relationships ?? (_relationships = new HashSet<RelationshipTag>()); }

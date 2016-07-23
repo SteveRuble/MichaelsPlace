@@ -11,7 +11,35 @@ namespace MichaelsPlace.Models.Api
     {
         protected override void Configure()
         {
+            ConfigureFromPersistenceToModel();
+
+            ConfigureFromModelToPersistence();
+        }
+
+        private void ConfigureFromModelToPersistence()
+        {
+            CreateMap<AdminItemModel, Item>()
+                .ForMember(a => a.CreatedBy, o => o.Ignore())
+                .ForMember(a => a.CreatedUtc, o => o.Ignore())
+                .ForMember(a => a.IsDeleted, o => o.Ignore())
+                .ForMember(a => a.AppliesToContexts, o => o.Ignore())
+                .ForMember(a => a.AppliesToRelationships, o => o.Ignore())
+                .ForMember(a => a.AppliesToLosses, o => o.Ignore())
+                ;
+
+            CreateMap<AdminArticleModel, Article>()
+                .IncludeBase<AdminItemModel, Item>();
+
+            CreateMap<AdminToDoModel, ToDo>()
+                .IncludeBase<AdminItemModel, Item>();
+        }
+
+        private void ConfigureFromPersistenceToModel()
+        {
             CreateMap<Item, AdminItemModel>()
+                .ForMember(m => m.ContextTagIds, o => o.MapFrom(m => m.AppliesToContexts.Select(t => t.Id)))
+                .ForMember(m => m.LossTagIds, o => o.MapFrom(m => m.AppliesToLosses.Select(t => t.Id)))
+                .ForMember(m => m.RelationshipTagIds, o => o.MapFrom(m => m.AppliesToRelationships.Select(t => t.Id)))
                 .ForMember(m => m.CreatedBy, o => o.MapFrom(i => i.CreatedBy));
 
             CreateMap<Article, AdminArticleModel>()
@@ -20,31 +48,10 @@ namespace MichaelsPlace.Models.Api
             CreateMap<ToDo, AdminToDoModel>()
                 .IncludeBase<Item, AdminItemModel>();
 
-            CreateMap<AdminItemModel, Item>()
-                .ForMember(a => a.CreatedBy, o => o.Ignore())
-                .ForMember(a => a.CreatedUtc, o => o.Ignore())
-                .ForMember(a => a.Situations, o => o.Ignore())
-                .ForMember(a => a.IsDeleted, o => o.Ignore())
-                ;
-
-            CreateMap<AdminArticleModel, Article>()
-                .ForMember(a => a.CreatedBy, o => o.Ignore())
-                .ForMember(a => a.CreatedUtc, o => o.Ignore())
-                .ForMember(a => a.Situations, o => o.Ignore())
-                .ForMember(a => a.IsDeleted, o => o.Ignore())
-                ;
-
-            CreateMap<AdminToDoModel, ToDo>()
-                .ForMember(a => a.CreatedBy, o => o.Ignore())
-                .ForMember(a => a.CreatedUtc, o => o.Ignore())
-                .ForMember(a => a.Situations, o => o.Ignore())
-                .ForMember(a => a.IsDeleted, o => o.Ignore())
-                ;
-
             CreateMap<Person, PersonModel>()
                 .IgnoreAllNonExisting()
                 .ReverseMap()
-                .ForMember(p => p.Id, o => o.Condition((ResolutionContext rc) => rc.DestinationValue == null))
+                .ForMember(p => p.Id, o => o.Condition(rc => rc.DestinationValue == null))
                 .IgnoreAllNonExisting();
 
             CreateMap<ApplicationUser, UserModel>()
@@ -56,10 +63,9 @@ namespace MichaelsPlace.Models.Api
                 .ForMember(m => m.Roles, o => o.MapFrom(au => au.Roles.Select(r => r.RoleId)))
                 .IgnoreAllNonExisting()
                 .ReverseMap()
-                .ForMember(p => p.Id, o => o.Condition((ResolutionContext rc) => rc.DestinationValue == null))
+                .ForMember(p => p.Id, o => o.Condition(rc => rc.DestinationValue == null))
                 .ForMember(p => p.Roles, o => o.Ignore())
                 .IgnoreAllNonExisting();
-
         }
     }
 }

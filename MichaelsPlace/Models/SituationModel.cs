@@ -12,17 +12,17 @@ namespace MichaelsPlace.Models
     /// <summary>
     /// Represents a situation in an easily serialized/deserialized form.
     /// Serializes to a dash delimited list of dot-delimited lists of tag IDs.
-    /// The order is <see cref="Demographics"/>-<see cref="Losses"/>-<see cref="Mourners"/>
+    /// The order is <see cref="Contexts"/>-<see cref="Losses"/>-<see cref="Relationships"/>
     /// </summary>
     [TypeConverter(typeof(SituationTypeConverter))]
     public class SituationModel
     {
-        public List<int> Demographics { get; set; } = new List<int>();
+        public List<int> Contexts { get; set; } = new List<int>();
         public List<int> Losses { get; set; } = new List<int>();
-        public List<int> Mourners { get; set; } = new List<int>();
+        public List<int> Relationships { get; set; } = new List<int>();
 
         public override string ToString() =>
-            string.Join("-", string.Join(".", Demographics), string.Join(".", Losses), string.Join(".", Mourners));
+            string.Join("-", string.Join(".", Contexts), string.Join(".", Losses), string.Join(".", Relationships));
 
         public SituationModel() { }
 
@@ -30,9 +30,9 @@ namespace MichaelsPlace.Models
         {
             var segs = fromString.Split('-');
             if(segs.Length != 3) { throw new ArgumentException("Invalid Situation: " + fromString, "fromString");}
-            Demographics = segs[0].Split('.').Select(int.Parse).ToList();
+            Contexts = segs[0].Split('.').Select(int.Parse).ToList();
             Losses = segs[1].Split('.').Select(int.Parse).ToList();
-            Mourners = segs[2].Split('.').Select(int.Parse).ToList();
+            Relationships = segs[2].Split('.').Select(int.Parse).ToList();
 
         }
 

@@ -1,9 +1,11 @@
 namespace MichaelsPlace.Migrations
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data.Entity.Infrastructure.Annotations;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class InitializeMigrations : DbMigration
     {
         public override void Up()
         {
@@ -28,8 +30,13 @@ namespace MichaelsPlace.Migrations
                         Title = c.String(),
                         CreatedBy = c.String(nullable: false),
                         CreatedUtc = c.DateTimeOffset(nullable: false, precision: 7),
+                        IsDeleted = c.Boolean(nullable: false),
                         Organization_Id = c.Int(),
-                    })
+                    },
+                annotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Case_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Organizations", t => t.Organization_Id)
                 .Index(t => t.Organization_Id);
@@ -59,33 +66,34 @@ namespace MichaelsPlace.Migrations
                         Order = c.Int(nullable: false),
                         CreatedBy = c.String(nullable: false),
                         CreatedUtc = c.DateTimeOffset(nullable: false, precision: 7),
+                        IsDeleted = c.Boolean(nullable: false),
                         Discriminator = c.String(nullable: false, maxLength: 128),
-                    })
+                    },
+                annotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Article_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                    { "DynamicFilter_Item_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                    { "DynamicFilter_ToDo_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                })
                 .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Situations",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Memento = c.String(),
-                        Organization_Id = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Organizations", t => t.Organization_Id)
-                .Index(t => t.Organization_Id);
             
             CreateTable(
                 "dbo.Tags",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        GuidanceLabel = c.String(),
+                        Name = c.String(),
+                        DisplayName = c.String(),
+                        Description = c.String(),
+                        ContextId = c.Int(),
+                        ContextId1 = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Tags", t => t.ContextId)
+                .ForeignKey("dbo.Tags", t => t.ContextId1)
+                .Index(t => t.ContextId)
+                .Index(t => t.ContextId1);
             
             CreateTable(
                 "dbo.PersonCases",
@@ -93,15 +101,15 @@ namespace MichaelsPlace.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Person_Id = c.String(nullable: false, maxLength: 128),
-                        Situation_Id = c.Int(nullable: false),
+                        Relationship_Id = c.Int(nullable: false),
                         Case_Id = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.People", t => t.Person_Id)
-                .ForeignKey("dbo.Situations", t => t.Situation_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Tags", t => t.Relationship_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Cases", t => t.Case_Id)
                 .Index(t => t.Person_Id)
-                .Index(t => t.Situation_Id)
+                .Index(t => t.Relationship_Id)
                 .Index(t => t.Case_Id);
             
             CreateTable(
@@ -113,8 +121,13 @@ namespace MichaelsPlace.Migrations
                         LastName = c.String(),
                         EmailAddress = c.String(),
                         PhoneNumber = c.String(),
+                        IsDeleted = c.Boolean(nullable: false),
                         Organization_Id = c.Int(),
-                    })
+                    },
+                annotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Person_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Organizations", t => t.Organization_Id)
                 .Index(t => t.Organization_Id);
@@ -124,7 +137,6 @@ namespace MichaelsPlace.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        IsDisabled = c.Boolean(nullable: false),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -204,11 +216,36 @@ namespace MichaelsPlace.Migrations
                         PhoneNumber = c.String(),
                         FaxNumber = c.String(),
                         Notes = c.String(),
+                        IsDeleted = c.Boolean(nullable: false),
                         Address_Id = c.Int(),
-                    })
+                        Context_Id = c.Int(),
+                    },
+                annotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Organization_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Addresses", t => t.Address_Id)
-                .Index(t => t.Address_Id);
+                .ForeignKey("dbo.Tags", t => t.Context_Id)
+                .Index(t => t.Address_Id)
+                .Index(t => t.Context_Id);
+            
+            CreateTable(
+                "dbo.OrganizationPersons",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Person_Id = c.String(maxLength: 128),
+                        Relationship_Id = c.Int(),
+                        Organization_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.People", t => t.Person_Id)
+                .ForeignKey("dbo.Tags", t => t.Relationship_Id)
+                .ForeignKey("dbo.Organizations", t => t.Organization_Id)
+                .Index(t => t.Person_Id)
+                .Index(t => t.Relationship_Id)
+                .Index(t => t.Organization_Id);
             
             CreateTable(
                 "dbo.PersonCaseItems",
@@ -277,69 +314,43 @@ namespace MichaelsPlace.Migrations
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
-                "dbo.UserModels",
-                c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        FirstName = c.String(),
-                        LastName = c.String(),
-                        IsDisabled = c.Boolean(nullable: false),
-                        Email = c.String(),
-                        IsLockedOut = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.SituationDemographicTags",
-                c => new
-                    {
-                        Situation_Id = c.Int(nullable: false),
-                        DemographicTag_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.Situation_Id, t.DemographicTag_Id })
-                .ForeignKey("dbo.Situations", t => t.Situation_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Tags", t => t.DemographicTag_Id, cascadeDelete: true)
-                .Index(t => t.Situation_Id)
-                .Index(t => t.DemographicTag_Id);
-            
-            CreateTable(
-                "dbo.SituationLossTags",
-                c => new
-                    {
-                        Situation_Id = c.Int(nullable: false),
-                        LossTag_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.Situation_Id, t.LossTag_Id })
-                .ForeignKey("dbo.Situations", t => t.Situation_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Tags", t => t.LossTag_Id, cascadeDelete: true)
-                .Index(t => t.Situation_Id)
-                .Index(t => t.LossTag_Id);
-            
-            CreateTable(
-                "dbo.SituationMournerTags",
-                c => new
-                    {
-                        Situation_Id = c.Int(nullable: false),
-                        MournerTag_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.Situation_Id, t.MournerTag_Id })
-                .ForeignKey("dbo.Situations", t => t.Situation_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Tags", t => t.MournerTag_Id, cascadeDelete: true)
-                .Index(t => t.Situation_Id)
-                .Index(t => t.MournerTag_Id);
-            
-            CreateTable(
-                "dbo.ItemSituations",
+                "dbo.ItemContextTags",
                 c => new
                     {
                         Item_Id = c.Int(nullable: false),
-                        Situation_Id = c.Int(nullable: false),
+                        ContextTag_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Item_Id, t.Situation_Id })
+                .PrimaryKey(t => new { t.Item_Id, t.ContextTag_Id })
                 .ForeignKey("dbo.Items", t => t.Item_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Situations", t => t.Situation_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Tags", t => t.ContextTag_Id, cascadeDelete: true)
                 .Index(t => t.Item_Id)
-                .Index(t => t.Situation_Id);
+                .Index(t => t.ContextTag_Id);
+            
+            CreateTable(
+                "dbo.ItemLossTags",
+                c => new
+                    {
+                        Item_Id = c.Int(nullable: false),
+                        LossTag_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Item_Id, t.LossTag_Id })
+                .ForeignKey("dbo.Items", t => t.Item_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Tags", t => t.LossTag_Id, cascadeDelete: true)
+                .Index(t => t.Item_Id)
+                .Index(t => t.LossTag_Id);
+            
+            CreateTable(
+                "dbo.ItemRelationshipTags",
+                c => new
+                    {
+                        Item_Id = c.Int(nullable: false),
+                        RelationshipTag_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Item_Id, t.RelationshipTag_Id })
+                .ForeignKey("dbo.Items", t => t.Item_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Tags", t => t.RelationshipTag_Id, cascadeDelete: true)
+                .Index(t => t.Item_Id)
+                .Index(t => t.RelationshipTag_Id);
             
         }
         
@@ -351,13 +362,16 @@ namespace MichaelsPlace.Migrations
             DropForeignKey("dbo.Notifications", "CaseItem_Id", "dbo.CaseItems");
             DropForeignKey("dbo.Notifications", "Case_Id", "dbo.Cases");
             DropForeignKey("dbo.PersonCases", "Case_Id", "dbo.Cases");
-            DropForeignKey("dbo.PersonCases", "Situation_Id", "dbo.Situations");
+            DropForeignKey("dbo.PersonCases", "Relationship_Id", "dbo.Tags");
             DropForeignKey("dbo.PersonCases", "Person_Id", "dbo.People");
             DropForeignKey("dbo.PersonCaseItems", "Person_Id", "dbo.People");
             DropForeignKey("dbo.PersonCaseItems", "Item_Id", "dbo.Items");
             DropForeignKey("dbo.PersonCaseItems", "Case_Id", "dbo.Cases");
-            DropForeignKey("dbo.Situations", "Organization_Id", "dbo.Organizations");
             DropForeignKey("dbo.People", "Organization_Id", "dbo.Organizations");
+            DropForeignKey("dbo.OrganizationPersons", "Organization_Id", "dbo.Organizations");
+            DropForeignKey("dbo.OrganizationPersons", "Relationship_Id", "dbo.Tags");
+            DropForeignKey("dbo.OrganizationPersons", "Person_Id", "dbo.People");
+            DropForeignKey("dbo.Organizations", "Context_Id", "dbo.Tags");
             DropForeignKey("dbo.Cases", "Organization_Id", "dbo.Organizations");
             DropForeignKey("dbo.Organizations", "Address_Id", "dbo.Addresses");
             DropForeignKey("dbo.AspNetUsers", "Id", "dbo.People");
@@ -367,22 +381,20 @@ namespace MichaelsPlace.Migrations
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.CaseItems", "Case_Id", "dbo.Cases");
             DropForeignKey("dbo.CaseItems", "Item_Id", "dbo.Items");
-            DropForeignKey("dbo.ItemSituations", "Situation_Id", "dbo.Situations");
-            DropForeignKey("dbo.ItemSituations", "Item_Id", "dbo.Items");
-            DropForeignKey("dbo.SituationMournerTags", "MournerTag_Id", "dbo.Tags");
-            DropForeignKey("dbo.SituationMournerTags", "Situation_Id", "dbo.Situations");
-            DropForeignKey("dbo.SituationLossTags", "LossTag_Id", "dbo.Tags");
-            DropForeignKey("dbo.SituationLossTags", "Situation_Id", "dbo.Situations");
-            DropForeignKey("dbo.SituationDemographicTags", "DemographicTag_Id", "dbo.Tags");
-            DropForeignKey("dbo.SituationDemographicTags", "Situation_Id", "dbo.Situations");
-            DropIndex("dbo.ItemSituations", new[] { "Situation_Id" });
-            DropIndex("dbo.ItemSituations", new[] { "Item_Id" });
-            DropIndex("dbo.SituationMournerTags", new[] { "MournerTag_Id" });
-            DropIndex("dbo.SituationMournerTags", new[] { "Situation_Id" });
-            DropIndex("dbo.SituationLossTags", new[] { "LossTag_Id" });
-            DropIndex("dbo.SituationLossTags", new[] { "Situation_Id" });
-            DropIndex("dbo.SituationDemographicTags", new[] { "DemographicTag_Id" });
-            DropIndex("dbo.SituationDemographicTags", new[] { "Situation_Id" });
+            DropForeignKey("dbo.ItemRelationshipTags", "RelationshipTag_Id", "dbo.Tags");
+            DropForeignKey("dbo.ItemRelationshipTags", "Item_Id", "dbo.Items");
+            DropForeignKey("dbo.ItemLossTags", "LossTag_Id", "dbo.Tags");
+            DropForeignKey("dbo.ItemLossTags", "Item_Id", "dbo.Items");
+            DropForeignKey("dbo.ItemContextTags", "ContextTag_Id", "dbo.Tags");
+            DropForeignKey("dbo.ItemContextTags", "Item_Id", "dbo.Items");
+            DropForeignKey("dbo.Tags", "ContextId1", "dbo.Tags");
+            DropForeignKey("dbo.Tags", "ContextId", "dbo.Tags");
+            DropIndex("dbo.ItemRelationshipTags", new[] { "RelationshipTag_Id" });
+            DropIndex("dbo.ItemRelationshipTags", new[] { "Item_Id" });
+            DropIndex("dbo.ItemLossTags", new[] { "LossTag_Id" });
+            DropIndex("dbo.ItemLossTags", new[] { "Item_Id" });
+            DropIndex("dbo.ItemContextTags", new[] { "ContextTag_Id" });
+            DropIndex("dbo.ItemContextTags", new[] { "Item_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Notifications", new[] { "Invitee_Id" });
             DropIndex("dbo.Notifications", new[] { "Case_Id1" });
@@ -391,6 +403,10 @@ namespace MichaelsPlace.Migrations
             DropIndex("dbo.PersonCaseItems", new[] { "Person_Id" });
             DropIndex("dbo.PersonCaseItems", new[] { "Item_Id" });
             DropIndex("dbo.PersonCaseItems", new[] { "Case_Id" });
+            DropIndex("dbo.OrganizationPersons", new[] { "Organization_Id" });
+            DropIndex("dbo.OrganizationPersons", new[] { "Relationship_Id" });
+            DropIndex("dbo.OrganizationPersons", new[] { "Person_Id" });
+            DropIndex("dbo.Organizations", new[] { "Context_Id" });
             DropIndex("dbo.Organizations", new[] { "Address_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -401,34 +417,51 @@ namespace MichaelsPlace.Migrations
             DropIndex("dbo.AspNetUsers", new[] { "Id" });
             DropIndex("dbo.People", new[] { "Organization_Id" });
             DropIndex("dbo.PersonCases", new[] { "Case_Id" });
-            DropIndex("dbo.PersonCases", new[] { "Situation_Id" });
+            DropIndex("dbo.PersonCases", new[] { "Relationship_Id" });
             DropIndex("dbo.PersonCases", new[] { "Person_Id" });
-            DropIndex("dbo.Situations", new[] { "Organization_Id" });
+            DropIndex("dbo.Tags", new[] { "ContextId1" });
+            DropIndex("dbo.Tags", new[] { "ContextId" });
             DropIndex("dbo.CaseItems", new[] { "Case_Id" });
             DropIndex("dbo.CaseItems", new[] { "Item_Id" });
             DropIndex("dbo.Cases", new[] { "Organization_Id" });
-            DropTable("dbo.ItemSituations");
-            DropTable("dbo.SituationMournerTags");
-            DropTable("dbo.SituationLossTags");
-            DropTable("dbo.SituationDemographicTags");
-            DropTable("dbo.UserModels");
+            DropTable("dbo.ItemRelationshipTags");
+            DropTable("dbo.ItemLossTags");
+            DropTable("dbo.ItemContextTags");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.HistoricalEvents");
             DropTable("dbo.Notifications");
             DropTable("dbo.PersonCaseItems");
-            DropTable("dbo.Organizations");
+            DropTable("dbo.OrganizationPersons");
+            DropTable("dbo.Organizations",
+                removedAnnotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Organization_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                });
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.UserPreferences");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.People");
+            DropTable("dbo.People",
+                removedAnnotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Person_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                });
             DropTable("dbo.PersonCases");
             DropTable("dbo.Tags");
-            DropTable("dbo.Situations");
-            DropTable("dbo.Items");
+            DropTable("dbo.Items",
+                removedAnnotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Article_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                    { "DynamicFilter_Item_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                    { "DynamicFilter_ToDo_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                });
             DropTable("dbo.CaseItems");
-            DropTable("dbo.Cases");
+            DropTable("dbo.Cases",
+                removedAnnotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Case_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                });
             DropTable("dbo.Addresses");
         }
     }

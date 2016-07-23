@@ -375,6 +375,9 @@
     <Compile Include="Controllers\Identity\ManageController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\AutoMapperExtensions.cs" />
     <Compile Include="Extensions\DataTablesRequestExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
@@ -386,30 +389,14 @@
     <Compile Include="GlobalSettings.secrets.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\Identity\ApplicationUserStore.cs" />
+    <Compile Include="Migrations\201607231613184_InitializeMigrations.cs" />
+    <Compile Include="Migrations\201607231613184_InitializeMigrations.Designer.cs">
+      <DependentUpon>201607231613184_InitializeMigrations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Admin\UserReferenceModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
     <Compile Include="NotificationHandlers\SmsNotificationAddedNotificationHandler.cs" />
-    <Compile Include="Migrations\201606071038453_initial.cs" />
-    <Compile Include="Migrations\201606071038453_initial.Designer.cs">
-      <DependentUpon>201606071038453_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606071632506_people.cs" />
-    <Compile Include="Migrations\201606071632506_people.Designer.cs">
-      <DependentUpon>201606071632506_people.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606101418006_OrganizationHasCases.cs" />
-    <Compile Include="Migrations\201606101418006_OrganizationHasCases.Designer.cs">
-      <DependentUpon>201606101418006_OrganizationHasCases.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606111337442_SoftDelete.cs" />
-    <Compile Include="Migrations\201606111337442_SoftDelete.Designer.cs">
-      <DependentUpon>201606111337442_SoftDelete.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606121028262_NoExplicitIsDisabledOnUser.cs" />
-    <Compile Include="Migrations\201606121028262_NoExplicitIsDisabledOnUser.Designer.cs">
-      <DependentUpon>201606121028262_NoExplicitIsDisabledOnUser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin\PersonModel.cs" />
     <Compile Include="Models\Persistence\IApplicationDbContextFactory.cs" />
@@ -454,15 +441,11 @@
     <Compile Include="Models\Persistence\ICreated.cs" />
     <Compile Include="Models\Persistence\Invitation.cs" />
     <Compile Include="Models\Persistence\Item.cs" />
-    <Compile Include="Models\Persistence\LossTag.cs" />
-    <Compile Include="Models\Persistence\MournerTag.cs" />
     <Compile Include="Models\Persistence\Notification.cs" />
     <Compile Include="Models\Persistence\Organization.cs" />
-    <Compile Include="Models\Persistence\Situation.cs" />
     <Compile Include="Models\Persistence\SubscribableEventType.cs" />
     <Compile Include="Models\Persistence\SubscriptionPreference.cs" />
     <Compile Include="Models\Persistence\Tag.cs" />
-    <Compile Include="Models\Persistence\DemographicTag.cs" />
     <Compile Include="Models\Persistence\ToDo.cs" />
     <Compile Include="Models\Persistence\PersonCaseItem.cs" />
     <Compile Include="Models\Persistence\UserPreference.cs" />
@@ -508,11 +491,13 @@
     <Content Include="Content\Selectize\js\standalone\selectize.js" />
     <Content Include="Content\Selectize\js\standalone\selectize.min.js" />
     <Content Include="Content\toastr.css" />
+    <Content Include="Error.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Index.html" />
     <Content Include="Queries\gulpfile.js" />
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\bootstrap-validation.js" />
@@ -676,20 +661,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606071038453_initial.resx">
-      <DependentUpon>201606071038453_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606071632506_people.resx">
-      <DependentUpon>201606071632506_people.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606101418006_OrganizationHasCases.resx">
-      <DependentUpon>201606101418006_OrganizationHasCases.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606111337442_SoftDelete.resx">
-      <DependentUpon>201606111337442_SoftDelete.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606121028262_NoExplicitIsDisabledOnUser.resx">
-      <DependentUpon>201606121028262_NoExplicitIsDisabledOnUser.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607231613184_InitializeMigrations.resx">
+      <DependentUpon>201607231613184_InitializeMigrations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

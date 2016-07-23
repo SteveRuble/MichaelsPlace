@@ -18,7 +18,7 @@ namespace MichaelsPlace
     {
         private void ConfigureData(IAppBuilder app)
         {
-            Database.SetInitializer<ApplicationDbContext>(null);
+            Database.SetInitializer<ApplicationDbContext>(new MigrateDatabaseToLatestVersion<ApplicationDbContext, MichaelsPlace.Migrations.Configuration>());
         }
     }
 }

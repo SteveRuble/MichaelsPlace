@@ -246,8 +246,8 @@ _Pvt_Extensions
 
 #secrets
 *.secrets.*
-Web.Debug.config
-Web.Release.config
+*.Debug.config
+*.Release.config
 
 #gulp build
 **/app/dist/

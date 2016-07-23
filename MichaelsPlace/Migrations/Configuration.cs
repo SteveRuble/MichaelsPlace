@@ -12,11 +12,11 @@ namespace MichaelsPlace.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MichaelsPlace.Models.Persistence.ApplicationDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<MichaelsPlace.Models.Persistence.ApplicationDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(MichaelsPlace.Models.Persistence.ApplicationDbContext context)
@@ -76,33 +76,23 @@ namespace MichaelsPlace.Migrations
                 userManager.Create(randomUser, SomeRandom.Name(20) + ".1");
             }
 
-
-            context.Tags.AddOrUpdate(new DemographicTag() { Id = 1, Title = "Friend", GuidanceLabel = "I'm helping a friend or relative" });
-            context.Tags.AddOrUpdate(new DemographicTag() { Id = 2, Title = "Person", GuidanceLabel = "I've suffered a loss" });
-            context.Tags.AddOrUpdate(new DemographicTag() { Id = 3, Title = "School Administrator", GuidanceLabel = "I'm a school administrator" });
-            context.Tags.AddOrUpdate(new DemographicTag() { Id = 4, Title = "Manager", GuidanceLabel = "I manage a workplace" });
-
-            context.Tags.AddOrUpdate(new LossTag() { Id = 5, Title = "Spouse", GuidanceLabel = "I lost a spouse" });
-            context.Tags.AddOrUpdate(new LossTag() { Id = 6, Title = "Parent", GuidanceLabel = "I lost a parent" });
-            context.Tags.AddOrUpdate(new LossTag() { Id = 7, Title = "Child", GuidanceLabel = "I lost a child" });
-            context.Tags.AddOrUpdate(new LossTag() { Id = 8, Title = "Friend", GuidanceLabel = "I lost a friend" });
-
-            context.Tags.AddOrUpdate(new MournerTag() { Id = 9, Title = "Siblings", GuidanceLabel = "My siblings" });
-            context.Tags.AddOrUpdate(new MournerTag() { Id = 10, Title = "Classmates", GuidanceLabel = "My classmates" });
-            context.Tags.AddOrUpdate(new MournerTag() { Id = 11, Title = "Employees", GuidanceLabel = "My employees" });
-            context.Tags.AddOrUpdate(new MournerTag() { Id = 12, Title = "Self", GuidanceLabel = "Myself" });
-
-            var situation = new Situation()
-            {
-                Id = 1,
-                Losses = context.Tags.Local.OfType<LossTag>().ToList(),
-                Mourners = context.Tags.Local.OfType<MournerTag>().ToList(),
-                Demographics = context.Tags.Local.OfType<DemographicTag>().ToList(),
-            };
-            context.Situations.AddOrUpdate(situation);
+            var tb = new TagBuilder(context);
+            tb.CreateContextTag("Business", "Business", "A loss in a business context.")
+                .WithLosses("Employee", "Employee family member")
+                .WithRelationships("HR","Employee", "Employee family member", "Owner", "Other");
+            tb.CreateContextTag("Personal", "Personal", "A loss in a family context.")
+                .WithLosses("Child","Parent","Sibling","Friend","Other")
+                .WithRelationships("Parent","Child","Sibling","Spouse","Extended family","Pastor","Other");
+            tb.CreateContextTag("Educational", "Educational", "A loss at a school or university.")
+              .WithLosses("Student", "Faculty", "Staff", "Family of student")
+              .WithRelationships("Administrator", "Faculty", "Student", "Family", "Other");
+            tb.CreateContextTag("Organizational", "Church, sports team, or other organization", "A loss at a church or social organization.")
+                .WithLosses("Member","Affiliate")
+                .WithRelationships("Member", "Leader");
 
             for (int i = 1; i < 7; i++)
             {
+                var contextTag = context.Tags.Local.OfType<ContextTag>().OrderBy(t => t.Id%i).First();
                 context.Items.AddOrUpdate(new Article()
                 {
                     Id = i,
@@ -112,16 +102,16 @@ namespace MichaelsPlace.Migrations
                                           "Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.",
                     Title = "Article " + i,
                     Order = i,
-                    Situations =
-                                      {
-                                          situation
-                                      }
+                    AppliesToContexts = {contextTag},
+                    AppliesToRelationships = contextTag.Relationships.OrderBy(t => t.Id % i).Take(2).ToList(),
+                    AppliesToLosses = contextTag.Losses.OrderBy(t => t.Id % i).Take(2).ToList()
                 });
 
             }
 
             for (int i = 1; i < 5; i++)
             {
+                var contextTag = context.Tags.Local.OfType<ContextTag>().OrderBy(t => t.Id % i).First();
                 context.Items.AddOrUpdate(new ToDo()
                 {
                     Id = i + 7,
@@ -131,10 +121,9 @@ namespace MichaelsPlace.Migrations
                                                   "Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus.",
                     Title = "ToDo " + i,
                     Order = i,
-                    Situations =
-                                              {
-                                                  situation
-                                              }
+                    AppliesToContexts = { contextTag },
+                    AppliesToRelationships = contextTag.Relationships.OrderBy(t => t.Id % i).Take(2).ToList(),
+                    AppliesToLosses = contextTag.Losses.OrderBy(t => t.Id % i).Take(2).ToList()
                 });
 
             }
@@ -142,5 +131,50 @@ namespace MichaelsPlace.Migrations
             base.Seed(context);
 
         }
+        
+        public class TagBuilder
+        {
+            private readonly ApplicationDbContext _dbContext;
+            private ContextTag _currentContext;
+            private int _id = 0;
+
+            public TagBuilder(ApplicationDbContext dbContext)
+            {
+                _dbContext = dbContext;
+            }
+
+            public TagBuilder CreateContextTag(string name, string display, string description)
+            {
+                _currentContext = new ContextTag() { Id = ++_id, Name = name, DisplayName = display, Description = description};
+                _dbContext.Tags.AddOrUpdate(_currentContext);
+                return this;
+            }
+
+            public TagBuilder WithLosses(params string[] names)
+            {
+                foreach (var name in names)
+                {
+                    var tag = new LossTag() {Id = ++_id, Name = name, Context = _currentContext};
+                    _currentContext.Losses.Add(tag);
+                    _dbContext.Tags.AddOrUpdate(tag);
+                    
+                }
+                return this;
+            }
+
+            public TagBuilder WithRelationships(params string[] names)
+            {
+                foreach (var name in names)
+                {
+                    var tag = new RelationshipTag() { Id = ++_id, Name = name, Context = _currentContext };
+                    _currentContext.Relationships.Add(tag);
+                    _dbContext.Tags.AddOrUpdate(tag);
+
+                }
+                return this;
+            }
+            
+        }
+        
     }
 }

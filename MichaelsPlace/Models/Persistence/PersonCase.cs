@@ -16,6 +16,6 @@ namespace MichaelsPlace.Models.Persistence
         public virtual Person Person { get; set; }
 
         [Required]
-        public virtual Situation Situation { get; set; }
+        public virtual RelationshipTag Relationship { get; set; }
     }
 }
