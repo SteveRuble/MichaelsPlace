@@ -154,10 +154,14 @@ namespace MichaelsPlace.Migrations
             {
                 foreach (var name in names)
                 {
-                    var tag = new LossTag() {Id = ++_id, Name = name, Context = _currentContext};
+                    var tag = _dbContext.Set<LossTag>().Create();
+                    tag.Id = ++_id;
+                    tag.Name = name;
+                    tag.Context = _currentContext;
+                    tag.ContextId = _currentContext.Id;
                     _currentContext.Losses.Add(tag);
                     _dbContext.Tags.AddOrUpdate(tag);
-                    
+
                 }
                 return this;
             }
@@ -166,7 +170,11 @@ namespace MichaelsPlace.Migrations
             {
                 foreach (var name in names)
                 {
-                    var tag = new RelationshipTag() { Id = ++_id, Name = name, Context = _currentContext };
+                    var tag = _dbContext.Set<RelationshipTag>().Create();
+                    tag.Id = ++_id;
+                    tag.Name = name;
+                    tag.Context = _currentContext;
+                    tag.ContextId = _currentContext.Id;
                     _currentContext.Relationships.Add(tag);
                     _dbContext.Tags.AddOrUpdate(tag);
 

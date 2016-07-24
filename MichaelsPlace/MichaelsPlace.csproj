@@ -393,6 +393,10 @@
     <Compile Include="Migrations\201607231613184_InitializeMigrations.Designer.cs">
       <DependentUpon>201607231613184_InitializeMigrations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607231630493_TagStructure.cs" />
+    <Compile Include="Migrations\201607231630493_TagStructure.Designer.cs">
+      <DependentUpon>201607231630493_TagStructure.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Admin\UserReferenceModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
@@ -663,6 +667,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201607231613184_InitializeMigrations.resx">
       <DependentUpon>201607231613184_InitializeMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607231630493_TagStructure.resx">
+      <DependentUpon>201607231630493_TagStructure.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -19,15 +19,15 @@ namespace MichaelsPlace.Controllers.Api
         }
 
         [HttpGet, Route("relationship")]
-        public IEnumerable<Tag> Relationship(int? contextId = null) =>
+        public IEnumerable<RelationshipTag> Relationship(int? contextId = null) =>
             _dbContext.Tags.OfType<RelationshipTag>().Where(r => (contextId == null || contextId == r.Context.Id)).ToList();
 
         [HttpGet, Route("loss")]
-        public IEnumerable<Tag> Loss(int? contextId = null) =>
+        public IEnumerable<LossTag> Loss(int? contextId = null) =>
             _dbContext.Tags.OfType<LossTag>().Where(t => contextId == null || contextId == t.Context.Id).ToList();
 
         [HttpGet, Route("context")]
-        public IEnumerable<Tag> Context() =>_dbContext.Tags.OfType<ContextTag>().ToList();
+        public IEnumerable<ContextTag> Context() =>_dbContext.Tags.OfType<ContextTag>().ToList();
         
     }
 }

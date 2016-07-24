@@ -22,13 +22,14 @@ namespace MichaelsPlace.Models.Persistence
         /// </summary>
         public virtual string Description { get; set; }
     }
-
+    
     public class RelationshipTag : Tag
     {
         public virtual int? ContextId { get; set; }
 
         [JsonIgnore]
         public virtual ContextTag Context { get; set; }
+
     }
 
     public class LossTag : Tag
@@ -37,6 +38,7 @@ namespace MichaelsPlace.Models.Persistence
 
         [JsonIgnore]
         public virtual ContextTag Context { get; set; }
+
     }
 
     public class ContextTag : Tag

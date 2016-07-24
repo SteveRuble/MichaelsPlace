@@ -200,6 +200,9 @@ namespace MichaelsPlace.Models.Persistence
             modelBuilder.Entity<Organization>().HasMany(o => o.Cases).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
             modelBuilder.Entity<Organization>().HasMany(o => o.OrganizationPeople).WithOptional(c => c.Organization).WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<ContextTag>().HasMany(c => c.Losses).WithRequired(r => r.Context).HasForeignKey(r => r.ContextId);
+            modelBuilder.Entity<ContextTag>().HasMany(c => c.Relationships).WithRequired(r => r.Context).HasForeignKey(r => r.ContextId);
+
             modelBuilder.Filter(Constants.EntityFrameworkFilters.SoftDelete, (ISoftDelete e) => e.IsDeleted != true);
         }
 

@@ -1,18 +1,26 @@
-import {inject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-fetch-client';
+import {
+    inject
+} from 'aurelia-framework';
+import {
+    Api
+} from 'services/api';
 
-@inject(HttpClient)
+@inject(Api)
 export class TagSteps {
-  heading = 'Describe Yourself';
-  tags = [];
+    heading = 'Describe Yourself';
+    tags = [];
+    context;
+    loss;
+    relationship;
+    api;
 
-  constructor(http) {
-    this.http = http;
-  }
+    constructor(api) {
+        this.api = api;
+    }
 
-  activate() {
-    return this.http.fetch('tags/demographic')
-      .then(response => response.json())
-      .then(tags => this.tags = tags);
-  }
+    activate(params) {
+
+        return this.api.tags.getContextTags()
+            .then(tags => this.tags = tags);
+    }
 }
