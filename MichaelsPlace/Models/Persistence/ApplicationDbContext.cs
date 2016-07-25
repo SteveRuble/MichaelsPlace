@@ -93,6 +93,14 @@ namespace MichaelsPlace.Models.Persistence
         public ApplicationDbContext(DbConnection connection) : base(connection, false)
         {
             Initialize();
+        }       
+        
+        /// <summary>
+        /// Create new instance which will use the provided connection, which must be opened and closed by the caller.
+        /// </summary>
+        public ApplicationDbContext(DbConnection connection, bool ownsConnection) : base(connection, ownsConnection)
+        {
+           Initialize();
         }
 
         private void Initialize()

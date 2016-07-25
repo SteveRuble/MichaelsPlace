@@ -7,7 +7,7 @@ using MichaelsPlace.Tests.Integration;
 using Moq;
 using NUnit.Framework;
 
-namespace MichaelsPlace.Tests.Unit.Models
+namespace MichaelsPlace.Tests.Integration.Models
 {
     [TestFixture]
     public class ApplicationDbContextTests : IntegrationTestBase

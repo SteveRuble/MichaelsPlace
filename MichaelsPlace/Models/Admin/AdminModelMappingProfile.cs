@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using MichaelsPlace.Extensions;
@@ -32,6 +33,18 @@ namespace MichaelsPlace.Models.Api
 
             CreateMap<AdminToDoModel, ToDo>()
                 .IncludeBase<AdminItemModel, Item>();
+
+            #region Tags
+            CreateMap<AdminTagModel, LossTag>()
+                .ForMember(x => x.Context, o => o.Ignore())
+                .ForMember(t => t.ContextId, o => o.MapFrom(s => s.ParentId));
+            CreateMap<AdminTagModel, RelationshipTag>()
+                .ForMember(x => x.Context, o => o.Ignore())
+                .ForMember(t => t.ContextId, o => o.MapFrom(s => s.ParentId));
+            CreateMap<AdminTagModel, ContextTag>()
+                .ForMember(t => t.Losses, o => o.Ignore())
+                .ForMember(t => t.Relationships, o => o.Ignore());
+            #endregion Tags
         }
 
         private void ConfigureFromPersistenceToModel()
@@ -66,6 +79,42 @@ namespace MichaelsPlace.Models.Api
                 .ForMember(p => p.Id, o => o.Condition(rc => rc.DestinationValue == null))
                 .ForMember(p => p.Roles, o => o.Ignore())
                 .IgnoreAllNonExisting();
+
+            #region Tags
+
+            CreateMap<LossTag, AdminTagModel>()
+                .ForMember(m => m.State, o => o.UseValue(EntityState.Unchanged))
+                .ForMember(t => t.Type, o => o.UseValue(AdminTagType.Loss))
+                .ForMember(m => m.ParentId, o => o.MapFrom(s => s.ContextId));
+            CreateMap<RelationshipTag, AdminTagModel>()
+                .ForMember(m => m.State, o => o.UseValue(EntityState.Unchanged))
+                .ForMember(t => t.Type, o => o.UseValue(AdminTagType.Relationship))
+                .ForMember(m => m.ParentId, o => o.MapFrom(s => s.ContextId));
+            CreateMap<ContextTag, AdminTagModel>()
+                .ForMember(m => m.State, o => o.UseValue(EntityState.Unchanged))
+                .ForMember(t => t.Type, o => o.UseValue(AdminTagType.Context))
+                .ForMember(m => m.ParentId, o => o.Ignore());
+
+            #endregion Tags
         }
+    }
+
+    public enum AdminTagType
+    {
+        Unknown,
+        Context,
+        Loss,
+        Relationship
+    }
+
+    public class AdminTagModel
+    {
+        public int Id { get; set; }
+        public int? ParentId { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public EntityState State { get; set; }
+        public AdminTagType Type { get; set; }
     }
 }

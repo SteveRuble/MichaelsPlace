@@ -46,6 +46,17 @@ namespace MichaelsPlace.Tests
         {
             public override void Load()
             {
+                //var connection = Effort.DbConnectionFactory.CreatePersistent(Guid.NewGuid().ToString());
+
+                //Kernel.Bind<ApplicationDbContext>().ToMethod(_ =>
+                //{
+                //    var context = new ApplicationDbContext(connection, true);
+                //    context.Database.CreateIfNotExists();
+                //    MichaelsPlace.Migrations.Configuration.SeedContext(context);
+                //    return context;
+                //});
+
+
                 var connection = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
                 connection.Open();
