@@ -16,6 +16,13 @@ namespace MichaelsPlace
             public const string CaseManager = nameof(CaseManager);
         }
 
+        public static class Tags
+        {
+            public const string Context = nameof(Context);
+            public const string Loss = nameof(Loss);
+            public const string Relationship = nameof(Relationship);
+        }
+
         public static class Claims
         {
             public const string Staff = "staff";

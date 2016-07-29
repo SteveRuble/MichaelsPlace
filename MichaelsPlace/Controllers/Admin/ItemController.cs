@@ -13,9 +13,30 @@ using DataTables.AspNet.Mvc5;
 using MichaelsPlace.Extensions;
 using MichaelsPlace.Models.Admin;
 using MichaelsPlace.Models.Persistence;
+using MichaelsPlace.Queries;
+using MichaelsPlace.Utilities;
+using Newtonsoft.Json;
+using Ninject;
+using Ninject.Infrastructure.Language;
 
 namespace MichaelsPlace.Controllers.Admin
 {
+    public class TaggedItemModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public IEnumerable<int> ContextTagIds { get; set; }
+        public IEnumerable<int> LossTagIds { get; set; }
+        public IEnumerable<int> RelationshipTagIds { get; set; }
+    }
+
+    public class ItemTaggingModel
+    {
+        public List<TaggedItemModel> Items { get; set; } = new List<TaggedItemModel>();
+        public List<AdminTagModel> Tags { get; set; } = new List<AdminTagModel>();
+        public bool? SaveSuccessful { get; set; }
+    }
+
     public class ItemController<TEntity, TModel> : AdminControllerBase
         where TEntity : Item
         where TModel : AdminItemModel
@@ -23,13 +44,23 @@ namespace MichaelsPlace.Controllers.Admin
         public virtual string Prefix => "Item";
 
         private string ControllerName { get { return RouteData?.GetRequiredString("controller"); } }
+
+        private Injected<AdminTagModelQuery> _adminTagModelQuery;
+
+        [Inject]
+        public AdminTagModelQuery AdminTagModelQuery
+        {
+            get { return _adminTagModelQuery.Value; }
+            set { _adminTagModelQuery.Value = value; }
+        }
+
         
         protected override void OnResultExecuting(ResultExecutingContext filterContext)
         {
             ViewBag.Prefix = Prefix;
             base.OnResultExecuting(filterContext);
         }
-
+        
         public virtual async Task<ActionResult> Index()
         {
             var data = Enumerable.Empty<TModel>();
@@ -49,22 +80,65 @@ namespace MichaelsPlace.Controllers.Admin
         }
 
 
-        public virtual async Task<ActionResult> Programs()
+        public virtual async Task<ActionResult> Tagging()
         {
             var data = await DbContext.Set<TEntity>()
-                                      .Select(e => new OrderingModel()
+                                      .Select(e => new TaggedItemModel()
                                                    {
                                                        Id = e.Id,
-                                                       Order = e.Order,
-                                                       Title = e.Title
+                                                       Title = e.Title,
+                                                       ContextTagIds = e.AppliesToContexts.Select(t => t.Id),
+                                                       LossTagIds = e.AppliesToLosses.Select(t => t.Id),
+                                                       RelationshipTagIds = e.AppliesToRelationships.Select(t => t.Id),
                                                    })
-                                      .OrderBy(o => o.Order)
                                       .ToListAsync();
-            
+            var model = new ItemTaggingModel()
+                        {
+                            Items = data,
+                            Tags = AdminTagModelQuery.GetAdminTagModels()
+                        };
 
-            return View($"~/Views/Item/Ordering.cshtml", data);
+            return View($"~/Views/Item/Tagging.cshtml", model);
         }
 
+        [HttpPost]
+        public virtual async Task<ActionResult> Tagging(string json)
+        {
+            var model = JsonConvert.DeserializeObject<ItemTaggingModel>(json);
+
+            try
+            {
+                var tags = await DbContext.Set<Tag>().ToDictionaryAsync(t => t.Id);
+                var items = await DbContext.Set<TEntity>().Include(i => i.AppliesToContexts)
+                                           .Include(i => i.AppliesToLosses)
+                                           .Include(i => i.AppliesToRelationships)
+                                           .ToListAsync();
+
+                var updates = from item in items
+                              join update in model.Items on item.Id equals update.Id
+                              select new {item, update};
+
+                foreach (var entry in updates)
+                {
+                    entry.item.AppliesToContexts.MirrorFrom(entry.update.ContextTagIds.Select(id => tags[id]).OfType<ContextTag>().ToList());
+                    entry.item.AppliesToLosses.MirrorFrom(entry.update.LossTagIds.Select(id => tags[id]).OfType<LossTag>().ToList());
+                    entry.item.AppliesToRelationships.MirrorFrom(entry.update.RelationshipTagIds.Select(id => tags[id]).OfType<RelationshipTag>().ToList());
+                }
+
+                DbContext.SaveChanges();
+
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.ToString());
+            }
+
+            model.Tags = AdminTagModelQuery.GetAdminTagModels();
+            model.SaveSuccessful = ModelState.IsValid;
+
+            return View($"~/Views/Item/Tagging.cshtml", model);
+        }
+        
         public virtual async Task<ActionResult> Ordering()
         {
             var data = await DbContext.Set<TEntity>()

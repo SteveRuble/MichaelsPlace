@@ -10,6 +10,7 @@ using MichaelsPlace.CommandHandlers;
 using MichaelsPlace.Models.Admin;
 using MichaelsPlace.Models.Api;
 using MichaelsPlace.Models.Persistence;
+using MichaelsPlace.Queries;
 using MichaelsPlace.Utilities;
 using Newtonsoft.Json;
 using Ninject;
@@ -27,10 +28,16 @@ namespace MichaelsPlace.Controllers.Admin
 
     public class TagController : AdminControllerBase
     {
+        private readonly AdminTagModelQuery _adminTagModelQuery;
+        public TagController(AdminTagModelQuery adminTagModelQuery)
+        {
+            _adminTagModelQuery = adminTagModelQuery;
+        }
+
         // GET: Tag
         public ActionResult Index()
         {
-            var tags = GetAdminTagModels();
+            var tags = _adminTagModelQuery.GetAdminTagModels();
 
 
             return View(new AdminTagEditModel()
@@ -51,7 +58,7 @@ namespace MichaelsPlace.Controllers.Admin
 
                 model.SaveSuccessful = true;
                 model.Message = "Tags Updated!";
-                model.Tags = GetAdminTagModels();
+                model.Tags = _adminTagModelQuery.GetAdminTagModels();
             }
             catch (Exception ex)
             {
@@ -61,19 +68,6 @@ namespace MichaelsPlace.Controllers.Admin
 
             return View(model);
         }
-
-        private List<AdminTagModel> GetAdminTagModels()
-        {
-            var tags = DbContext.Tags.ToList();
-
-            var models =
-                tags.OfType<ContextTag>()
-                    .Select(Mapper.Map<AdminTagModel>)
-                    .Concat(tags.OfType<LossTag>().Select(Mapper.Map<AdminTagModel>))
-                    .Concat(tags.OfType<RelationshipTag>().Select(Mapper.Map<AdminTagModel>))
-                    .ToList();
-
-            return models;
-        }
+        
     }
 }

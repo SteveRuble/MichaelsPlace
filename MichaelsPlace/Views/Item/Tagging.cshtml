@@ -1,0 +1,279 @@
+﻿@using System.Web.Mvc.Html
+@using BootstrapSupport
+@using Newtonsoft.Json
+@model MichaelsPlace.Controllers.Admin.ItemTaggingModel
+
+@{
+    ViewBag.Title = ViewBag.Prefix + " Tagging";
+    var json = JsonConvert.SerializeObject(Model, GlobalSettings.AjaxSerializerSettings);
+}
+
+
+@using (var tabs = Bootstrap.Tabs().AddStyle("margin-bottom", "10px").Begin())
+{
+    <li>
+        <h2 style="margin: 0 15px 0 0; text-transform: none;">@ViewBag.Title</h2>
+    </li>
+    @Html.Partial("~/Views/Item/_ItemsNav.cshtml")
+}
+
+@if (Model.SaveSuccessful.HasValue)
+{
+    <div class="alert alert-@(Model.SaveSuccessful == true ? "success" : "danger") alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        @if (Model.SaveSuccessful == true)
+        {
+            <h3>Save succeeded!</h3>
+        }
+        @Html.ValidationSummary()
+    </div>
+
+}
+
+<div data-bind="visible:isLoaded" style="display:none">
+
+
+    @using (var form = Bootstrap.Form().SetId("ordering-form").Begin())
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="json" id="json" data-bind="value:json"/>
+
+        <div class="row">
+            <div class="col-lg-1">
+                <a href="#" class="btn btn-success ladda-button btn-block" data-bind="click:submit" data-style="zoom-out"><span class="fa fa-save"></span> Save</a>
+            </div>
+            <div class="col-lg-1">
+                <a href="#" class="btn btn-info" data-bind="click:resetFilters"><span class="fa fa-eraser"></span>Clear Filters</a>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <input id="textinput" name="textinput" type="text" placeholder="Search" class="form-control input-md" data-bind="textInput:titleSearch">
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="nav nav-pills" data-bind="foreach:contextTags">
+                            <li data-bind="css: {active:$root.activeContextId() === id}">
+                                <a href="#" data-bind="text:name, click:$root.toggleTag.bind($root,$root.activeContext,$data)"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" data-bind="visible:activeContext">
+                    <div class="col-md-6">
+                        <h4>Loss:</h4>
+                        <ul class="nav nav-pills" data-bind="foreach:visibleLossTags">
+                            <li data-bind="css: {active:$root.activeLoss() === $data}">
+                                <a href="#" data-bind="text:name, click:$root.toggleTag.bind($root,$root.activeLoss,$data)"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Relationship:</h4>
+                        <ul class="nav nav-pills" data-bind="foreach:visibleRelationshipTags">
+                            <li data-bind="css: {active:$root.activeRelationship() === $data}">
+                                <a href="#" data-bind="text:name, click:$root.toggleTag.bind($root,$root.activeRelationship,$data)"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><h4>Articles</h4></th>
+                    <th><h4>Contexts</h4></th>
+                    <th><h4>Losses</h4></th>
+                    <th><h4>Relationships</h4></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach:{ data: visibleItems, as: 'item' }">
+            <!-- ko foreach: { data: $root.contextTags, as: 'contextTag' }-->
+
+            <tr data-bind="css:{'row-split': $index() === 0}">
+                <!-- ko if:($index() === 0) -->
+                <td data-bind="attr:{rowspan:$root.contextTags.length}">
+                    <h3 data-bind="text:item.title"></h3>
+
+                </td>
+                <!-- /ko -->
+                <td data-bind="template:{name:'tag-toggle-template' }"></td>
+                <td data-bind="template:{name:'tag-toggle-template', foreach: contextTag.lossTags }"></td>
+                <td data-bind="template:{name:'tag-toggle-template', foreach: contextTag.relationshipTags }"></td>
+            </tr>
+                <!-- /ko -->
+            </tbody>
+
+        </table>
+
+        <script type="text/html" id="tags-for-item-template">
+
+            <!-- expects to operate an item -->
+
+
+
+        </script>
+
+        <script type="text/html" id="tag-toggle-template">
+
+            <!-- expects an object with {item,tag} -->
+            <input type="button" class="btn" disabled data-bind="value:name,
+                                    enable:contextTag === $data || item.isActive(contextTag),
+                                    css: {'btn-info':item.isActive($data), 'btn-default':!item.isActive($data)},
+                                    click:item.toggle.bind(item, $data)" />
+
+        </script>
+
+    }
+
+</div>
+
+@section scripts
+{
+    <script>
+        "use strict";
+
+        var model = @Html.Raw(json),
+            tagHash = model.tags.reduce(function(m, a) {
+                m[a.id] = a;
+                return m;
+            },{});
+
+        var vm = {
+            isLoaded: ko.observable(false),
+            json: ko.observable(),
+            titleSearch: ko.observable(getParameterByName('titleSearch')),
+            items: model.items.map(createItem),
+            contextTags: model.tags.filter(function(t) { return t.type === "@Constants.Tags.Context" }),
+            lossTags: model.tags.filter(function(t) { return t.type === "@Constants.Tags.Loss" }),
+            relationshipTags: model.tags.filter(function(t) { return t.type === "@Constants.Tags.Relationship" }),
+
+            activeContext: ko.observable(),
+            activeLoss: ko.observable(),
+            activeRelationship: ko.observable(),
+        };
+        vm.activeContextId = ko.computed(function() { return vm.activeContext() ? vm.activeContext().id : null });
+        vm.activeLossId = ko.computed(function() { return vm.activeLoss() ? vm.activeLoss().id : null });
+        vm.activeRelationshipId = ko.computed(function() { return vm.activeRelationship() ? vm.activeRelationship().id : null });
+
+        vm.contextTags.forEach(function(t) {
+            t.lossTags = [],
+            t.relationshipTags = [];
+        });
+
+        vm.lossTags.forEach(function(t) {
+            tagHash[t.parentId].lossTags.push(t);
+        });
+        vm.relationshipTags.forEach(function(t) {
+            tagHash[t.parentId].relationshipTags.push(t);
+        });
+
+        vm.visibleLossTags = ko.computed(function() {
+            return vm.activeContext() ? vm.activeContext().lossTags : [];
+        });
+        vm.visibleRelationshipTags = ko.computed(function() {
+            return vm.activeContext() ? vm.activeContext().relationshipTags : [];
+        });
+
+        vm.visibleItems = ko.computed(function() {
+            return _.filter(vm.items,
+                function(i) {
+                    return (!vm.titleSearch() || i.title.indexOf(vm.titleSearch()) >= 0) &&
+                    (!vm.activeContextId() || _.contains(i.contextTags(), vm.activeContext())) &&
+                    (!vm.activeLossId() || _.contains(i.lossTags(), vm.activeLoss())) &&
+                    (!vm.activeRelationshipId() || _.contains(i.relationshipTags(), vm.activeRelationship()));
+                });
+        });
+
+        vm.resetFilters = function() {
+            vm.titleSearch(null);
+            vm.activeContext(null);
+            vm.activeLoss(null);
+            vm.activeRelationship(null);
+        };
+
+        vm.toggleTag = function(observable, tag) {
+            if (observable() === tag) {
+                observable(null);
+            } else {
+                observable(tag);
+            }
+        }
+
+        vm.submit = function() {
+            var submitModel = {
+                items: vm.items.map(function(i) {
+                    return {
+                        id: i.id,
+                        title: i.title,
+                        contextTagIds: i.contextTags().map(_.property('id')),
+                        lossTagIds: i.lossTags().map(_.property('id')),
+                        relationshipTagIds: i.relationshipTags().map(_.property('id'))
+                    }
+                })
+            };
+            var json = JSON.stringify(submitModel);
+            vm.json(json);
+            $('form').submit();
+        }
+
+        ko.applyBindings(vm);
+
+        vm.isLoaded(true);
+
+        function createItem(data) {
+            var item = {
+                id: data.id,
+                title: data.title,
+                contextTags: ko.observableArray(data.contextTagIds.map(_.propertyOf(tagHash))),
+                lossTags: ko.observableArray(data.lossTagIds.map(_.propertyOf(tagHash))),
+                relationshipTags: ko.observableArray(data.relationshipTagIds.map(_.propertyOf(tagHash)))
+            };
+
+            function getContainer(tag) {
+                 return item[tag.type.toLowerCase() + "Tags"];
+            }
+
+            item.toggle = function(tag) {
+                var target = getContainer(tag);
+                if (_.contains(target(), tag)) {
+                    target.remove(tag);
+                    if (tag.type === "@Constants.Tags.Context") {
+                        item.lossTags.removeAll();
+                        item.relationshipTags.removeAll();
+                    }
+                } else {
+                    target.push(tag);
+                }
+            }
+
+            item.isActive = function(tag) {
+                return _.contains(getContainer(tag)(), tag);
+            }
+
+            return item;
+        }
+        
+        function getParameterByName(name) {
+            var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+    </script>
+
+
+}
+
+@section head{
+    <style>
+        .row-split td {
+            border-top-width: 2px !important;
+        }
+    </style>
+}

@@ -380,6 +380,7 @@
       <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
     <Compile Include="Extensions\AutoMapperExtensions.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DataTablesRequestExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -413,6 +414,7 @@
     <Compile Include="Models\Persistence\IApplicationDbContextFactory.cs" />
     <Compile Include="Models\Persistence\Person.cs" />
     <Compile Include="Queries\ByIdQuery.cs" />
+    <Compile Include="Queries\AdminTagModelQuery.cs" />
     <Compile Include="Services\Messaging\DevelopmentEmailService.cs" />
     <Compile Include="Services\Messaging\IEmailService.cs" />
     <Compile Include="Services\Messaging\ISmsService.cs" />
@@ -635,6 +637,7 @@
     <Content Include="Views\ToDo\Create.cshtml" />
     <Content Include="Views\ToDo\Details.cshtml" />
     <Content Include="Views\ToDo\Edit.cshtml" />
+    <Content Include="Views\Item\Tagging.cshtml" />
     <None Include="Views\Preferences\Display.cshtml" />
     <None Include="Views\Preferences\Edit.cshtml" />
     <None Include="Views\Preferences\StaffAlerts.cshtml" />
