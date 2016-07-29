@@ -13,11 +13,6 @@ namespace MichaelsPlace.Models.Persistence
         public virtual string Name { get; set; }
         
         /// <summary>
-        /// The name displayed in the UI for end users.
-        /// </summary>
-        public virtual string DisplayName { get; set; }
-
-        /// <summary>
         /// Description/help text for end users.
         /// </summary>
         public virtual string Description { get; set; }

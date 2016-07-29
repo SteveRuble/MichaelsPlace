@@ -1,0 +1,217 @@
+﻿@using Newtonsoft.Json
+@model MichaelsPlace.Controllers.Admin.AdminTagEditModel
+
+@{
+    ViewBag.Title = "Tag Index";
+
+    var json = JsonConvert.SerializeObject(Model, GlobalSettings.AjaxSerializerSettings);
+}
+
+<h2>
+    Tags
+</h2>
+
+<div class="row">
+    <div class="col-lg-1">
+        <a class="btn btn-info" data-bind="click:submit">
+            <span class="fa fa-save"></span>
+            Save Changes
+        </a>
+    </div>
+    <div class="col-lg-1">
+        <a class="btn btn-success" data-bind="click:$root.addTag.bind($root, 'Context')" title="Add">
+            <span class="fa fa-plus">&nbsp;</span>
+            Add another context
+        </a>
+    </div>
+    @if (Model.SaveSuccessful.HasValue)
+    {
+        <div class="col-lg-8 col-lg-offset-1">
+            <div class="alert alert-@(Model.SaveSuccessful == true ? "success" : "danger") alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @Model.Message
+            </div>
+
+        </div>
+    }
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="json" id="json" data-bind="value:json" />
+}
+
+
+
+<table class="table" style="display: none;" data-bind="visible:isLoaded">
+
+    <thead>
+        <tr>
+            <th></th>
+            <th>Context Name</th>
+            <th>Context Description</th>
+            <th>Losses</th>
+            <th>Relationships</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach:contextTags">
+
+        <tr>
+            <td>
+                <a class="btn btn-default" data-bind="click:$root.removeTag.bind($root, $data)" title="Delete this context">
+                    <span class="fa fa-times"></span>
+                </a>
+            </td>
+            <td>
+                <input type="text" class="form-control" data-bind="value:name, hasFocus: isSelected" />
+            </td>
+            <td>
+                <textarea class="form-control" data-bind="value:description" rows="10"></textarea>
+            </td>
+            <td>
+                <div data-bind="template: { name: 'child-template', data: { id: id, title: 'Losses', type:'Loss' } }"></div>
+            </td>
+            <td>
+                <div data-bind="template: { name: 'child-template', data: { id: id, title: 'Relationships', type:'Relationship' } }"></div>
+            </td>
+        </tr>
+
+
+    </tbody>
+
+</table>
+
+<script type="text/html" id="child-template">
+    <table class="table">
+        <tbody data-bind="foreach:$root.getChildren(id,type)">
+            <tr>
+                <td>
+                    <a class="btn btn-default" data-bind="click:$root.removeTag.bind($root, $data)" title="delete">
+                        <span class="fa fa-times"></span>
+                    </a>
+                </td>
+                <td><input type="text" class="form-control" data-bind="value:name, hasFocus: isSelected" placeholder="Name" /></td>
+                <td><textarea class="form-control" data-bind="value:description" placeholder="Description"></textarea></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <a class="btn btn-success" data-bind="click:$root.addTag.bind($root, type, id)" title="Add a tag">
+                        <span class="fa fa-plus">&nbsp;</span>
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</script>
+
+@section scripts
+{
+    <script>
+
+        var json = @Html.Raw(json);
+
+        var allTags = json.tags.map(createTagViewModel);
+
+        var tagTypes = {
+            context: "Context",
+            loss: "Loss",
+            relationship: "Relationship"
+        }
+
+        var vm = {
+            tags: ko.observableArray(allTags),
+            json: ko.observable(),
+            isLoaded: ko.observable(),
+        };
+
+        vm.contextTags = ko.computed(function() {
+            return _.filter(vm.tags(), function(t) { return t.type === tagTypes.context; });
+        });
+
+        vm.addTag = function(type, parentId) {
+            vm.tags.push(createTagViewModel({
+                type: type,
+                parentId: parentId,
+                isSelected: ko.observable(true),
+            }));
+            if (type === tagTypes.context) {
+                window.scrollTo(0,document.body.scrollHeight);
+            }
+        }
+
+        vm.removeTag = function(tag) {
+            if (!confirm("Are you sure you want to delete this tag?")) {
+                return;
+            }
+
+            vm.tags.destroy(tag);
+            if (tag.type === tagTypes.context) {
+                vm.tags().filter(function(t) { return t.parentId === tag.id; }).forEach(vm.tags.destroy);
+
+            }
+        }
+
+        vm.getChildren = function(id, type) {
+            return vm.tags().filter(function(t) { return t.parentId === id && t.type === type; });
+        }
+
+        vm.submit = function() {
+
+            if (!confirm("Are you sure you want to save your changes?")) {
+                return;
+            }
+
+            var tags = vm.tags()
+                .filter(function(t) {
+                    // no need to post tags which only existed on client and are now deleted.
+                    return !(t._destroy && t.state === "Added");
+                })
+                .map(function(t) {
+                    if (t._destroy) {
+                        t.state = "Deleted";
+                        delete t._destroy;
+                    }
+                    return t;
+                });
+
+            var model = { tags: tags };
+            var json = JSON.stringify(model);
+            vm.json(json);
+
+            $('form').submit();
+        }
+
+        ko.applyBindings(vm);
+
+        vm.isLoaded(true);
+
+        /******************************************************
+        HELPERS
+        ******************************************************/
+        function createTagViewModel(data) {
+            return {
+                id: data.id,
+                parentId: data.parentId,
+                name: data.name,
+                displayName: data.displayName,
+                description: data.description,
+                state: data.state || 'Added',
+                type: data.type,
+                isSelected: data.isSelected || false
+            };
+        }
+
+
+    </script>
+
+}
+
+
+
+

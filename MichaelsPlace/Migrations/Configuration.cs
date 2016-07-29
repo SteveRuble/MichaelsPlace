@@ -83,22 +83,25 @@ namespace MichaelsPlace.Migrations
             }
 
             var tb = new TagBuilder(context);
-            tb.CreateContextTag("Business", "Business", "A loss in a business context.")
-              .WithLosses("Employee", "Employee family member")
-              .WithRelationships("HR", "Employee", "Employee family member", "Owner", "Other");
-            tb.CreateContextTag("Personal", "Personal", "A loss in a family context.")
-              .WithLosses("Child", "Parent", "Sibling", "Friend", "Other")
-              .WithRelationships("Parent", "Child", "Sibling", "Spouse", "Extended family", "Pastor", "Other");
-            tb.CreateContextTag("Educational", "Educational", "A loss at a school or university.")
-              .WithLosses("Student", "Faculty", "Staff", "Family of student")
-              .WithRelationships("Administrator", "Faculty", "Student", "Family", "Other");
-            tb.CreateContextTag("Organizational", "Church, sports team, or other organization", "A loss at a church or social organization.")
-              .WithLosses("Member", "Affiliate")
-              .WithRelationships("Member", "Leader");
+            if (!context.Tags.Any())
+            {
+                tb.CreateContextTag("Business", "Business", "A loss in a business context.")
+                  .WithLosses("Employee", "Employee family member")
+                  .WithRelationships("HR", "Employee", "Employee family member", "Owner", "Other");
+                tb.CreateContextTag("Personal", "Personal", "A loss in a family context.")
+                  .WithLosses("Child", "Parent", "Sibling", "Friend", "Other")
+                  .WithRelationships("Parent", "Child", "Sibling", "Spouse", "Extended family", "Pastor", "Other");
+                tb.CreateContextTag("Educational", "Educational", "A loss at a school or university.")
+                  .WithLosses("Student", "Faculty", "Staff", "Family of student")
+                  .WithRelationships("Administrator", "Faculty", "Student", "Family", "Other");
+                tb.CreateContextTag("Organizational", "Church, sports team, or other organization", "A loss at a church or social organization.")
+                  .WithLosses("Member", "Affiliate")
+                  .WithRelationships("Member", "Leader");
+            }
 
             for (int i = 1; i < 7; i++)
             {
-                var contextTag = context.Tags.Local.OfType<ContextTag>().OrderBy(t => t.Id%i).First();
+                var contextTag = context.Tags.OfType<ContextTag>().OrderBy(t => t.Id%i).First();
                 context.Items.AddOrUpdate(new Article()
                                           {
                                               Id = i,
@@ -116,7 +119,7 @@ namespace MichaelsPlace.Migrations
 
             for (int i = 1; i < 5; i++)
             {
-                var contextTag = context.Tags.Local.OfType<ContextTag>().OrderBy(t => t.Id%i).First();
+                var contextTag = context.Tags.OfType<ContextTag>().OrderBy(t => t.Id%i).First();
                 context.Items.AddOrUpdate(new ToDo()
                                           {
                                               Id = i + 7,
@@ -146,7 +149,7 @@ namespace MichaelsPlace.Migrations
 
             public TagBuilder CreateContextTag(string name, string display, string description)
             {
-                _currentContext = new ContextTag() { Id = ++_id, Name = name, DisplayName = display, Description = description};
+                _currentContext = new ContextTag() { Id = ++_id, Name = name, Description = description};
                 _dbContext.Tags.AddOrUpdate(_currentContext);
                 return this;
             }

@@ -352,6 +352,7 @@
     <Compile Include="BootstrapSupport\ControlGroupExtensions.cs" />
     <Compile Include="BootstrapSupport\ViewHelperExtensions.cs" />
     <Compile Include="CommandHandlers\AddOrEditPersonCommand.cs" />
+    <Compile Include="CommandHandlers\UpdateTagsCommand.cs" />
     <Compile Include="CommandHandlers\UpdateUserCommand.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
@@ -397,6 +398,12 @@
     <Compile Include="Migrations\201607231630493_TagStructure.Designer.cs">
       <DependentUpon>201607231630493_TagStructure.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607291357088_RemovedTagDisplayName.cs" />
+    <Compile Include="Migrations\201607291357088_RemovedTagDisplayName.Designer.cs">
+      <DependentUpon>201607291357088_RemovedTagDisplayName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Admin\AdminTagModel.cs" />
+    <Compile Include="Models\Admin\AdminTagType.cs" />
     <Compile Include="Models\Admin\UserReferenceModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
@@ -509,6 +516,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTables\datatables.css" />
     <Content Include="Scripts\DataTables\datatables.js" />
+    <Content Include="Scripts\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -644,6 +653,7 @@
     <Content Include="Views\Shared\_IndexLayout.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTimeOffset.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PersonReferenceModel.cshtml" />
+    <Content Include="Views\Tag\Index.cshtml" />
     <None Include="Views\Test\PersonReferenceModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -670,6 +680,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607231630493_TagStructure.resx">
       <DependentUpon>201607231630493_TagStructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607291357088_RemovedTagDisplayName.resx">
+      <DependentUpon>201607291357088_RemovedTagDisplayName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -10,6 +10,7 @@ using MediatR;
 using MichaelsPlace.Handlers;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Infrastructure.Identity;
+using MichaelsPlace.Models.Admin;
 using MichaelsPlace.Models.Api;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Services;

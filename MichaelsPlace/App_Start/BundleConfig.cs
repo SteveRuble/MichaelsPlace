@@ -12,6 +12,7 @@ namespace MichaelsPlace
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery-migrate-{version}.js",
                 "~/Scripts/jquery-sortable.js",
+                "~/Scripts/knockout-{version}.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/underscore.js",
                 "~/Scripts/spin.js",

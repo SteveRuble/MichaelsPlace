@@ -28,6 +28,20 @@ namespace MichaelsPlace.CommandHandlers
 
         public static ICommandResult Failure(object result = null) => new CommandResult(false, result);
 
+        /// <summary>
+        /// Convenience method which returns the result wrapped in a task to make it easy to return from a <c>Task</c> returning method that doesn't use <c>async</c>.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static Task<ICommandResult> SuccessAsync(object result = null) => Task.FromResult<ICommandResult>(new CommandResult(true, result));
+
+        /// <summary>
+        /// Convenience method which returns the result wrapped in a task to make it easy to return from a <c>Task</c> returning method that doesn't use <c>async</c>.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static Task<ICommandResult> FailureAsync(object result = null) => Task.FromResult<ICommandResult>(new CommandResult(false, result));
+
         public static ICommandResult Merge(params ICommandResult[] results)
             => new CommandResult(results.All(r => r.IsSuccess), null);
 

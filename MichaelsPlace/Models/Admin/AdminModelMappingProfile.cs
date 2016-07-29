@@ -3,10 +3,9 @@ using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using MichaelsPlace.Extensions;
-using MichaelsPlace.Models.Admin;
 using MichaelsPlace.Models.Persistence;
 
-namespace MichaelsPlace.Models.Api
+namespace MichaelsPlace.Models.Admin
 {
     public class AdminModelMappingProfile : Profile
     {
@@ -97,24 +96,5 @@ namespace MichaelsPlace.Models.Api
 
             #endregion Tags
         }
-    }
-
-    public enum AdminTagType
-    {
-        Unknown,
-        Context,
-        Loss,
-        Relationship
-    }
-
-    public class AdminTagModel
-    {
-        public int Id { get; set; }
-        public int? ParentId { get; set; }
-        public string Name { get; set; }
-        public string DisplayName { get; set; }
-        public string Description { get; set; }
-        public EntityState State { get; set; }
-        public AdminTagType Type { get; set; }
     }
 }
