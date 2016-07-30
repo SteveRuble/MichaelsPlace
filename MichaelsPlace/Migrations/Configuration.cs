@@ -46,7 +46,7 @@ namespace MichaelsPlace.Migrations
                                         LastName = "Istrator",
                                     }
                        };
-                var result = userManager.Create(user, "Administrator123!");
+                var result = userManager.Create(user, Guid.NewGuid().ToString() + SomeRandom.String(10).ToUpper() + "!");
                 if (!result.Succeeded)
                 {
                     throw new InvalidOperationException(String.Join(";", result.Errors));
@@ -101,7 +101,6 @@ namespace MichaelsPlace.Migrations
 
             for (int i = 1; i < 7; i++)
             {
-                var contextTag = context.Tags.OfType<ContextTag>().OrderBy(t => t.Id%i).First();
                 context.Items.AddOrUpdate(new Article()
                                           {
                                               Id = i,
@@ -111,15 +110,11 @@ namespace MichaelsPlace.Migrations
                                                   "Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.",
                                               Title = "Article " + i,
                                               Order = i,
-                                              AppliesToContexts = {contextTag},
-                                              AppliesToRelationships = contextTag.Relationships.OrderBy(t => t.Id%i).Take(2).ToList(),
-                                              AppliesToLosses = contextTag.Losses.OrderBy(t => t.Id%i).Take(2).ToList()
                                           });
             }
 
             for (int i = 1; i < 5; i++)
             {
-                var contextTag = context.Tags.OfType<ContextTag>().OrderBy(t => t.Id%i).First();
                 context.Items.AddOrUpdate(new ToDo()
                                           {
                                               Id = i + 7,
@@ -129,9 +124,6 @@ namespace MichaelsPlace.Migrations
                                                   "Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus.",
                                               Title = "ToDo " + i,
                                               Order = i,
-                                              AppliesToContexts = {contextTag},
-                                              AppliesToRelationships = contextTag.Relationships.OrderBy(t => t.Id%i).Take(2).ToList(),
-                                              AppliesToLosses = contextTag.Losses.OrderBy(t => t.Id%i).Take(2).ToList()
                                           });
             }
         }

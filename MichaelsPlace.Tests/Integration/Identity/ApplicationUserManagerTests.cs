@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MichaelsPlace.Infrastructure.Identity;
+using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Utilities;
 using NUnit.Framework;
 
@@ -16,6 +18,16 @@ namespace MichaelsPlace.Tests.Integration.Identity
         public void SetUp()
         {
             Target = new ApplicationUserManager(new ApplicationUserStore(DbContext));
+        }
+
+        [Test]
+        public async Task can_create_user()
+        {
+            var result = await Target.CreateAsync(new ApplicationUser()
+                                                  {
+                                                      UserName = SomeRandom.EmailAddress(),
+                                                      Email = SomeRandom.EmailAddress(),
+                                                  }, SomeRandom.Password());
         }
 
         [Test]

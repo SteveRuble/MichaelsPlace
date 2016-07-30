@@ -84,5 +84,29 @@ namespace MichaelsPlace.Infrastructure.Identity
             }
             return IdentityResult.Success;
         }
+
+        public override Task<IdentityResult> CreateAsync(ApplicationUser user)
+        {
+            EnsurePersonExistsOnCreate(user);
+            return base.CreateAsync(user);
+        }
+
+        public override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
+        {
+            EnsurePersonExistsOnCreate(user);
+            return base.CreateAsync(user, password);
+        }
+        
+        private void EnsurePersonExistsOnCreate(ApplicationUser user)
+        {
+            if (user.Person == null)
+            {
+                user.Person = new Person
+                              {
+                                  EmailAddress = user.Email,
+                                  PhoneNumber = user.PhoneNumber
+                              };
+            }
+        }
     }
 }

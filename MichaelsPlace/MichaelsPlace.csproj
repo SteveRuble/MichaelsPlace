@@ -557,6 +557,7 @@
     <Content Include="Content\Selectize\less\plugins\dropdown_header.less" />
     <Content Include="Content\Selectize\less\plugins\drag_drop.less" />
     <None Include="Properties\PublishProfiles\FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

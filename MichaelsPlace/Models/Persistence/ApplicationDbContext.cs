@@ -88,6 +88,15 @@ namespace MichaelsPlace.Models.Persistence
         }
 
         /// <summary>
+        /// Create a new instance which will use the provided connection string.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        public ApplicationDbContext(string connectionString) : base(connectionString, false)
+        {
+            
+        }
+
+        /// <summary>
         /// Create new instance which will use the provided connection, which must be opened and closed by the caller.
         /// </summary>
         public ApplicationDbContext(DbConnection connection) : base(connection, false)

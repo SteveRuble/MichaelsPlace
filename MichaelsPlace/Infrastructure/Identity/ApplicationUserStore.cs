@@ -49,6 +49,6 @@ namespace MichaelsPlace.Infrastructure.Identity
             return Task.FromResult(result);
         }
 
-        private Task<Person> GetPersonAsync(ApplicationUser user) => ApplicationDbContext.People.FindAsync(user.Id);
+        private Task<Person> GetPersonAsync(ApplicationUser user) => user.Person == null ? ApplicationDbContext.People.FindAsync(user.Id) : Task.FromResult(user.Person);
     }
 }
