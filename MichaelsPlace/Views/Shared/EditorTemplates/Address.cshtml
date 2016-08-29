@@ -1,4 +1,59 @@
-﻿@model MichaelsPlace.Models.Persistence.Address
+﻿@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem { Value = "AL", Text = "Alabama" });
+    listItems.Add(new SelectListItem { Value = "AK", Text = "Alaska" });
+    listItems.Add(new SelectListItem { Value = "AZ", Text = "Arizona" });
+    listItems.Add(new SelectListItem { Value = "AR", Text = "Arkansas" });
+    listItems.Add(new SelectListItem { Value = "CA", Text = "California" });
+    listItems.Add(new SelectListItem { Value = "CO", Text = "Colorado" });
+    listItems.Add(new SelectListItem { Value = "CT", Text = "Connecticut" });
+    listItems.Add(new SelectListItem { Value = "DE", Text = "Delaware" });
+    listItems.Add(new SelectListItem { Value = "DC", Text = "District Of Columbia" });
+    listItems.Add(new SelectListItem { Value = "FL", Text = "Florida" });
+    listItems.Add(new SelectListItem { Value = "GA", Text = "Georgia" });
+    listItems.Add(new SelectListItem { Value = "HI", Text = "Hawaii" });
+    listItems.Add(new SelectListItem { Value = "ID", Text = "Idaho" });
+    listItems.Add(new SelectListItem { Value = "IL", Text = "Illinois" });
+    listItems.Add(new SelectListItem { Value = "IN", Text = "Indiana" });
+    listItems.Add(new SelectListItem { Value = "IA", Text = "Iowa" });
+    listItems.Add(new SelectListItem { Value = "KS", Text = "Kansas" });
+    listItems.Add(new SelectListItem { Value = "KY", Text = "Kentucky" });
+    listItems.Add(new SelectListItem { Value = "LA", Text = "Louisiana" });
+    listItems.Add(new SelectListItem { Value = "ME", Text = "Maine" });
+    listItems.Add(new SelectListItem { Value = "MD", Text = "Maryland" });
+    listItems.Add(new SelectListItem { Value = "MA", Text = "Massachusetts" });
+    listItems.Add(new SelectListItem { Value = "MI", Text = "Michigan" });
+    listItems.Add(new SelectListItem { Value = "MN", Text = "Minnesota" });
+    listItems.Add(new SelectListItem { Value = "MS", Text = "Mississippi" });
+    listItems.Add(new SelectListItem { Value = "MO", Text = "Missouri" });
+    listItems.Add(new SelectListItem { Value = "MT", Text = "Montana" });
+    listItems.Add(new SelectListItem { Value = "NE", Text = "Nebraska" });
+    listItems.Add(new SelectListItem { Value = "NV", Text = "Nevada" });
+    listItems.Add(new SelectListItem { Value = "NH", Text = "New Hampshire" });
+    listItems.Add(new SelectListItem { Value = "NJ", Text = "New Jersey" });
+    listItems.Add(new SelectListItem { Value = "NM", Text = "New Mexico" });
+    listItems.Add(new SelectListItem { Value = "NY", Text = "New York" });
+    listItems.Add(new SelectListItem { Value = "NC", Text = "North Carolina" });
+    listItems.Add(new SelectListItem { Value = "ND", Text = "North Dakota" });
+    listItems.Add(new SelectListItem { Value = "OH", Text = "Ohio" });
+    listItems.Add(new SelectListItem { Value = "OK", Text = "Oklahoma" });
+    listItems.Add(new SelectListItem { Value = "OR", Text = "Oregon" });
+    listItems.Add(new SelectListItem { Value = "PA", Text = "Pennsylvania" });
+    listItems.Add(new SelectListItem { Value = "RI", Text = "Rhode Island" });
+    listItems.Add(new SelectListItem { Value = "SC", Text = "South Carolina" });
+    listItems.Add(new SelectListItem { Value = "SD", Text = "South Dakota" });
+    listItems.Add(new SelectListItem { Value = "TN", Text = "Tennessee" });
+    listItems.Add(new SelectListItem { Value = "TX", Text = "Texas" });
+    listItems.Add(new SelectListItem { Value = "UT", Text = "Utah" });
+    listItems.Add(new SelectListItem { Value = "VT", Text = "Vermont" });
+    listItems.Add(new SelectListItem { Value = "VA", Text = "Virginia" });
+    listItems.Add(new SelectListItem { Value = "WA", Text = "Washington" });
+    listItems.Add(new SelectListItem { Value = "WV", Text = "West Virginia" });
+    listItems.Add(new SelectListItem { Value = "WI", Text = "Wisconsin" });
+    listItems.Add(new SelectListItem { Value = "WY", Text = "Wyoming" });
+}
+
+@model MichaelsPlace.Models.Persistence.Address
 
     
     <div class="form-horizontal">
@@ -31,7 +86,13 @@
         <div class="form-group">
             @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.State, listItems, new { @class = "form-control", })
+                @*@Html.DropDownList("State", new SelectList( new List<Object>{
+                       new { value = "MI" , text = "Michigan"  },
+                       new { value = "AL" , text = "Alabama" }, "vaule", "text"}))*@
+
+
                 @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
             </div>
         </div>

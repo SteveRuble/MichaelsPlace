@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DataTables.AspNet.Core;
 using DataTables.AspNet.Mvc5;
@@ -57,8 +53,11 @@ namespace MichaelsPlace.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,PhaneNumber,FaxNumber,Notes")] Organization organization)
+        //public async Task<ActionResult> Create([Bind(Include = "Id,Name,PhoneNumber,FaxNumber,Notes")] Organization organization)
+        public async Task<ActionResult> Create(Organization organization)
         {
+            //await SaveAddress(organization);
+            ModelState["Address.ID"].Errors.Clear();
             if (ModelState.IsValid)
             {
                 DbContext.Organizations.Add(organization);
@@ -81,6 +80,11 @@ namespace MichaelsPlace.Controllers.Admin
             {
                 return HttpNotFound();
             }
+            if (organization.Address == null)
+            {
+                organization.Address = new Address();
+            }
+
             return View(organization);
         }
 
@@ -90,21 +94,33 @@ namespace MichaelsPlace.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Organization organization)
-        {
+       {
+            //organization.Address =  SaveAddress(organization);
+
             if (ModelState.IsValid)
             {
+                //TODO: Users Assign  people to an organization roles within the organization
                 DbContext.Entry(organization).State = EntityState.Modified;
-                DbContext.Entry(organization.Address).State = EntityState.Modified;
-
-                await DbContext.SaveChangesAsync();
+                DbContext.Entry(organization.Address).State = organization.Address.Id == 0 ? EntityState.Added : EntityState.Modified;
+                try
+                {
+                    DbContext.SaveChanges();
+                    //await DbContext.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw ex;
+                }
+                
                 return Accepted();
             }
             return View(organization);
         }
 
+        //[ValidateAntiForgeryToken]
         // POST: Organization/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id)
         {
             Organization organization = await DbContext.Organizations.FindAsync(id);
