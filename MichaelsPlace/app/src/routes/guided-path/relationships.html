@@ -1,0 +1,10 @@
+﻿<template>
+    <div class="container">
+        <h3>${heading}</h3>
+        <ul class="list-inline">
+            <li repeat.for="tag of tags">
+                <a route-href="route:anon-case; params.bind:{contextId:contextId, lossId:lossId, relationshipId:tag.id}" title="${tag.description}" class="btn btn-lg btn-primary">${tag.name}</a>
+            </li>
+        </ul>
+    </div>
+</template>

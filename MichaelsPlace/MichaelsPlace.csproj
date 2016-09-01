@@ -478,6 +478,32 @@
     <Compile Include="Views\MichaelsPlaceView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\src\app.html" />
+    <Content Include="app\src\app.js" />
+    <Content Include="app\src\components\login.html" />
+    <Content Include="app\src\components\login.js" />
+    <Content Include="app\src\components\tooltip.js" />
+    <Content Include="app\src\main.js" />
+    <Content Include="app\src\models\user.js" />
+    <Content Include="app\src\nav-bar.html" />
+    <Content Include="app\src\routes\anon-case\index.html" />
+    <Content Include="app\src\routes\anon-case\index.js" />
+    <Content Include="app\src\routes\anon-case\routes\item\article.html" />
+    <Content Include="app\src\routes\anon-case\routes\item\article.js" />
+    <Content Include="app\src\routes\anon-case\routes\item\todo.html" />
+    <Content Include="app\src\routes\anon-case\routes\item\todo.js" />
+    <Content Include="app\src\routes\child\index.html" />
+    <Content Include="app\src\routes\child\index.js" />
+    <Content Include="app\src\routes\guided-path\losses.html" />
+    <Content Include="app\src\routes\guided-path\losses.js" />
+    <Content Include="app\src\routes\guided-path\relationships.html" />
+    <Content Include="app\src\routes\guided-path\relationships.js" />
+    <Content Include="app\src\routes\guided-path\tag-steps.html" />
+    <Content Include="app\src\routes\guided-path\tag-steps.js" />
+    <Content Include="app\src\services\api.js" />
+    <Content Include="app\src\services\session.js" />
+    <Content Include="app\src\welcome.html" />
+    <Content Include="app\src\welcome.js" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="CodeTemplates\AddView\CSHTML\BootstrapForm.tt" />
     <Content Include="CodeTemplates\AddView\CSHTML\Create.tt" />
@@ -556,6 +582,7 @@
     <Content Include="Content\Selectize\less\plugins\optgroup_columns.less" />
     <Content Include="Content\Selectize\less\plugins\dropdown_header.less" />
     <Content Include="Content\Selectize\less\plugins\drag_drop.less" />
+    <Content Include="app\src\.eslintrc" />
     <None Include="Properties\PublishProfiles\FTP.pubxml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

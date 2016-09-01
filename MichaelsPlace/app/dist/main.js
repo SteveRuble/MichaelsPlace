@@ -4,7 +4,23 @@ System.register(['bootstrap', 'aurelia-fetch-client', 'models/user'], function (
     "use strict";
 
     var HttpClient, User;
+    function configure(aurelia) {
+        aurelia.use.standardConfiguration().developmentLogging();
 
+        aurelia.use.plugin('aurelia-animator-css');
+
+
+        var httpClient = configureHttpClient(aurelia.container);
+        var user = configureUser(aurelia.container, httpClient);
+
+        user.update().then(function () {
+            return aurelia.start();
+        }).then(function () {
+            return aurelia.setRoot();
+        });
+    }
+
+    _export('configure', configure);
 
     function configureHttpClient(container) {
         var httpClient = new HttpClient();
@@ -43,24 +59,7 @@ System.register(['bootstrap', 'aurelia-fetch-client', 'models/user'], function (
         }, function (_modelsUser) {
             User = _modelsUser.User;
         }],
-        execute: function () {
-            function configure(aurelia) {
-                aurelia.use.standardConfiguration().developmentLogging();
-
-                aurelia.use.plugin('aurelia-animator-css');
-
-
-                var httpClient = configureHttpClient(aurelia.container);
-                var user = configureUser(aurelia.container, httpClient);
-
-                user.update().then(function () {
-                    return aurelia.start();
-                }).then(function () {
-                    return aurelia.setRoot();
-                });
-            }
-            _export('configure', configure);
-        }
+        execute: function () {}
     };
 });
 //# sourceMappingURL=main.js.map

@@ -20,7 +20,8 @@ export class Index {
         this.api = api;
     }
 
-    activate() {
+    activate(params) {
+        this.situation = params.contextId + '-' + params.lossId + '-' + params.relationshipId;
         return this.update();
     }
 

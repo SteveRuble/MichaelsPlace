@@ -25,15 +25,21 @@ export class App {
         }, {
             route: 'tag-steps',
             name: 'tag-steps',
-            moduleId: 'routes/guided-path/tag-steps',
+            moduleId: 'routes/guided-path/context',
             nav: true,
             title: 'Guided Path'
         }, {
-            route: 'anon-case',
+            route: 'tag-steps/losses/:contextId',
+            name: 'losses',
+            moduleId: 'routes/guided-path/losses'
+        }, {
+            route: 'tag-steps/relationships/:contextId/:lossId',
+            name: 'relationships',
+            moduleId: 'routes/guided-path/relationships'
+        }, {
+            route: 'anon-case/:contextId/:lossId/:relationshipId',
             name: 'anon-case',
-            moduleId: 'routes/anon-case/index',
-            nav: true,
-            title: 'Anonymous Case'
+            moduleId: 'routes/anon-case/index'
         }]);
 
         this.router = router;

@@ -63,7 +63,7 @@ export class TagApi {
      * @returns Promise
      */
     getLossTags(contextId = null) {
-        return this._http.fetch(`tags/context/?contextId=${contextId}`).then(response => response.json());
+        return this._http.fetch(`tags/loss/?contextId=${contextId}`).then(response => response.json());
     }
 
     /**
@@ -71,7 +71,7 @@ export class TagApi {
      * @param {int} contextId
      * @returns Promise
      */
-    getLossTags(contextId = null) {
+    getRelationshipTags(contextId = null) {
             return this._http.fetch(`tags/relationship/?contextId=${contextId}`).then(response => response.json());
         }
         /**
