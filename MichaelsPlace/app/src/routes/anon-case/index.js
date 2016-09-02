@@ -1,12 +1,6 @@
-import {
-    inject
-} from 'aurelia-framework';
-import {
-    Api
-} from 'services/api';
-import {
-    activationStrategy
-} from 'aurelia-router';
+import {inject} from 'aurelia-framework';
+import {Api} from 'services/api';
+import {activationStrategy} from 'aurelia-router';
 
 @inject(Api)
 export class Index {
@@ -28,11 +22,16 @@ export class Index {
     configureRouter(config, router) {
         config.map(
             [{
-                route: ['', 'welcome'],
+                route: 'welcome',
                 name: 'welcome',
                 moduleId: 'welcome',
                 nav: true,
                 title: 'Welcome'
+            }, {
+                route: '',
+                name: 'program',
+                moduleId: 'routes/anon-case/program',
+                activationStrategy: activationStrategy.replace
             }, {
                 route: 'article/:id',
                 name: 'article',

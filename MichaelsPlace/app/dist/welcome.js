@@ -36,7 +36,7 @@ System.register([], function (_export, _context) {
         function Welcome() {
           _classCallCheck(this, Welcome);
 
-          this.heading = 'Welcome to the Aurelia Navigation App!';
+          this.heading = 'Log In';
           this.firstName = 'John';
           this.lastName = 'Doe';
           this.previousValue = this.fullName;

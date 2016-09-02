@@ -1,108 +1,81 @@
 <template>
   <require from="components/tooltip"></require>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4">
-        <ul class="nav nav-stacked nav-pills">
-          <li class="active">
-            <a href="#">Home</a>
-          </li>
-          <li>
-            <a href="#">Profile</a>
-          </li>
-          <li class="disabled">
-            <a href="#">Messages</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <ul class="nav nav-pills nav-stacked">
-          <li class="active">
-            <a href="#">Home</a>
-          </li>
-          <li>
-            <a href="#">Profile</a>
-          </li>
-          <li class="disabled">
-            <a href="#">Messages</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <ul class="nav nav-pills nav-stacked">
-          <li class="active">
-            <a href="#">Home</a>
-          </li>
-          <li>
-            <a href="#">Profile</a>
-          </li>
-          <li class="disabled">
-            <a href="#">Messages</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">
-        <div class="sidebar-nav">
-          <div class="navbar navbar-default"
-               role="navigation">
-            <div class="navbar-header">
-              <button class="navbar-toggle"
-                      data-target=".sidebar-navbar-collapse"
-                      data-toggle="collapse"
-                      type="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <span class="visible-xs navbar-brand">Items</span>
-            </div>
-            <div class="navbar-collapse collapse sidebar-navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li>
-                  <div class="btn-group">
-                    <button class="btn btn-success"
-                            type="button">
-                    <em class="fa fa-plus"></em>Start a Case</button>
-                    <button class="btn btn-default"
-                            data-toggle="tooltip"
-                            title="You may create a free account and start a case to log back in, return to these resources and track your progress."
-                            tooltip="placement:right; title: You may create a free account and start a case to log back in, return to these resources and track your progress."
-                            type="button">
-                      <em class="fa fa-question"></em>
-                    </button>
-                  </div>
-                </li>
-                <li>
-                  <h3>Articles</h3>
-                  <ul class="nav nav-pills nav-stacked">
-                    <li class="${article === currentItem ? 'active' : ''}"
-                        repeat.for="article of articles">
-                      <a route-href="route: article; params.bind: { id: article.id }">${article.title}</a>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <ul class="nav nav-stacked nav-pills">
+                    <li class="active">
+                        <a route-href="route:program">Home</a>
                     </li>
-                  </ul>
-                </li>
-                <li>
-                  <li class="divider"></li>
-                  <h3>To Dos</h3>
-                  <ul class="nav nav-pills nav-stacked">
-                    <li class="${article === currentItem ? 'active' : ''}"
-                        repeat.for="todo of todos">
-                      <a route-href="route: todo; params.bind: { id: todo.id }">${todo.title}</a>
+                    <li>
+                        <a href="#">Profile</a>
                     </li>
-                  </ul>
-                </li>
-              </ul>
+                    <li class="disabled">
+                        <a href="#">Messages</a>
+                    </li>
+                </ul>
             </div>
-            <!--/.nav-collapse -->
-          </div>
         </div>
-      </div>
-      <div class="col-sm-6">
-        <router-view></router-view>
-      </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="sidebar-nav">
+                    <div class="navbar navbar-default"
+                         role="navigation">
+                        <div class="navbar-header">
+                            <button class="navbar-toggle"
+                                    data-target=".sidebar-navbar-collapse"
+                                    data-toggle="collapse"
+                                    type="button">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <span class="visible-xs navbar-brand">Items</span>
+                        </div>
+                        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <div class="btn-group">
+                                        <button class="btn btn-success" type="button">
+                                            <em class="fa fa-plus"></em> Start a Case
+                                        </button>
+                                        <button class="btn btn-default"
+                                                data-toggle="tooltip"
+                                                title="You may create a free account and start a case to log back in, return to these resources and track your progress."
+                                                tooltip="placement:right; title: You may create a free account and start a case to log back in, return to these resources and track your progress."
+                                                type="button">
+                                            <em class="fa fa-question"></em>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3>Articles</h3>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li class="${article === currentItem ? 'active' : ''}" repeat.for="article of articles">
+                                            <a route-href="route: article; params.bind: { id: article.id }">${article.title}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <li class="divider"></li>
+                                    <h3>To-Dos</h3>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li class="${article === currentItem ? 'active' : ''}"
+                                            repeat.for="todo of todos">
+                                            <a route-href="route: todo; params.bind: { id: todo.id }">${todo.title}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--/.nav-collapse -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <router-view></router-view>
+            </div>
+        </div>
     </div>
-  </div>
 </template>

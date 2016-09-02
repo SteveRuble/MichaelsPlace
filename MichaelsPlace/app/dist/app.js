@@ -30,19 +30,21 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                 };
 
                 App.prototype.configureRouter = function configureRouter(config, router) {
-                    config.title = 'Aurelia';
+                    config.title = "Michael's Place";
                     config.map([{
-                        route: ['', 'welcome'],
+                        route: 'welcome',
                         name: 'welcome',
-                        moduleId: 'welcome',
-                        nav: true,
-                        title: 'Welcome'
+                        moduleId: 'welcome'
                     }, {
-                        route: 'tag-steps',
+                        route: ['', 'tag-steps'],
                         name: 'tag-steps',
-                        moduleId: 'routes/guided-path/context',
+                        moduleId: 'routes/guided-path/tag-steps',
                         nav: true,
                         title: 'Guided Path'
+                    }, {
+                        route: 'tag-steps/context',
+                        name: 'contexts',
+                        moduleId: 'routes/guided-path/contexts'
                     }, {
                         route: 'tag-steps/losses/:contextId',
                         name: 'losses',
