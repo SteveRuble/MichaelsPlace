@@ -5,7 +5,7 @@ import {Api} from 'services/api';
 export class Losses {
 
     constructor(api) {
-        this.heading = 'Describe your relationship';
+        this.heading = 'What was your relationship to them?';
         this.api = api;
     }
 

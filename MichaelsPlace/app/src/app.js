@@ -29,19 +29,23 @@ export class App {
         }, {
             route: 'tag-steps/context',
             name: 'contexts',
-            moduleId: 'routes/guided-path/contexts'
+            moduleId: 'routes/guided-path/contexts',
+            title: 'Guided Path'
         }, {
             route: 'tag-steps/losses/:contextId',
             name: 'losses',
-            moduleId: 'routes/guided-path/losses'
+            moduleId: 'routes/guided-path/losses',
+            title: 'Guided Path'
         }, {
             route: 'tag-steps/relationships/:contextId/:lossId',
             name: 'relationships',
-            moduleId: 'routes/guided-path/relationships'
+            moduleId: 'routes/guided-path/relationships',
+            title: 'Guided Path'
         }, {
             route: 'anon-case/:contextId/:lossId/:relationshipId',
             name: 'anon-case',
-            moduleId: 'routes/anon-case/index'
+            moduleId: 'routes/anon-case/index',
+            title: 'Anonymous Case'
         }]);
 
         this.router = router;

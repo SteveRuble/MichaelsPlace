@@ -8,7 +8,7 @@ export class TagSteps {
     relationship;
 
     constructor(api) {
-        this.heading = 'Describe yourself';
+        this.heading = 'What type of loss occured?';
         this.api = api;
     }
 

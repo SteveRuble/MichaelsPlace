@@ -1,14 +1,8 @@
-import {
-    inject
-} from 'aurelia-framework';
-import {
-    Api
-} from 'services/api';
+import {inject} from 'aurelia-framework';
+import {Api} from 'services/api';
 
 @inject(Api)
 export class Article {
-    title;
-    content;
 
     constructor(api) {
         this.api = api;
