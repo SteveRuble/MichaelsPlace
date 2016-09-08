@@ -1,19 +1,17 @@
-import {
-    inject
-} from 'aurelia-framework';
-import {
-    User
-} from 'models/user';
+import {inject} from 'aurelia-framework';
+import {User} from 'models/user';
 
 @inject(User)
 export class App {
-    user;
+
     constructor(user) {
         this.user = user;
     }
+
     activate() {
         return this.user.update();
     }
+
     configureRouter(config, router) {
         config.title = "Michael's Place";
         config.map([{
