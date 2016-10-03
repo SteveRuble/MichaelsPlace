@@ -356,6 +356,7 @@
     <Compile Include="CommandHandlers\UpdateUserCommand.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\Api\CaseController.cs" />
     <Compile Include="Controllers\Api\SpaApiControllerBase.cs" />
     <Compile Include="Controllers\Api\UserApiController.cs" />
     <Compile Include="Controllers\Identity\AccountController.cs" />
@@ -415,6 +416,7 @@
     <Compile Include="Models\Persistence\Person.cs" />
     <Compile Include="Queries\ByIdQuery.cs" />
     <Compile Include="Queries\AdminTagModelQuery.cs" />
+    <Compile Include="Queries\CasesByPersonQuery.cs" />
     <Compile Include="Services\Messaging\DevelopmentEmailService.cs" />
     <Compile Include="Services\Messaging\IEmailService.cs" />
     <Compile Include="Services\Messaging\ISmsService.cs" />
@@ -495,6 +497,10 @@
     <Content Include="app\src\routes\anon-case\routes\item\article.js" />
     <Content Include="app\src\routes\anon-case\routes\item\todo.html" />
     <Content Include="app\src\routes\anon-case\routes\item\todo.js" />
+    <Content Include="app\src\routes\auth-case\case-home.html" />
+    <Content Include="app\src\routes\auth-case\case-home.js" />
+    <Content Include="app\src\routes\auth-case\dashboard.html" />
+    <Content Include="app\src\routes\auth-case\dashboard.js" />
     <Content Include="app\src\routes\child\index.html" />
     <Content Include="app\src\routes\child\index.js" />
     <Content Include="app\src\routes\guided-path\losses.html" />

@@ -23,6 +23,5 @@ namespace MichaelsPlace.Queries
             }
             return query;
         }
-        
     }
 }
