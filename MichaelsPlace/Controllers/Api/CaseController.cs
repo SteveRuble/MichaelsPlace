@@ -27,9 +27,10 @@ namespace MichaelsPlace.Controllers.Api
         /// <param name="personId"></param>
         /// <returns></returns>
         [HttpGet, Route("cases/{personId}")]
-        public List<Case> CasesByPerson(string personId) =>
+        public List<CaseModel> CasesByPerson(string personId) =>
             _queryFactory.Create<CasesByPersonQuery>()
                          .Execute<Case>(personId)
+                         .ProjectTo<CaseModel>()
                          .ToList();
     }
 }

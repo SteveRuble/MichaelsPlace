@@ -45,7 +45,7 @@ namespace MichaelsPlace.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CreatedUtc")] Case @case)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title")] Case @case)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace MichaelsPlace.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CreatedUtc")] Case @case)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title")] Case @case)
         {
             if (ModelState.IsValid)
             {
