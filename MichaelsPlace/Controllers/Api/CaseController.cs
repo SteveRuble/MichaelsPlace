@@ -40,12 +40,13 @@ namespace MichaelsPlace.Controllers.Api
                          .ProjectTo<CaseModel>()
                          .ToList();
 
-        [HttpPost, Route("create/{situation:situation}")]
-        public async Task<string> CreateCaseBySituation(SituationModel situation)
+        [HttpGet, Route("create/{situation:situation}/{title:title}")]
+        public async Task<string> CreateCaseBySituation(SituationModel situation, string title)
         {
             var request = new CreateCaseCommand.Request()
             {
                 Situation = situation,
+                Title = title,
                 UserId = User.Identity.GetUserId()
             };
 

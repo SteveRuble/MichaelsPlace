@@ -16,6 +16,7 @@ namespace MichaelsPlace.CommandHandlers
         public class Request : IAsyncRequest<ICommandResult>
         {
             public SituationModel Situation { get; set; }
+            public string Title { get; set; }
             public string UserId { get; set; }
         }
 
@@ -31,10 +32,16 @@ namespace MichaelsPlace.CommandHandlers
                          select people).First();
 
             var @case = new Case();
+            @case.Title = message.Title;
             @case.CaseItems = GetCaseItems(@case, message.Situation);
             @case.CaseUsers = GetCaseUsers(@case, person, message.Situation);
 
-            person.PersonCaseItems = GetPersonCaseItems(@case, person);
+            var personCaseItems = GetPersonCaseItems(@case, person);
+
+            foreach (var pci in personCaseItems)
+            {
+                person.PersonCaseItems.Add(pci);
+            }
 
             _dbContext.Cases.Add(@case);
             _dbContext.SaveChanges();
