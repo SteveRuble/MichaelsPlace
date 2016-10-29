@@ -1,10 +1,6 @@
 import 'bootstrap';
-import {
-    HttpClient
-} from 'aurelia-fetch-client';
-import {
-    User
-} from 'models/user';
+import {HttpClient} from 'aurelia-fetch-client';
+import {User} from 'models/user';
 
 export function configure(aurelia) {
     aurelia.use

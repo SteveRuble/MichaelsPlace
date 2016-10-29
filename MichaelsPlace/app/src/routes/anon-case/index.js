@@ -4,10 +4,6 @@ import {activationStrategy} from 'aurelia-router';
 
 @inject(Api)
 export class Index {
-    heading = 'Describe Yourself';
-    situation = '1-5-9';
-    articles = [];
-    todos = [];
     currentItem = [];
 
     constructor(api) {

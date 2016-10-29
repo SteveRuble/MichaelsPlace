@@ -18,6 +18,7 @@ namespace MichaelsPlace
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DataTables.AspNet.Mvc5.Configuration.RegisterDataTables();
+            GlobalConfiguration.Configuration.EnsureInitialized();
         }
     }
 }

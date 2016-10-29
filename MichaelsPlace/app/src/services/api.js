@@ -1,9 +1,5 @@
-import {
-    inject
-} from 'aurelia-framework';
-import {
-    HttpClient
-} from 'aurelia-fetch-client';
+import {inject} from 'aurelia-framework';
+import {HttpClient} from 'aurelia-fetch-client';
 
 @inject(HttpClient)
 export class Api {
@@ -16,6 +12,31 @@ export class Api {
             claims: () => http.fetch('user/claims').then(r => r.json())
         };
         this.tags = new TagApi(http);
+        this.cases = new CaseApi(http);
+    }
+}
+
+export class CaseApi {
+    constructor(http) {
+        this._http = http;
+    }
+
+    /**
+     * Gets all the cases for the provided person.
+     * @param {string} person 
+     * @returns Promise 
+     */
+    getByPerson(person) {
+        return this._http.fetch(`case/cases/${person.id}`).then(response => response.json());
+    }
+
+    /**
+     * Creates a new case for the user based on the situation.
+     * @param {} situation 
+     * @returns Promise 
+     */
+    createCase(situation, title) {
+        return this._http.fetch(`case/create/${situation}/${title}`).then(response => response.json());
     }
 }
 
@@ -36,6 +57,7 @@ export class ItemApi {
     getBySituation(situation) {
             return this._http.fetch(`browsing/${this._itemType}/${situation}`).then(response => response.json())
         }
+
         /**
          * Creates an instance of ItemApi.
          * 

@@ -23,7 +23,7 @@ export class App {
             name: 'tag-steps',
             moduleId: 'routes/guided-path/tag-steps',
             nav: true,
-            title: 'Guided Path'
+            title: 'Home'
         }, {
             route: 'tag-steps/context',
             name: 'contexts',
@@ -44,6 +44,18 @@ export class App {
             name: 'anon-case',
             moduleId: 'routes/anon-case/index',
             title: 'Anonymous Case'
+        }, {
+            route: 'auth-case/case-home',
+            name: 'case-home',
+            moduleId: 'routes/auth-case/case-home',
+        }, {
+            route: 'auth-case/create-case/:situation',
+            name: 'create-case',
+            moduleId: 'routes/auth-case/create-case'
+        }, {
+            route: 'auth-case/dashboard/:caseId',
+            name: 'dashboard',
+            moduleId: 'routes/auth-case/dashboard'
         }]);
 
         this.router = router;
