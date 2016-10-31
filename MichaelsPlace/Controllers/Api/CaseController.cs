@@ -29,17 +29,26 @@ namespace MichaelsPlace.Controllers.Api
         }
 
         /// <summary>
-        /// Returns all cases for the person with <paramref name="personId"/>
+        /// Gets all cases for the logged in user.
         /// </summary>
-        /// <param name="personId"></param>
-        /// <returns></returns>
-        [HttpGet, Route("cases/{personId}")] // todo : Remove person id and pass it in through the backend
-        public List<CaseModel> CasesByPerson(string personId) =>
-            _queryFactory.Create<CasesByPersonQuery>()
-                         .Execute<Case>(personId)
-                         .ProjectTo<CaseModel>()
-                         .ToList();
+        /// <returns>A list of caseIds and their titles</returns>
+        [HttpGet, Route("getCases")]
+        public List<CaseListModel> CasesByPerson()
+        {
+            string userId = User.Identity.GetUserId();
 
+            return _queryFactory.Create<CasesByPersonQuery>()
+                         .Execute<Case>(userId)
+                         .ProjectTo<CaseListModel>()
+                         .ToList();
+        }
+
+        /// <summary>
+        /// Creates a case based on the situation.
+        /// </summary>
+        /// <param name="situation">The situation the user navigated to</param>
+        /// <param name="title">The title of the user</param>
+        /// <returns>The caseId of the newly created case</returns>
         [HttpGet, Route("create/{situation:situation}/{title}")]
         public async Task<string> CreateCaseBySituation(SituationModel situation, string title)
         {

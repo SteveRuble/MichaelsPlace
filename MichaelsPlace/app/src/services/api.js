@@ -22,12 +22,11 @@ export class CaseApi {
     }
 
     /**
-     * Gets all the cases for the provided person.
-     * @param {string} person 
+     * Gets all the cases for the logged in user.
      * @returns Promise 
      */
-    getByPerson(person) {
-        return this._http.fetch(`case/cases/${person.id}`).then(response => response.json());
+    getByPerson() {
+        return this._http.fetch(`case/getCases`).then(response => response.json());
     }
 
     /**

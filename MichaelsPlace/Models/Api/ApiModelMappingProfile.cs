@@ -26,7 +26,7 @@ namespace MichaelsPlace.Models.Api
                 .ForSourceMember(m => m.CreatedUtc, o => o.Ignore())
                 .IncludeBase<Item, BrowsingItemModel>();
 
-            CreateMap<Case, CaseModel>()
+            CreateMap<Case, CaseListModel>()
                 .ForSourceMember(m => m.CreatedBy, o => o.Ignore())
                 .ForSourceMember(m => m.CreatedUtc, o => o.Ignore());
         }

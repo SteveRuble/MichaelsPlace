@@ -21,7 +21,7 @@ export class CaseHome {
         return this.update();
     }
     update() {
-        return this.api.cases.getByPerson(this.user)
+        return this.api.cases.getByPerson()
             .then(cases => this.cases = cases);
     }
 }
