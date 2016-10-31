@@ -44,6 +44,18 @@ namespace MichaelsPlace.Controllers.Api
         }
 
         /// <summary>
+        /// Gets case and related information from a caseId.
+        /// </summary>
+        /// <param name="caseId">The id of the case</param>
+        /// <returns>An object with all the details about the case</returns>
+        [HttpGet, Route("getCase/{caseId}")]
+        public CaseViewModel GetCase(string caseId)
+        {
+            // Todo: Figure out how to get all your Case stuff into this ViewModel.
+            return new CaseViewModel();
+        }
+
+        /// <summary>
         /// Creates a case based on the situation.
         /// </summary>
         /// <param name="situation">The situation the user navigated to</param>

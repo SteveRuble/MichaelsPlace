@@ -409,6 +409,7 @@
     <Compile Include="Models\Admin\AdminTagType.cs" />
     <Compile Include="Models\Admin\UserReferenceModel.cs" />
     <Compile Include="Models\Api\CaseListModel.cs" />
+    <Compile Include="Models\Api\CaseViewModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
     <Compile Include="NotificationHandlers\SmsNotificationAddedNotificationHandler.cs" />

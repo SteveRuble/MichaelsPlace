@@ -37,6 +37,15 @@ export class CaseApi {
     createCase(situation, title) {
         return this._http.fetch(`case/create/${situation}/${title}`).then(response => response.json());
     }
+
+    /**
+     * Gets the case information based on the caseId.
+     * @param {} caseId 
+     * @returns Promise
+     */
+    getCase(caseId) {
+        return this._http.fetch(`case/getCase/${caseId}`).then(response => response.json());
+    }
 }
 
 export class ItemApi {

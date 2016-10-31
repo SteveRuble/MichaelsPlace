@@ -12,12 +12,13 @@ export class Dashboard {
     }
 
     activate(params) {
-        this.case = params.caseId;
+        this.caseId = params.caseId;
         return this.update();
     }
 
     update() {
-        
+        return this.api.cases.getCase(this.caseId)
+            .then(myCase => this.caseObject = myCase);
     }
 
     select(item) {
