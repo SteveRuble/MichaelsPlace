@@ -3,7 +3,7 @@ import {HttpClient} from 'aurelia-fetch-client';
 
 @inject(HttpClient)
 export class Api {
-    http;
+
     constructor(http) {
         this.http = http;
         this.articles = new ItemApi(http, "articles");

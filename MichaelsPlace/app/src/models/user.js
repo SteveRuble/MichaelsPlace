@@ -1,6 +1,4 @@
-import {
-    HttpClient
-} from 'aurelia-fetch-client';
+import {HttpClient} from 'aurelia-fetch-client';
 
 export class User {
     constructor(httpClient) {

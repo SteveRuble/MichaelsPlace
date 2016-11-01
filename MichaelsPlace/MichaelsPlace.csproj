@@ -506,8 +506,6 @@
     <Content Include="app\src\routes\auth-case\create-case.js" />
     <Content Include="app\src\routes\auth-case\dashboard.html" />
     <Content Include="app\src\routes\auth-case\dashboard.js" />
-    <Content Include="app\src\routes\child\index.html" />
-    <Content Include="app\src\routes\child\index.js" />
     <Content Include="app\src\routes\guided-path\losses.html" />
     <Content Include="app\src\routes\guided-path\losses.js" />
     <Content Include="app\src\routes\guided-path\relationships.html" />
@@ -518,8 +516,6 @@
     <Content Include="app\src\routes\guided-path\tag-steps.js" />
     <Content Include="app\src\services\api.js" />
     <Content Include="app\src\services\session.js" />
-    <Content Include="app\src\welcome.html" />
-    <Content Include="app\src\welcome.js" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="CodeTemplates\AddView\CSHTML\BootstrapForm.tt" />
     <Content Include="CodeTemplates\AddView\CSHTML\Create.tt" />

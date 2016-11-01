@@ -3,9 +3,6 @@ import {Api} from 'services/api';
 
 @inject(Api)
 export class TagSteps {
-    context;
-    loss;
-    relationship;
 
     constructor(api) {
         this.heading = 'What type of loss occured?';

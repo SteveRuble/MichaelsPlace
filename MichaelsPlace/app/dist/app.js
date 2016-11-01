@@ -32,13 +32,9 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                 App.prototype.configureRouter = function configureRouter(config, router) {
                     config.title = "Michael's Place";
                     config.map([{
-                        route: 'welcome',
-                        name: 'welcome',
-                        moduleId: 'welcome'
-                    }, {
-                        route: ['', 'tag-steps'],
+                        route: ['', 'home'],
                         name: 'tag-steps',
-                        moduleId: 'routes/guided-path/tag-steps',
+                        moduleId: 'routes/guided-path/home',
                         nav: true,
                         title: 'Home'
                     }, {
