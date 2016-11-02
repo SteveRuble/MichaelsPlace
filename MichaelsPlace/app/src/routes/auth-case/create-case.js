@@ -3,13 +3,11 @@ import {Api} from 'services/api';
 import {Router} from 'aurelia-router';
 
 @inject(Api, Router)
-export class Index {
+export class CreateCase {
 
     constructor(api, router) {
         this.api = api;
         this.router = router;
-
-        this.title = "";
     }
 
     activate(params) {
@@ -17,11 +15,15 @@ export class Index {
     }
 
     createCase() {
-        var newCase = this.api.cases.createCase(this.situation, this.title)
-            .then(caseId => this.caseId = caseId);
-        if (this.caseId == null) {
-            this.caseId = '2e8fa0daac1e491592b3e03e99be682f';
-        }
-        this.router.navigateToRoute('dashboard', {caseId : this.caseId});
+        var page = this;
+        
+        this.api.cases.createCase(this.situation, this.title)
+            .then(function(caseId) {
+                if (!caseId) {
+                    caseId = -1;
+                }
+
+                page.router.navigateToRoute('dashboard', { caseId: caseId });
+            });
     }
 }
