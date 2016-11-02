@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-fetch-client';
+import {HttpClient, json} from 'aurelia-fetch-client';
 
 @inject(HttpClient)
 export class Api {
@@ -17,6 +17,7 @@ export class Api {
 }
 
 export class CaseApi {
+    
     constructor(http) {
         this._http = http;
     }
@@ -35,7 +36,18 @@ export class CaseApi {
      * @returns Promise 
      */
     createCase(situation, title) {
-        return this._http.fetch(`case/create/${situation}/${title}`).then(response => response.json());
+        var payload = {
+            situation: situation,
+            title: title
+        }
+
+        return this._http.fetch(`case/create`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
     }
 
     /**

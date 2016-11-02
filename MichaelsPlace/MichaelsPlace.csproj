@@ -410,6 +410,7 @@
     <Compile Include="Models\Admin\UserReferenceModel.cs" />
     <Compile Include="Models\Api\CaseListModel.cs" />
     <Compile Include="Models\Api\CaseViewModel.cs" />
+    <Compile Include="Models\Api\NewCaseModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
     <Compile Include="NotificationHandlers\SmsNotificationAddedNotificationHandler.cs" />
@@ -512,8 +513,8 @@
     <Content Include="app\src\routes\guided-path\relationships.js" />
     <Content Include="app\src\routes\guided-path\contexts.html" />
     <Content Include="app\src\routes\guided-path\contexts.js" />
-    <Content Include="app\src\routes\guided-path\tag-steps.html" />
-    <Content Include="app\src\routes\guided-path\tag-steps.js" />
+    <Content Include="app\src\routes\guided-path\home.html" />
+    <Content Include="app\src\routes\guided-path\home.js" />
     <Content Include="app\src\services\api.js" />
     <Content Include="app\src\services\session.js" />
     <Content Include="App_Readme\Elmah.txt" />

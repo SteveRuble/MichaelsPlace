@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -58,16 +59,15 @@ namespace MichaelsPlace.Controllers.Api
         /// <summary>
         /// Creates a case based on the situation.
         /// </summary>
-        /// <param name="situation">The situation the user navigated to</param>
-        /// <param name="title">The title of the user</param>
+        /// <param name="payload">The HTTP Post Payload, containing the situation and the case title.</param>
         /// <returns>The caseId of the newly created case</returns>
-        [HttpGet, Route("create/{situation:situation}/{title}")]
-        public async Task<string> CreateCaseBySituation(SituationModel situation, string title)
+        [HttpPost, Route("create")]
+        public async Task<string> CreateCaseBySituation([FromBody] NewCaseModel payload)
         {
             var request = new CreateCaseCommand.Request()
             {
-                Situation = situation,
-                Title = title,
+                Situation = payload.Situation,
+                Title = payload.Title,
                 UserId = User.Identity.GetUserId()
             };
 
