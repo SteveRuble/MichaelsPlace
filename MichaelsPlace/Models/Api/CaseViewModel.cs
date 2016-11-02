@@ -8,6 +8,7 @@ namespace MichaelsPlace.Models.Api
 {
     public class CaseViewModel
     {
+        public string Id { get; set; }
         public string Title { get; set; }
         public ICollection<PersonCase> CaseUsers { get; set; }
         public ICollection<CaseItem> CaseItems { get; set; }

@@ -1,26 +1,33 @@
 ﻿import {inject} from 'aurelia-framework';
-import {activationStrategy} from 'aurelia-router';
+import {Router, activationStrategy} from 'aurelia-router';
 import {Api} from 'services/api';
 
-@inject(Api)
+@inject(Api, Router)
 
 export class Dashboard {
     currentItem = [];
 
-    constructor(api) {
+    constructor(api, router) {
         this.api = api;
+        this.router = router;
     }
 
     activate(params) {
         this.caseId = params.caseId;
         return this.update();
     }
-
     update() {
-        return this.api.cases.getCase(this.caseId)
-            .then(myCase => this.caseObject = myCase);
-    }
+        var dashboard = this;
 
+        return this.api.cases.getCase(this.caseId)
+            .then(function(myCase) {
+                if (!myCase.id) {
+                    dashboard.router.navigateToRoute('case-home');
+                }
+
+                dashboard.caseObject = myCase;
+            });
+    }
     select(item) {
         this.currentItem = item;
     }
