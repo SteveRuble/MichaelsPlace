@@ -12,6 +12,7 @@ export class CaseHome {
         this.api = api;
         this.user = user;
     }
+
     activate() {
         this.user.update();
         if (this.user.id == null) {
@@ -20,8 +21,21 @@ export class CaseHome {
 
         return this.update();
     }
+
+    hasCases() {
+        if (this.cases.length > 0) {
+            this.hasCases = true;
+        } else {
+            this.hasCases = false;
+        }
+    }
+
     update() {
+        var caseHome = this;
         return this.api.cases.getByPerson()
-            .then(cases => this.cases = cases);
+            .then(function(cases) {
+                caseHome.cases = cases;
+                caseHome.hasCases();
+            });
     }
 }

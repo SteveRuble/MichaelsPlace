@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="container">
+    <div class="container" show.bind="hasCases">
         <h3>Your Cases</h3>
         <ul class="list-inline">
             <li repeat.for="case of cases">
@@ -8,5 +8,11 @@
                    class="btn btn-lg btn-success">${case.title}</a>
             </li>
         </ul>
+    </div>
+    <div class="container" show.bind="!hasCases">
+        <h3>You have no cases</h3>
+        <a route-href="route:contexts"
+           title=""
+           class="btn btn-lg btn-primary">Start A New Case</a>
     </div>
 </template>
