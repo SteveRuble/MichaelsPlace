@@ -25,7 +25,7 @@ export class Dashboard {
                     dashboard.router.navigateToRoute('case-home');
                 }
 
-                dashboard.caseObject = myCase;
+                dashboard.currentCase = myCase;
             });
     }
     select(item) {

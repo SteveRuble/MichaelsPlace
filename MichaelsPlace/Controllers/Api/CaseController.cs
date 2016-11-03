@@ -53,7 +53,10 @@ namespace MichaelsPlace.Controllers.Api
         public CaseViewModel GetCase(string caseId)
         {
             // Todo: Figure out how to get all your Case stuff into this ViewModel.
-            return new CaseViewModel();
+            return new CaseViewModel()
+            {
+                Id = caseId
+            };
         }
 
         /// <summary>
