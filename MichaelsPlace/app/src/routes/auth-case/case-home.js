@@ -23,19 +23,11 @@ export class CaseHome {
     }
 
     hasCases() {
-        if (this.cases.length > 0) {
-            this.hasCases = true;
-        } else {
-            this.hasCases = false;
-        }
+        return this.cases.length > 0;
     }
 
     update() {
-        var caseHome = this;
         return this.api.cases.getByPerson()
-            .then(function(cases) {
-                caseHome.cases = cases;
-                caseHome.hasCases();
-            });
+            .then(cases => this.cases = cases);
     }
 }
