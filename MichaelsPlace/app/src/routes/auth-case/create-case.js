@@ -5,9 +5,10 @@ import {Router} from 'aurelia-router';
 @inject(Api, Router)
 export class CreateCase {
 
-    constructor(api, router) {
+    constructor(api, router, validationController) {
         this.api = api;
         this.router = router;
+        this.validationController = validationController;
     }
 
     activate(params) {
