@@ -46,8 +46,7 @@
                                     <li class="divider"></li>
                                     <h3>To-Dos</h3>
                                     <ul class="nav nav-pills nav-stacked">
-                                        <li class="${article === currentItem ? 'active' : ''}"
-                                            repeat.for="todo of todos">
+                                        <li class="${todo === currentItem ? 'active' : ''}" repeat.for="todo of todos">
                                             <a route-href="route: todo; params.bind: { id: todo.id }">${todo.title}</a>
                                         </li>
                                     </ul>

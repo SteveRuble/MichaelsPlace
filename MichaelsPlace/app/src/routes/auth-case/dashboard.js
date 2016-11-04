@@ -12,10 +12,33 @@ export class Dashboard {
         this.router = router;
     }
 
+    configureRouter(config, router) {
+        config.map(
+            [{
+                route: ['', 'program'],
+                name: 'program',
+                moduleId: 'routes/auth-case/program',
+                activationStrategy: activationStrategy.replace
+            }, {
+                route: 'article/:itemId',
+                name: 'article',
+                moduleId: 'routes/auth-case/routes/item/article',
+                activationStrategy: activationStrategy.replace
+            }, {
+                route: 'todo/:itemId',
+                name: 'todo',
+                moduleId: 'routes/auth-case/routes/item/todo',
+                activationStrategy: activationStrategy.replace
+            }]);
+
+        this.router = router;
+    }
+
     activate(params) {
         this.caseId = params.caseId;
         return this.update();
     }
+
     update() {
         var dashboard = this;
 
@@ -28,6 +51,7 @@ export class Dashboard {
                 dashboard.currentCase = myCase;
             });
     }
+
     select(item) {
         this.currentItem = item;
     }

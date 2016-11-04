@@ -413,7 +413,6 @@
     <Compile Include="Models\Api\CaseDashboard\PersonViewModel.cs" />
     <Compile Include="Models\Api\CaseListModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\CaseViewModel.cs" />
-    <Compile Include="Models\Api\ItemType.cs" />
     <Compile Include="Models\Api\NewCaseModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
@@ -512,6 +511,12 @@
     <Content Include="app\src\routes\auth-case\create-case.js" />
     <Content Include="app\src\routes\auth-case\dashboard.html" />
     <Content Include="app\src\routes\auth-case\dashboard.js" />
+    <Content Include="app\src\routes\auth-case\program.html" />
+    <Content Include="app\src\routes\auth-case\program.js" />
+    <Content Include="app\src\routes\auth-case\routes\item\article.html" />
+    <Content Include="app\src\routes\auth-case\routes\item\article.js" />
+    <Content Include="app\src\routes\auth-case\routes\item\todo.html" />
+    <Content Include="app\src\routes\auth-case\routes\item\todo.js" />
     <Content Include="app\src\routes\guided-path\losses.html" />
     <Content Include="app\src\routes\guided-path\losses.js" />
     <Content Include="app\src\routes\guided-path\relationships.html" />

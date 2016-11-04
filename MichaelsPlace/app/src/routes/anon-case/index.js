@@ -18,12 +18,6 @@ export class Index {
     configureRouter(config, router) {
         config.map(
             [{
-                route: 'welcome',
-                name: 'welcome',
-                moduleId: 'welcome',
-                nav: true,
-                title: 'Welcome'
-            }, {
                 route: '',
                 name: 'program',
                 moduleId: 'routes/anon-case/program',

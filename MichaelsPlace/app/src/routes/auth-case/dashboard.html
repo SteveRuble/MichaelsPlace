@@ -11,6 +11,7 @@
                                     <h3>Articles</h3>
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="${article === currentItem ? 'active' : ''}" repeat.for="article of currentCase.articles">
+                                            <a route-href="route: article; params.bind: {itemId: article.itemId}">${article.itemTitle}</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -18,7 +19,8 @@
                                     <li class="divider"></li>
                                     <h3>To-Dos</h3>
                                     <ul class="nav nav-pills nav-stacked">
-                                        <li class="${article === currentItem ? 'active' : ''}" repeat.for="todo of currentCase.todos">
+                                        <li class="${todo === currentItem ? 'active' : ''}" repeat.for="todo of currentCase.todos">
+                                            <a route-href="route: todo; params.bind: {itemId: todo.itemId}">${todo.itemTitle}</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -28,6 +30,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
+                <router-view></router-view>
             </div>
         </div>
     </div>
