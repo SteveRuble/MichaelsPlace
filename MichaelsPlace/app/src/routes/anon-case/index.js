@@ -4,7 +4,6 @@ import {activationStrategy} from 'aurelia-router';
 
 @inject(Api)
 export class Index {
-    currentItem = [];
 
     constructor(api) {
         this.api = api;
@@ -41,9 +40,5 @@ export class Index {
             .then(items => this.articles = items)
             .then(_ => this.api.todos.getBySituation(this.situation))
             .then(items => this.todos = items);
-    }
-
-    select(item) {
-        this.currentItem = item;
     }
 }

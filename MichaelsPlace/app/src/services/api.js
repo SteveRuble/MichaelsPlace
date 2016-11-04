@@ -76,6 +76,10 @@ export class ItemApi {
          */
     getBySituation(situation) {
             return this._http.fetch(`browsing/${this._itemType}/${situation}`).then(response => response.json())
+    }
+
+    updateStatus(item, status, caseId = '-1') {
+        return this._http.fetch(`item/${this._itemType}/updateStatus/${item}/${status}/${caseId}`).then(response => response.json());
         }
 
         /**
@@ -87,8 +91,8 @@ export class ItemApi {
     constructor(http, itemType) {
         this._http = http;
         this._itemType = itemType;
-    }
-}
+        }
+        }
 
 export class TagApi {
     /**

@@ -5,7 +5,6 @@ import {Api} from 'services/api';
 @inject(Api, Router)
 
 export class Dashboard {
-    currentItem = [];
 
     constructor(api, router) {
         this.api = api;
@@ -52,7 +51,11 @@ export class Dashboard {
             });
     }
 
-    select(item) {
-        this.currentItem = item;
+    updateTodo(checked, value) {
+        this.api.todos.updateStatus(value, checked, this.caseId);
+    }
+
+    updateArticle(checked, value) {
+        this.api.articles.updateStatus(value, checked);
     }
 }
