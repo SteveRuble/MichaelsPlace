@@ -408,8 +408,12 @@
     <Compile Include="Models\Admin\AdminTagModel.cs" />
     <Compile Include="Models\Admin\AdminTagType.cs" />
     <Compile Include="Models\Admin\UserReferenceModel.cs" />
+    <Compile Include="Models\Api\CaseDashboard\ItemViewModel.cs" />
+    <Compile Include="Models\Api\CaseDashboard\PersonItemViewModel.cs" />
+    <Compile Include="Models\Api\CaseDashboard\PersonViewModel.cs" />
     <Compile Include="Models\Api\CaseListModel.cs" />
-    <Compile Include="Models\Api\CaseViewModel.cs" />
+    <Compile Include="Models\Api\CaseDashboard\CaseViewModel.cs" />
+    <Compile Include="Models\Api\ItemType.cs" />
     <Compile Include="Models\Api\NewCaseModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
@@ -420,6 +424,7 @@
     <Compile Include="Models\Persistence\Person.cs" />
     <Compile Include="Queries\ByIdQuery.cs" />
     <Compile Include="Queries\AdminTagModelQuery.cs" />
+    <Compile Include="Queries\CaseByIdQuery.cs" />
     <Compile Include="Queries\CasesByPersonQuery.cs" />
     <Compile Include="Services\Messaging\DevelopmentEmailService.cs" />
     <Compile Include="Services\Messaging\IEmailService.cs" />

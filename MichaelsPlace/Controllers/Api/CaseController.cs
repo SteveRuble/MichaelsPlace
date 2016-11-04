@@ -11,6 +11,7 @@ using MichaelsPlace.CommandHandlers;
 using MichaelsPlace.Infrastructure;
 using MichaelsPlace.Models;
 using MichaelsPlace.Models.Api;
+using MichaelsPlace.Models.Api.CaseDashboard;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
 using Microsoft.AspNet.Identity;
@@ -52,11 +53,10 @@ namespace MichaelsPlace.Controllers.Api
         [HttpGet, Route("getCase/{caseId}")]
         public CaseViewModel GetCase(string caseId)
         {
-            // Todo: Figure out how to get all your Case stuff into this ViewModel.
-            return new CaseViewModel()
-            {
-                Id = caseId
-            };
+            return _queryFactory.Create<CaseByIdQuery>()
+                        .Execute<Case>(caseId)
+                        .ProjectTo<CaseViewModel>()
+                        .FirstOrDefault();
         }
 
         /// <summary>
