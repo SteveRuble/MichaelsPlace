@@ -11,7 +11,6 @@ namespace MichaelsPlace.Models.Api.CaseDashboard
         public int Id { get; set; }
         public int ItemId { get; set; }
         public string ItemTitle { get; set; }
-        public string ItemContent { get; set; }
         public CaseItemStatus Status { get; set; }
     }
 }

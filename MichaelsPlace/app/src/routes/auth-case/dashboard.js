@@ -51,11 +51,11 @@ export class Dashboard {
             });
     }
 
-    updateTodo(checked, value) {
-        this.api.todos.updateStatus(value, checked, this.caseId);
+    updateTodo(id, status) {
+        this.api.todos.updateStatus(id, status, this.caseId);
     }
 
-    updateArticle(checked, value) {
-        this.api.articles.updateStatus(value, checked);
+    updateArticle(id, status) {
+        this.api.articles.updateStatus(id, status);
     }
 }

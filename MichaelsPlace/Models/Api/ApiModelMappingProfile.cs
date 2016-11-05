@@ -32,10 +32,10 @@ namespace MichaelsPlace.Models.Api
                 .ForSourceMember(m => m.CreatedUtc, o => o.Ignore());
 
             CreateMap<Case, CaseViewModel>()
-                .ForSourceMember(m => m.CreatedBy, o => o.Ignore())
-                .ForSourceMember(m => m.CreatedUtc, o => o.Ignore())
                 .ForMember(m => m.Todos, o => o.MapFrom(s => s.CaseItems.Where(ci => ci.Item is ToDo)))
-                .ForMember(m => m.Articles, o => o.MapFrom(s => s.CaseItems.Where(ci => ci.Item is Article)));
+                .ForMember(m => m.Articles, o => o.MapFrom(s => s.CaseItems.Where(ci => ci.Item is Article)))
+                .ForSourceMember(m => m.CreatedBy, o => o.Ignore())
+                .ForSourceMember(m => m.CreatedUtc, o => o.Ignore());
 
             CreateMap<PersonCase, PersonViewModel>()
                 .ForMember(m => m.DisplayName, opt => opt.MapFrom(src => src.Person.FirstName + " " + src.Person.LastName))
@@ -47,9 +47,7 @@ namespace MichaelsPlace.Models.Api
             CreateMap<PersonCaseItem, PersonItemViewModel>()
                 .ForSourceMember(m => m.Person, o => o.Ignore());
 
-
             CreateMap<CaseItem, ItemViewModel>();
-
         }
     }
 }

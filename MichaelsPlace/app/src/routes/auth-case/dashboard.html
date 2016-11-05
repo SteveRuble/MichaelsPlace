@@ -18,7 +18,7 @@
                                         <li class="${article === currentItem ? 'active' : ''}" repeat.for="article of currentCase.articles">
                                             <div class="list-group-item">
                                                 <a route-href="route: article; params.bind: {itemId: article.itemId}">${article.itemTitle}</a>
-                                                <input type="checkbox" name="article${article.id}" change.delegate="updateArticle($event.target.checked, article.id)"/>
+                                                <input type="checkbox" name="article${article.id}" change.delegate="updateArticle(article.id, $event.target.checked)"/>
                                             </div>
                                         </li>
                                     </ul>
@@ -30,7 +30,7 @@
                                         <li class="${todo === currentItem ? 'active' : ''}" repeat.for="todo of currentCase.todos">
                                             <div class="list-group-item">
                                                 <a route-href="route: todo; params.bind: {itemId: todo.itemId}">${todo.itemTitle}</a>
-                                                <input type="checkbox" name="todo${todo.id}" change.delegate="updateTodo($event.target.checked, todo.id)" />
+                                                <input type="checkbox" name="todo${todo.id}" change.delegate="updateTodo(todo.id, $event.target.checked)"/>
                                             </div>
                                         </li>
                                     </ul>

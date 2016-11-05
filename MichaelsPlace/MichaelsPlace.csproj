@@ -417,6 +417,7 @@
     <Compile Include="Models\Api\CaseListModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\CaseViewModel.cs" />
     <Compile Include="Models\Api\NewCaseModel.cs" />
+    <Compile Include="Models\Api\UpdateStatusModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
     <Compile Include="NotificationHandlers\SmsNotificationAddedNotificationHandler.cs" />

@@ -8,6 +8,7 @@ using System.Web.Http;
 using MediatR;
 using MichaelsPlace.CommandHandlers;
 using MichaelsPlace.Infrastructure;
+using MichaelsPlace.Models.Api;
 using Microsoft.AspNet.Identity;
 
 namespace MichaelsPlace.Controllers.Api
@@ -24,27 +25,27 @@ namespace MichaelsPlace.Controllers.Api
             _mediator = mediator;
         }
 
-        [HttpGet, Route("articles/updateStatus/{id:int}/{status:bool}/{caseId}")]
-        public async Task<ICommandResult> UpdateArticleStatus(int id, bool status, string caseId)
+        [HttpPost, Route("articles/updateStatus")]
+        public async Task<ICommandResult> UpdateArticleStatus([FromBody] UpdateStatusModel payload)
         {
             var request = new UpdateArticleCommand.Request()
             {
-                Id = id,
-                Status = status,
+                Id = payload.Id,
+                Status = payload.Status,
                 UserId = User.Identity.GetUserId()
             };
 
             return await _mediator.SendAsync(request);
         }
 
-        [HttpGet, Route("todos/updateStatus/{id:int}/{status:bool}/{caseId}")]
-        public async Task<ICommandResult> UpdateTodoStatus(int id, bool status, string caseId)
+        [HttpPost, Route("todos/updateStatus")]
+        public async Task<ICommandResult> UpdateTodoStatus([FromBody] UpdateStatusModel payload)
         {
             var request = new UpdateToDoCommand.Request()
             {
-                Id = id,
-                Status = status,
-                CaseId = caseId
+                Id = payload.Id,
+                Status = payload.Status,
+                CaseId = payload.CaseId
             };
 
             return await _mediator.SendAsync(request);

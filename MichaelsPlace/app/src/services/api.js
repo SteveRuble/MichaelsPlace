@@ -78,9 +78,28 @@ export class ItemApi {
             return this._http.fetch(`browsing/${this._itemType}/${situation}`).then(response => response.json())
     }
 
-    updateStatus(item, status, caseId = '-1') {
-        return this._http.fetch(`item/${this._itemType}/updateStatus/${item}/${status}/${caseId}`).then(response => response.json());
+    /**
+     * Toggles an item's status (CaseItemUserStatus for articles, CaseItemStatus for todos)
+     * @param {} id the item's id
+     * @param {} status boolean value containing the status to be toggled to
+     * @param {} caseId the id of the case
+     * @returns {} 
+     */
+    updateStatus(id, status, caseId = '-1') {
+        var payload = {
+            id: id,
+            status: status,
+            caseId: caseId
         }
+
+        return this._http.fetch(`item/${this._itemType}/updateStatus`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
+    }
 
         /**
          * Creates an instance of ItemApi.
