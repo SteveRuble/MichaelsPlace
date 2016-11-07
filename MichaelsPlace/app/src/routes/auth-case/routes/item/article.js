@@ -1,15 +1,19 @@
 import {inject} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {Dashboard} from '../../dashboard';
+import {User} from 'models/user';
 
-@inject(Api)
+@inject(Api, Dashboard, User)
 export class Article {
 
-    constructor(api) {
+    constructor(api, dashboard, user) {
         this.api = api;
+        this.dashboard = dashboard;
+        this.user = user;
     }
 
     activate(params) {
-        this.updateArticle(params.articleId, params.viewed);
+        this.updateArticle(params.articleId);
 
         return this.api.articles.getById(params.itemId)
             .then(article => {
@@ -18,9 +22,23 @@ export class Article {
             });
     }
 
-    updateArticle(id, viewed) {
-        if (viewed === 'false') {
-            this.api.articles.updateStatus(id);
+    updateArticle(id) {
+        var thisArticle = this;
+        var users = thisArticle.dashboard.currentCase.caseUsers.filter(function(u) {
+            return u.userId == thisArticle.user.id;
+        });
+
+        var article = users[0].personItems.filter(function(i) {
+            return i.id == id;
+        });
+
+        if (article[0].status !== 'Viewed') {
+            this.api.articles.updateStatus(id)
+                .then(function(result) {
+                    if (result.isSuccess) {
+                        article[0].status = 'Viewed';
+                    }
+                });
         }
     }
 }

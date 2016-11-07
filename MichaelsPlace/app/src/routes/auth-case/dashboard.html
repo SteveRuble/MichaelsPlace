@@ -1,5 +1,8 @@
 ﻿<template>
     <require from="components/tooltip"></require>
+    <require from="./routes/item/article-format"></require>
+    <require from="./routes/item/todo-format"></require>
+    <require from="components/negate-format"></require>
     <div class="container-fluid">
         <div class="row">
             <div class="text-center">
@@ -17,8 +20,8 @@
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="${article === currentItem ? 'active' : ''}" repeat.for="article of currentCase.articles">
                                             <div class="list-group-item">
-                                                <a route-href="route: article; params.bind: {itemId: article.itemId, articleId: article.id, viewed: isArticleViewed(article.id)}">${article.itemTitle}</a>
-                                                <i class="fa fa-circle text-primary" show.bind="!isArticleViewed(article.id)"></i>
+                                                <a route-href="route: article; params.bind: {itemId: article.itemId, articleId: article.id}">${article.itemTitle}</a>
+                                                <i class="fa fa-circle text-primary" id="unreadIcon{article.id}" show.bind="article.status | articleFormat"></i>
                                             </div>
                                         </li>
                                     </ul>
@@ -30,8 +33,8 @@
                                         <li class="${todo === currentItem ? 'active' : ''}" repeat.for="todo of currentCase.todos">
                                             <div class="list-group-item">
                                                 <a route-href="route: todo; params.bind: {itemId: todo.itemId, todo: todo.id}">${todo.itemTitle}</a>
-                                                <i class="fa fa-circle-o text-danger" show.bind="!isTodoClosed(todo.id)"></i>
-                                                <i class="fa fa-check-circle-o text-success" show.bind="isTodoClosed(todo.id)"></i>
+                                                <i class="fa fa-circle-o text-danger" id="openIcon${todo.id}" show.bind="todo.status | todoFormat | negateFormat"></i>
+                                                <i class="fa fa-check-circle-o text-success" id="closedIcon${todo.id}" show.bind="todo.status | todoFormat"></i>
                                             </div>
                                         </li>
                                     </ul>
