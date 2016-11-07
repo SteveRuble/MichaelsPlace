@@ -85,7 +85,7 @@ export class ItemApi {
      * @param {} caseId the id of the case
      * @returns {} 
      */
-    updateStatus(id, status, caseId = '-1') {
+    updateStatus(id, status = true, caseId = '-1') {
         var payload = {
             id: id,
             status: status,

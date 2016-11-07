@@ -21,7 +21,7 @@ export class Dashboard {
                 moduleId: 'routes/auth-case/program',
                 activationStrategy: activationStrategy.replace
             }, {
-                route: 'article/:itemId',
+                route: 'article/:itemId/:articleId/:viewed',
                 name: 'article',
                 moduleId: 'routes/auth-case/routes/item/article',
                 activationStrategy: activationStrategy.replace

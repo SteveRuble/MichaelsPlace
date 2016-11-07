@@ -17,8 +17,8 @@
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="${article === currentItem ? 'active' : ''}" repeat.for="article of currentCase.articles">
                                             <div class="list-group-item">
-                                                <a route-href="route: article; params.bind: {itemId: article.itemId}">${article.itemTitle}</a>
-                                                <input type="checkbox" name="article${article.id}" change.delegate="updateArticle(article.id, $event.target.checked)" checked.bind="isArticleViewed(article.id)"/>
+                                                <a route-href="route: article; params.bind: {itemId: article.itemId, articleId: article.id, viewed: isArticleViewed(article.id)}">${article.itemTitle}</a>
+                                                <i class="fa fa-circle text-primary" show.bind="!isArticleViewed(article.id)"></i>
                                             </div>
                                         </li>
                                     </ul>
