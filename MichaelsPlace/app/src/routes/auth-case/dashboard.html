@@ -29,8 +29,9 @@
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="${todo === currentItem ? 'active' : ''}" repeat.for="todo of currentCase.todos">
                                             <div class="list-group-item">
-                                                <a route-href="route: todo; params.bind: {itemId: todo.itemId}">${todo.itemTitle}</a>
-                                                <input type="checkbox" name="todo${todo.id}" change.delegate="updateTodo(todo.id, $event.target.checked)" checked.bind="isTodoClosed(todo.id)"/>
+                                                <a route-href="route: todo; params.bind: {itemId: todo.itemId, todo: todo.id}">${todo.itemTitle}</a>
+                                                <i class="fa fa-circle-o text-danger" show.bind="!isTodoClosed(todo.id)"></i>
+                                                <i class="fa fa-check-circle-o text-success" show.bind="isTodoClosed(todo.id)"></i>
                                             </div>
                                         </li>
                                     </ul>

@@ -26,7 +26,7 @@ export class Dashboard {
                 moduleId: 'routes/auth-case/routes/item/article',
                 activationStrategy: activationStrategy.replace
             }, {
-                route: 'todo/:itemId',
+                route: 'todo/:itemId/:todo',
                 name: 'todo',
                 moduleId: 'routes/auth-case/routes/item/todo',
                 activationStrategy: activationStrategy.replace
@@ -51,10 +51,6 @@ export class Dashboard {
 
                 dashboard.currentCase = myCase;
             });
-    }
-
-    updateTodo(id, status) {
-        this.api.todos.updateStatus(id, status, this.caseId);
     }
 
     updateArticle(id, status) {
