@@ -8,6 +8,7 @@ namespace MichaelsPlace.Models.Api.CaseDashboard
     public class PersonViewModel
     {
         public string Id { get; set; }
+        public string UserId { get; set; }
         public string DisplayName { get; set; }
         public List<PersonItemViewModel> PersonItems { get; set; }
     }

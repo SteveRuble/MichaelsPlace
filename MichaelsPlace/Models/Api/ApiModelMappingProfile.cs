@@ -40,6 +40,7 @@ namespace MichaelsPlace.Models.Api
             CreateMap<PersonCase, PersonViewModel>()
                 .ForMember(m => m.DisplayName, opt => opt.MapFrom(src => src.Person.FirstName + " " + src.Person.LastName))
                 .ForMember(m => m.PersonItems, opt => opt.MapFrom(src => src.Person.PersonCaseItems.Where(pci => pci.Case.Id == src.Case.Id)))
+                .ForMember(m => m.UserId, opt => opt.MapFrom(src => src.Person.Id))
                 .ForSourceMember(m => m.Person, o => o.Ignore())
                 .ForSourceMember(m => m.Relationship, o => o.Ignore())
                 .ForSourceMember(m => m.Case, o => o.Ignore());
