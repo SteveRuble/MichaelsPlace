@@ -1,14 +1,16 @@
 ﻿import {inject} from 'aurelia-framework';
 import {Router, activationStrategy} from 'aurelia-router';
 import {Api} from 'services/api';
+import {User} from 'models/user';
 
-@inject(Api, Router)
+@inject(Api, Router, User)
 
 export class Dashboard {
 
-    constructor(api, router) {
+    constructor(api, router, user) {
         this.api = api;
         this.router = router;
+        this.user = user;
     }
 
     configureRouter(config, router) {
@@ -48,6 +50,12 @@ export class Dashboard {
                 }
 
                 dashboard.currentCase = myCase;
+                
+                var users = dashboard.currentCase.caseUsers.filter(function(u) {
+                    return u.userId == dashboard.user.id;
+                });
+
+                dashboard.currentCase.articles = users[0].articles;
             });
     }
 }

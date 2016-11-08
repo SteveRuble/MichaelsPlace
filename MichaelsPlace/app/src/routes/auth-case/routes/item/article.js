@@ -28,7 +28,7 @@ export class Article {
             return u.userId == thisArticle.user.id;
         });
 
-        var article = users[0].personItems.filter(function(i) {
+        var article = users[0].articles.filter(function(i) {
             return i.id == id;
         });
 

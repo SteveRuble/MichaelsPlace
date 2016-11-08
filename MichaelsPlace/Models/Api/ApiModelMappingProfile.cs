@@ -33,13 +33,12 @@ namespace MichaelsPlace.Models.Api
 
             CreateMap<Case, CaseViewModel>()
                 .ForMember(m => m.Todos, o => o.MapFrom(s => s.CaseItems.Where(ci => ci.Item is ToDo)))
-                .ForMember(m => m.Articles, o => o.MapFrom(s => s.CaseItems.Where(ci => ci.Item is Article)))
                 .ForSourceMember(m => m.CreatedBy, o => o.Ignore())
                 .ForSourceMember(m => m.CreatedUtc, o => o.Ignore());
 
             CreateMap<PersonCase, PersonViewModel>()
                 .ForMember(m => m.DisplayName, opt => opt.MapFrom(src => src.Person.FirstName + " " + src.Person.LastName))
-                .ForMember(m => m.PersonItems, opt => opt.MapFrom(src => src.Person.PersonCaseItems.Where(pci => pci.Case.Id == src.Case.Id)))
+                .ForMember(m => m.Articles, opt => opt.MapFrom(src => src.Person.PersonCaseItems.Where(pci => pci.Case.Id == src.Case.Id && pci.Item is Article)))
                 .ForMember(m => m.UserId, opt => opt.MapFrom(src => src.Person.Id))
                 .ForSourceMember(m => m.Person, o => o.Ignore())
                 .ForSourceMember(m => m.Relationship, o => o.Ignore())
