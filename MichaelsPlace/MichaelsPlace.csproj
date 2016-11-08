@@ -497,6 +497,7 @@
     <Content Include="app\src\app.js" />
     <Content Include="app\src\components\login.html" />
     <Content Include="app\src\components\login.js" />
+    <Content Include="app\src\components\negate-format.js" />
     <Content Include="app\src\components\tooltip.js" />
     <Content Include="app\src\main.js" />
     <Content Include="app\src\models\user.js" />
@@ -517,8 +518,12 @@
     <Content Include="app\src\routes\auth-case\dashboard.js" />
     <Content Include="app\src\routes\auth-case\program.html" />
     <Content Include="app\src\routes\auth-case\program.js" />
+    <Content Include="app\src\routes\auth-case\routes\email.html" />
+    <Content Include="app\src\routes\auth-case\routes\email.js" />
+    <Content Include="app\src\routes\auth-case\routes\item\article-format.js" />
     <Content Include="app\src\routes\auth-case\routes\item\article.html" />
     <Content Include="app\src\routes\auth-case\routes\item\article.js" />
+    <Content Include="app\src\routes\auth-case\routes\item\todo-format.js" />
     <Content Include="app\src\routes\auth-case\routes\item\todo.html" />
     <Content Include="app\src\routes\auth-case\routes\item\todo.js" />
     <Content Include="app\src\routes\guided-path\losses.html" />

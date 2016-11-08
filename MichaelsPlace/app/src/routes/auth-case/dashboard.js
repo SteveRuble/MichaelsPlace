@@ -30,6 +30,11 @@ export class Dashboard {
                 name: 'todo',
                 moduleId: 'routes/auth-case/routes/item/todo',
                 activationStrategy: activationStrategy.replace
+            }, {
+                route: 'email',
+                name: 'email',
+                moduleId: 'routes/auth-case/routes/email',
+                activationStrategy: activationStrategy.replace
             }]);
 
         this.router = router;

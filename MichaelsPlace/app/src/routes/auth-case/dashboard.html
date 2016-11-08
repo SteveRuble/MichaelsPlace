@@ -6,17 +6,17 @@
     <div class="container-fluid">
         <div class="row">
             <div class="text-center">
-                <h2 class="text-primary nav">${currentCase.title}</h2>
+                <h2 class="text-primary nav"><a route-href="route: dashboard; params.bind: {caseId: currentCase.id}">${currentCase.title}</a></h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <div class="sidebar-nav">
                     <div class="navbar navbar-default" role="navigation">
                         <div class="navbar-collapse collapse sidebar-navbar-collapse">
                             <ul class="nav navbar-nav">
                                 <li>
-                                    <h3>Articles</h3>
+                                    <h3 class="text-center">Articles</h3>
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="${article === currentItem ? 'active' : ''}" repeat.for="article of currentCase.articles">
                                             <div class="list-group-item">
@@ -26,9 +26,8 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <hr/>
                                 <li>
-                                    <h3>To-Dos</h3>
+                                    <h3 class="text-center">To-Dos</h3>
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="${todo === currentItem ? 'active' : ''}" repeat.for="todo of currentCase.todos">
                                             <div class="list-group-item">
@@ -46,6 +45,23 @@
             </div>
             <div class="col-sm-6">
                 <router-view></router-view>
+            </div>
+            <div class="col-sm-3">
+                <div class="sidebar-nav">
+                    <div class="navbar navbar-default">
+                        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                            <h3 class="text-center">Case Users</h3>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li repeat.for="users of currentCase.caseUsers">
+                                    <div class="list-group-item">
+                                        ${users.displayName}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a route-href="route: email">Email Staff</a>
+                </div>
             </div>
         </div>
     </div>

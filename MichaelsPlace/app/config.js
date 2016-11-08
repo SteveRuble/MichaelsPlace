@@ -11,6 +11,7 @@ System.config({
     "components/*": "dist/components/*",
     "services/*": "dist/services/*"
   },
+
   meta: {
     "bootstrap": {
       "deps": [
@@ -18,6 +19,7 @@ System.config({
       ]
     }
   },
+
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0-beta.1.2.1",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1.2.1",
@@ -34,6 +36,7 @@ System.config({
     "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0-beta.1.2.5",
     "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0-beta.1.2.1",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
+    "bootstrap-toggle": "npm:bootstrap-toggle@2.2.2",
     "fetch": "github:github/fetch@0.11.1",
     "font-awesome": "npm:font-awesome@4.6.1",
     "jquery": "npm:jquery@2.2.3",

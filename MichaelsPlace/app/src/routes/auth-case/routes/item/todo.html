@@ -2,7 +2,6 @@
     <require from="./todo-format"></require>
     <h3 class="text-primary">${title}</h3>
     <div innerhtml.bind="content | sanitizeHTML"></div>
-    <div class="container">
-        <input type="checkbox" name="cbxClosed" change.delegate="updateTodo($event.target.checked)" checked.bind="status" />
-    </div>
+    <hr/>
+    <input type="checkbox" change.delegate="updateTodo($event.target.checked)" checked.bind="status" /> Complete
 </template>
