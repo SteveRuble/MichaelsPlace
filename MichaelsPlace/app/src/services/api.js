@@ -13,6 +13,7 @@ export class Api {
         };
         this.tags = new TagApi(http);
         this.cases = new CaseApi(http);
+        this.email = new EmailApi(http);
     }
 }
 
@@ -110,8 +111,8 @@ export class ItemApi {
     constructor(http, itemType) {
         this._http = http;
         this._itemType = itemType;
-        }
-        }
+    }
+}
 
 export class TagApi {
     /**
@@ -147,5 +148,26 @@ export class TagApi {
          */
     constructor(http) {
         this._http = http;
+    }
+}
+
+export class EmailApi {
+    constructor(http) {
+        this._http = http;
+    }
+
+    sendToStaff(subject, message) {
+        var payload = {
+            subject: subject,
+            message: message
+        };
+
+        return this._http.fetch(`email/sendToStaff`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
     }
 }
