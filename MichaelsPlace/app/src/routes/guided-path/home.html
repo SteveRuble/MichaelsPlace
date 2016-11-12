@@ -1,22 +1,31 @@
 ﻿<template>
     <div class="container">
-        <h3>Welcome!</h3>
-        <p>What would you like to do?</p>
-        <div class="${user.username ? 'hidden' : ''}" >
-            <a href="/Account/Login?returnUrl=/index.html%23/auth-case/case-home"
-               title=""
-               class="btn btn-lg btn-primary">Log In</a>
-            <a route-href="route:contexts"
-               title=""
-               class="btn btn-lg btn-primary">Don't Log In</a>
+        <h2>Your Michael's Place</h2>
+        <div class="container">
+            <h3>Your Cases</h3>
+            <div class="${user.username ? 'hidden' : ''}">
+                <a href="/Account/Login?returnUrl=/index.html%23"
+                   title=""
+                   class="btn btn-lg btn-primary">Log In</a>
+                <a route-href="route:contexts"
+                   title=""
+                   class="btn btn-lg btn-primary">Don't Log In</a>
+            </div>
+            <div class="${user.username ? '' : 'hidden'}">
+                <a route-href="route:case-home"
+                   title=""
+                   class="btn btn-lg btn-primary">View My Cases</a>
+                <a route-href="route:contexts"
+                   title=""
+                   class="btn btn-lg btn-primary">Start A New Case</a>
+            </div>
         </div>
-        <div class="${user.username ? '' : 'hidden'}">
-            <a route-href="route:case-home"
-               title=""
-               class="btn btn-lg btn-primary">View My Cases</a>
-            <a route-href="route:contexts"
-               title=""
-               class="btn btn-lg btn-primary">Start A New Case</a>
-        </div>
+        <div class="container ${user.username ? '' : 'hidden'}">
+            <h3>Your Organizations</h3>
+            <div>
+                <a route-href="route:organization-home" title="" class="btn btn-lg btn-success">View My Organizations</a>
+                <a route-href="route:organization-contexts" title="" class="btn btn-lg btn-success">Create A New Organization</a>
+            </div>
+        </div> 
     </div>
 </template>

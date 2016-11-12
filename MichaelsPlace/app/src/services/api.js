@@ -14,6 +14,7 @@ export class Api {
         this.tags = new TagApi(http);
         this.cases = new CaseApi(http);
         this.email = new EmailApi(http);
+        this.organizations = new OrganizationApi(http);
     }
 }
 
@@ -169,5 +170,15 @@ export class EmailApi {
             },
             body: json(payload)
         }).then(response => response.json());
+    }
+}
+
+export class OrganizationApi {
+    constructor(http) {
+        this._http = http;
+    }
+
+    getByPerson() {
+        return this._http.fetch(`organization/getOrganizations`).then(response => response.json());
     }
 }

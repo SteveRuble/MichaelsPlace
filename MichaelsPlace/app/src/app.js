@@ -52,6 +52,10 @@ export class App {
             route: 'auth-case/dashboard/:caseId',
             name: 'dashboard',
             moduleId: 'routes/auth-case/dashboard'
+        }, {
+            route: 'organization/organization-home',
+            name: 'organization-home',
+            moduleId: 'routes/organization/organization-home'
         }]);
 
         this.router = router;
