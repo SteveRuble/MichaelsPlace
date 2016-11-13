@@ -48,6 +48,8 @@ namespace MichaelsPlace.Models.Api
                 .ForSourceMember(m => m.Person, o => o.Ignore());
 
             CreateMap<CaseItem, ItemViewModel>();
+
+            CreateMap<Organization, OrganizationListModel>();
         }
     }
 }

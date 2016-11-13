@@ -360,6 +360,7 @@
     <Compile Include="CommandHandlers\UpdateUserCommand.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\Api\OrganizationController.cs" />
     <Compile Include="Controllers\Api\EmailController.cs" />
     <Compile Include="Controllers\Api\CaseController.cs" />
     <Compile Include="Controllers\Api\ItemController.cs" />
@@ -416,6 +417,7 @@
     <Compile Include="Models\Api\CaseDashboard\ItemViewModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\PersonItemViewModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\PersonViewModel.cs" />
+    <Compile Include="Models\Api\OrganizationListModel.cs" />
     <Compile Include="Models\Api\CaseListModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\CaseViewModel.cs" />
     <Compile Include="Models\Api\EmailModel.cs" />
@@ -431,6 +433,7 @@
     <Compile Include="Queries\ByIdQuery.cs" />
     <Compile Include="Queries\AdminTagModelQuery.cs" />
     <Compile Include="Queries\CaseByIdQuery.cs" />
+    <Compile Include="Queries\OrganizationsByPersonQuery.cs" />
     <Compile Include="Queries\CasesByPersonQuery.cs" />
     <Compile Include="Services\Messaging\DevelopmentEmailService.cs" />
     <Compile Include="Services\Messaging\IEmailService.cs" />
@@ -537,6 +540,8 @@
     <Content Include="app\src\routes\guided-path\contexts.js" />
     <Content Include="app\src\routes\guided-path\home.html" />
     <Content Include="app\src\routes\guided-path\home.js" />
+    <Content Include="app\src\routes\organization\organization-home.html" />
+    <Content Include="app\src\routes\organization\organization-home.js" />
     <Content Include="app\src\services\api.js" />
     <Content Include="app\src\services\session.js" />
     <Content Include="App_Readme\Elmah.txt" />

@@ -56,6 +56,10 @@ export class App {
             route: 'organization/organization-home',
             name: 'organization-home',
             moduleId: 'routes/organization/organization-home'
+        }, {
+            route: 'organization/organization-contexts',
+            name: 'organization-contexts',
+            moduleId: 'routes/organization/organization-contexts'
         }]);
 
         this.router = router;
