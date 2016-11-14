@@ -2,16 +2,16 @@
     <div class="container" show.bind="hasOrganizations()">
         <h3>Your Organizations</h3>
         <ul class="list-inline">
-            <!--<li repeat.for="organization of organizations">
+            <li repeat.for="organization of organizations">
                 <a route-href="route:dashboard; params.bind:{organizationId: organization.id}"
                    title="${organization.title}"
                    class="btn btn-lg btn-success">${organization.title}</a>
-            </li>-->
+            </li>
         </ul>
     </div>
     <div class="container" show.bind="!hasOrganizations()">
         <h3>You have no organizations</h3>
-        <a route-href="route:organization-contexts"
+        <a route-href="route:organization-create"
            title=""
            class="btn btn-lg btn-primary">Create A New Organization</a>
     </div>

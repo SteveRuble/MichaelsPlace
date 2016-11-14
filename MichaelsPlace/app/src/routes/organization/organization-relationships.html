@@ -1,0 +1,12 @@
+﻿<template>
+    <div class="container">
+        <h3>${heading}</h3>
+        <ul class="list-inline">
+            <li repeat.for="tag of tags">
+                <a route-href="route:create-organization-case; params.bind:{situation:contextId + '-' + lossId + '-' + tag.id}"
+                   title="${tag.description}"
+                   class="btn btn-lg btn-primary ${user.username ? '' : 'hidden'}">${tag.name}</a>
+            </li>
+        </ul>
+    </div>
+</template>

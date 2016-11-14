@@ -1,0 +1,12 @@
+﻿<template>
+    <div class="container">
+        <h3>Create Case</h3>
+        <form role="form" submit.delegate="createCase()">
+            <div class="form-group">
+                <label for="title" class="control-label">Title</label>
+                <input value.bind="title" name="title" placeholder="Title" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Create Case</button>
+        </form>
+    </div>
+</template>

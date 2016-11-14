@@ -60,6 +60,18 @@ export class App {
             route: 'organization/organization-contexts',
             name: 'organization-contexts',
             moduleId: 'routes/organization/organization-contexts'
+        }, {
+            route: 'organization/organization-losses/:contextId',
+            name: 'organization-losses',
+            moduleId: 'routes/organization/organization-losses'
+        }, {
+            route: 'organization/organization-relationships/:contextId/:lossId',
+            name: 'organization-relationships',
+            moduleId: 'routes/organization/organization-relationships'
+        }, {
+            route: 'organization/create-organization-case/:situation',
+            name: 'create-organization-case',
+            moduleId: 'routes/organization/create-organization-case'
         }]);
 
         this.router = router;
