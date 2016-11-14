@@ -195,7 +195,7 @@ export class OrganizationApi {
             notes: notes
         }
 
-        return this._http.getch(`organization/createOrganization`, {
+        return this._http.fetch(`organization/createOrganization`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json'

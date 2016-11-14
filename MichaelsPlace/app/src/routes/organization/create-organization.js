@@ -10,6 +10,15 @@ export class CreateOrganization {
         this.api = api;
         this.router = router;
         this.controller = controller;
+
+        ValidationRules
+            .ensure('name').required()
+            .ensure('phoneNumber').required()
+            .ensure('line1').required()
+            .ensure('city').required()
+            .ensure('state').required()
+            .ensure('zip').required()
+            .on(CreateOrganization);
     }
 
     activate(params) {
@@ -17,36 +26,30 @@ export class CreateOrganization {
     }
 
     createOrganization() {
-        if (this.controller.validate().length <= 0) {
-            var page = this;
+        this.controller.validate().then(errors => {
+            if (errors.length === 0) {
+                var page = this;
         
-            this.api.organizations.createOrganization(
-                    this.title,
-                    this.phoneNumber,
-                    this.faxNumber,
-                    this.line1,
-                    this.line2,
-                    this.city,
-                    this.state,
-                    this.zip,
-                    this.notes
-                )
-                .then(function(organizationId) {
-                    if (!organizationId) {
-                        organizationId = -1;
-                    }
+                this.api.organizations.createOrganization(
+                        this.name,
+                        this.phoneNumber,
+                        this.faxNumber,
+                        this.line1,
+                        this.line2,
+                        this.city,
+                        this.state,
+                        this.zip,
+                        this.notes
+                    )
+                    .then(function(organizationId) {
+                        if (!organizationId) {
+                            organizationId = -1;
+                        }
 
-                    page.router.navigateToRoute('organization-dashboard', { organizationId: organizationId });
-                });
-        }
+                        page.router.navigateToRoute('organization-dashboard', { organizationId: organizationId });
+                    });
+            }
+        });
     }
 }
 
-ValidationRules
-    .ensure('title').required()
-    .ensure('phoneNumber').required()
-    .ensure('line1').required()
-    .ensure('city').required()
-    .ensure('state').required()
-    .ensure('zip').required()
-    .on(CreateOrganization);
