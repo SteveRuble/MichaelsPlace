@@ -181,4 +181,26 @@ export class OrganizationApi {
     getByPerson() {
         return this._http.fetch(`organization/getOrganizations`).then(response => response.json());
     }
+
+    createOrganization(title, phone, fax, line1, line2, city, state, zip, notes) {
+        var payload = {
+            title: title,
+            phone: phone,
+            fax: fax,
+            line1: line1,
+            line2: line2,
+            city: city,
+            state: state,
+            zip: zip,
+            notes: notes
+        }
+
+        return this._http.getch(`organization/createOrganization`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
+    }
 }

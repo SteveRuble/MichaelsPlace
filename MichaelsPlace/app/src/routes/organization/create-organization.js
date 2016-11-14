@@ -20,7 +20,17 @@ export class CreateOrganization {
         if (this.controller.validate().length <= 0) {
             var page = this;
         
-            this.api.organizations.createOrganization(this.title)
+            this.api.organizations.createOrganization(
+                    this.title,
+                    this.phoneNumber,
+                    this.faxNumber,
+                    this.line1,
+                    this.line2,
+                    this.city,
+                    this.state,
+                    this.zip,
+                    this.notes
+                )
                 .then(function(organizationId) {
                     if (!organizationId) {
                         organizationId = -1;
@@ -33,7 +43,7 @@ export class CreateOrganization {
 }
 
 ValidationRules
-    .ensure('name').required()
+    .ensure('title').required()
     .ensure('phoneNumber').required()
     .ensure('line1').required()
     .ensure('city').required()
