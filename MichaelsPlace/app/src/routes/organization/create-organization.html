@@ -1,0 +1,45 @@
+﻿<template>
+    <div class="container">
+        <h3>Create Organization</h3>
+        <form role="form" submit.delegate="createOrganization()">
+            <div class="form-group">
+                <label for="name" class="control-label">Name</label>
+                <input value.bind="name" name="name" placeholder="Name" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber" class="control-label">Phone Number</label>
+                <input value.bind="phoneNumber" name="phoneNumber" placeholder="Phone Number" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="faxNumber" class="control-label">Fax Number</label>
+                <input value.bind="faxNumber" name="faxNumber" placeholder="Fax Number" class="form-control"/>
+            </div>
+            <h4>Address</h4>
+            <div class="form-group">
+                <label for="line1" class="control-label">Line 1</label>
+                <input value.bind="line1" name="line1" placeholder="Line 1" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="line2" class="control-label">Line 2</label>
+                <input value.bind="line2" name="line2" placeholder="Line 2" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="city" class="control-label">City</label>
+                <input value.bind="city" name="city" placeholder="City" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="state" class="control-label">State</label>
+                <input value.bind="state" name="state" placeholder="State" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="zip" class="control-label">Zip</label>
+                <input value.bind="zip" name="zip" placeholder="Zip" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="notes" class="control-label">Notes</label>
+                <textarea value.bind="notes" name="notes" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Organization</button>
+        </form>
+    </div>
+</template>

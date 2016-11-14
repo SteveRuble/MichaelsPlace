@@ -74,6 +74,10 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                         name: 'organization-home',
                         moduleId: 'routes/organization/organization-home'
                     }, {
+                        route: 'organization/create-organization',
+                        name: 'create-organization',
+                        moduleId: 'routes/organization/create-organization'
+                    }, {
                         route: 'organization/organization-contexts',
                         name: 'organization-contexts',
                         moduleId: 'routes/organization/organization-contexts'

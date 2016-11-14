@@ -501,6 +501,8 @@
     <Content Include="app\favicon.ico" />
     <Content Include="app\src\app.html" />
     <Content Include="app\src\app.js" />
+    <Content Include="app\src\components\address-form.html" />
+    <Content Include="app\src\components\address-form.js" />
     <Content Include="app\src\components\login.html" />
     <Content Include="app\src\components\login.js" />
     <Content Include="app\src\components\negate-format.js" />
@@ -540,8 +542,18 @@
     <Content Include="app\src\routes\guided-path\contexts.js" />
     <Content Include="app\src\routes\guided-path\home.html" />
     <Content Include="app\src\routes\guided-path\home.js" />
+    <Content Include="app\src\routes\organization\create-organization-case.html" />
+    <Content Include="app\src\routes\organization\create-organization-case.js" />
+    <Content Include="app\src\routes\organization\create-organization.html" />
+    <Content Include="app\src\routes\organization\create-organization.js" />
+    <Content Include="app\src\routes\organization\organization-contexts.html" />
+    <Content Include="app\src\routes\organization\organization-contexts.js" />
     <Content Include="app\src\routes\organization\organization-home.html" />
     <Content Include="app\src\routes\organization\organization-home.js" />
+    <Content Include="app\src\routes\organization\organization-losses.html" />
+    <Content Include="app\src\routes\organization\organization-losses.js" />
+    <Content Include="app\src\routes\organization\organization-relationships.html" />
+    <Content Include="app\src\routes\organization\organization-relationships.js" />
     <Content Include="app\src\services\api.js" />
     <Content Include="app\src\services\session.js" />
     <Content Include="App_Readme\Elmah.txt" />
