@@ -3,7 +3,7 @@ import {Api} from 'services/api';
 import {User} from 'models/user';
 
 @inject(Api, User)
-export class Losses {
+export class Relationships {
 
     constructor(api, user) {
         this.heading = 'Who are you?';

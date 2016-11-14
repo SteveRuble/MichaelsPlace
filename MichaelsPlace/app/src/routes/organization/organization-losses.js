@@ -2,7 +2,7 @@
 import {Api} from 'services/api';
 
 @inject(Api)
-export class Losses {
+export class OrganizationLosses {
 
     constructor(api) {
         this.heading = 'Who was lost?';

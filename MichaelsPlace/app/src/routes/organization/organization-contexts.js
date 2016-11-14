@@ -2,7 +2,7 @@
 import {Api} from 'services/api';
 
 @inject(Api)
-export class TagSteps {
+export class OrganizationContexts {
 
     constructor(api) {
         this.heading = 'What type of loss occured?';

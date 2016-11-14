@@ -501,8 +501,6 @@
     <Content Include="app\favicon.ico" />
     <Content Include="app\src\app.html" />
     <Content Include="app\src\app.js" />
-    <Content Include="app\src\components\address-form.html" />
-    <Content Include="app\src\components\address-form.js" />
     <Content Include="app\src\components\login.html" />
     <Content Include="app\src\components\login.js" />
     <Content Include="app\src\components\negate-format.js" />

@@ -3,7 +3,7 @@ import {Api} from 'services/api';
 import {Router} from 'aurelia-router';
 
 @inject(Api, Router)
-export class CreateCase {
+export class CreateOrganizationCase {
 
     constructor(api, router, validationController) {
         this.api = api;
