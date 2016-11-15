@@ -184,9 +184,9 @@ export class OrganizationApi {
 
     createOrganization(title, phone, fax, line1, line2, city, state, zip, notes) {
         var payload = {
-            title: title,
-            phone: phone,
-            fax: fax,
+            name: title,
+            phoneNumber: phone,
+            faxNumber: fax,
             line1: line1,
             line2: line2,
             city: city,
@@ -195,7 +195,7 @@ export class OrganizationApi {
             notes: notes
         }
 
-        return this._http.fetch(`organization/createOrganization`, {
+        return this._http.fetch(`organization/create`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json'

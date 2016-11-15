@@ -353,6 +353,7 @@
     <Compile Include="BootstrapSupport\ViewHelperExtensions.cs" />
     <Compile Include="CommandHandlers\AddOrEditPersonCommand.cs" />
     <Compile Include="CommandHandlers\CreateCaseCommand.cs" />
+    <Compile Include="CommandHandlers\CreateOrganizationCommand.cs" />
     <Compile Include="CommandHandlers\SendStaffEmailCommand.cs" />
     <Compile Include="CommandHandlers\UpdateToDoCommand.cs" />
     <Compile Include="CommandHandlers\UpdateArticleCommand.cs" />
@@ -417,6 +418,7 @@
     <Compile Include="Models\Api\CaseDashboard\ItemViewModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\PersonItemViewModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\PersonViewModel.cs" />
+    <Compile Include="Models\Api\NewOrganizationModel.cs" />
     <Compile Include="Models\Api\OrganizationListModel.cs" />
     <Compile Include="Models\Api\CaseListModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\CaseViewModel.cs" />

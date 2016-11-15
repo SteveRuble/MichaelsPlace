@@ -44,5 +44,35 @@ namespace MichaelsPlace.Controllers.Api
                          .ProjectTo<OrganizationListModel>()
                          .ToList();
         }
+
+        /// <summary>
+        /// Creates an organization.
+        /// </summary>
+        /// <param name="payload">The HTTP Post Payload, containing all the details necessary to create an organization.</param>
+        /// <returns>The organizationId of the newly created organization</returns>
+        [HttpPost, Route("create")]
+        public async Task<string> CreateOrganization([FromBody] NewOrganizationModel payload)
+        {
+            var request = new CreateOrganizationCommand.Request()
+            {
+                Name = payload.Name,
+                PhoneNumber = payload.PhoneNumber,
+                FaxNumber = payload.FaxNumber,
+                Notes = payload.Notes,
+                Address = new Address()
+                {
+                    LineOne = payload.Line1,
+                    LineTwo = payload.Line2,
+                    City = payload.City,
+                    State = payload.State,
+                    Zip = payload.Zip
+                },
+                UserId = User.Identity.GetUserId()
+            };
+
+            var result = await _mediator.SendAsync(request);
+
+            return result.Result as string;
+        }
     }
 }
