@@ -3,7 +3,7 @@
         <h3>Your Organizations</h3>
         <ul class="list-inline">
             <li repeat.for="organization of organizations">
-                <a route-href="route:dashboard; params.bind:{organizationId: organization.id}"
+                <a route-href="route:organization-dashboard; params.bind:{organizationId: organization.id}"
                    title="${organization.title}"
                    class="btn btn-lg btn-success">${organization.title}</a>
             </li>

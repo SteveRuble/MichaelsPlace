@@ -49,7 +49,8 @@ namespace MichaelsPlace.Models.Api
 
             CreateMap<CaseItem, ItemViewModel>();
 
-            CreateMap<Organization, OrganizationListModel>();
+            CreateMap<Organization, OrganizationListModel>()
+                .ForMember(m => m.Title, opt => opt.MapFrom(src => src.Name));
         }
     }
 }

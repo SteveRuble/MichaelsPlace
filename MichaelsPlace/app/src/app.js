@@ -76,6 +76,10 @@ export class App {
             route: 'organization/create-organization-case/:situation',
             name: 'create-organization-case',
             moduleId: 'routes/organization/create-organization-case'
+        }, {
+            route: 'organization/organization-dashboard/:organizationId',
+            name: 'organization-dashboard',
+            moduleId: 'routes/organization/organization-dashboard'
         }]);
 
         this.router = router;
