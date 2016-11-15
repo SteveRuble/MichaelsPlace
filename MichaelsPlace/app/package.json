@@ -93,7 +93,7 @@
       "bootstrap": "github:twbs/bootstrap@^3.3.5",
       "bootstrap-toggle": "npm:bootstrap-toggle@^2.2.2",
       "fetch": "github:github/fetch@^0.11.0",
-      "font-awesome": "npm:font-awesome@^4.5.0",
+      "font-awesome": "npm:font-awesome@^4.7.0",
       "jquery": "npm:jquery@^2.2.3",
       "text": "github:systemjs/plugin-text@0.0.3"
     },

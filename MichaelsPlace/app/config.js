@@ -11,6 +11,7 @@ System.config({
     "components/*": "dist/components/*",
     "services/*": "dist/services/*"
   },
+
   meta: {
     "bootstrap": {
       "deps": [
@@ -18,6 +19,7 @@ System.config({
       ]
     }
   },
+
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.1",
     "aurelia-binding": "npm:aurelia-binding@1.0.9",
