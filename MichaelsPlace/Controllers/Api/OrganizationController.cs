@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Formatting;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using MediatR;
 using MichaelsPlace.CommandHandlers;
 using MichaelsPlace.Infrastructure;
-using MichaelsPlace.Models;
 using MichaelsPlace.Models.Api;
-using MichaelsPlace.Models.Api.CaseDashboard;
+using MichaelsPlace.Models.Api.OrganizationDashboard;
 using MichaelsPlace.Models.Persistence;
 using MichaelsPlace.Queries;
 using Microsoft.AspNet.Identity;
@@ -43,6 +38,20 @@ namespace MichaelsPlace.Controllers.Api
                          .Execute<Organization>(userId)
                          .ProjectTo<OrganizationListModel>()
                          .ToList();
+        }
+
+        /// <summary>
+        /// Gets organization and related information from an organizationId.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization</param>
+        /// <returns>An object with all the details about the organization</returns>
+        [HttpGet, Route("getOrganization/{organizationId:int}")]
+        public OrganizationViewModel GetOrganization(int organizationId)
+        {
+            return _queryFactory.Create<OrganizationByIdQuery>()
+                        .Execute<Organization>(organizationId)
+                        .ProjectTo<OrganizationViewModel>()
+                        .FirstOrDefault();
         }
 
         /// <summary>

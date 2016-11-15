@@ -15,9 +15,19 @@ export class Dashboard {
 
     activate(params) {
         this.organizationId = params.organizationId;
+        return this.update();
     }
 
     update() {
-        
+        var dashboard = this;
+
+        return this.api.organizations.getOrganization(this.organizationId)
+            .then(function(organization) {
+                if (!organization.id) {
+                    dashboard.router.navigateToRoute('organization-home');
+                }
+
+                dashboard.organization = organization;
+            });
     }
 }

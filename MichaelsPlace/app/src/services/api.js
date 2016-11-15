@@ -203,4 +203,13 @@ export class OrganizationApi {
             body: json(payload)
         }).then(response => response.json());
     }
+
+    /**
+     * Gets organization information based on the organizationId.
+     * @param {} organizationId 
+     * @returns Promise
+     */
+    getOrganization(organizationId) {
+        return this._http.fetch(`organization/getOrganization/${organizationId}`).then(response => response.json());
+    }
 }

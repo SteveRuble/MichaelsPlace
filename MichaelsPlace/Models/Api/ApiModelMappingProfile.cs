@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using MichaelsPlace.Models.Api.CaseDashboard;
+using MichaelsPlace.Models.Api.OrganizationDashboard;
 using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Models.Api
@@ -51,6 +52,8 @@ namespace MichaelsPlace.Models.Api
 
             CreateMap<Organization, OrganizationListModel>()
                 .ForMember(m => m.Title, opt => opt.MapFrom(src => src.Name));
+
+            CreateMap<Organization, OrganizationViewModel>();
         }
     }
 }

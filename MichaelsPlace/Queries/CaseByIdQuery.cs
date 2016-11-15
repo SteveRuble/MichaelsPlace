@@ -15,8 +15,7 @@ namespace MichaelsPlace.Queries
                              where cases.Id == caseId
                              select cases;
 
-            var currentCase = caseFromId.AsProjectable(Mapper);
-            return currentCase;
+            return caseFromId.AsProjectable(Mapper);
         }
     }
 }
