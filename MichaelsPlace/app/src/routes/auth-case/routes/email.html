@@ -1,0 +1,14 @@
+﻿<template>
+    <h3 class="text-primary">Email Michael's Place Staff</h3>
+    <form role="form" submit.delegate="sendEmail()">
+        <div class="form-group row">
+            <label for="subject">Subject</label>
+            <input value.bind="subject" class="form-control" type="text" id="subject"/>
+        </div>
+        <div class="form-group row">
+            <label for="message">Message</label>
+            <textarea value.bind="message" name="message" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+</template>

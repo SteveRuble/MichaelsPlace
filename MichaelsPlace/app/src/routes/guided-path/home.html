@@ -1,0 +1,32 @@
+﻿<template>
+    <div class="container">
+        <div class="container">
+            <div class="${user.username ? 'hidden' : ''}">
+                <h2>Welcome to Michael's Place</h2>
+                <a href="/Account/Login?returnUrl=/index.html%23"
+                   title=""
+                   class="btn btn-lg btn-primary">Log In</a>
+                <a route-href="route:contexts"
+                   title=""
+                   class="btn btn-lg btn-primary">Don't Log In</a>
+            </div>
+            <div class="${user.username ? '' : 'hidden'}">
+                <h2>Your Michael's Place</h2>
+                <div>
+                    <h3>Your Cases</h3>
+                    <a route-href="route:case-home"
+                       title=""
+                       class="btn btn-lg btn-primary">View My Cases</a>
+                    <a route-href="route:contexts"
+                       title=""
+                       class="btn btn-lg btn-primary">Start A New Case</a>
+                </div>
+                <div>
+                    <h3>Your Organizations</h3>
+                    <a route-href="route:organization-home" title="" class="btn btn-lg btn-success">View My Organizations</a>
+                    <a route-href="route:create-organization" title="" class="btn btn-lg btn-success">Create A New Organization</a>
+                </div> 
+            </div>
+        </div>
+    </div>
+</template>

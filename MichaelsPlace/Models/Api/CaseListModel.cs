@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MichaelsPlace.Models.Api
 {
-    public class CaseModel
+    public class CaseListModel
     {
         public string Id { get; set; }
         public string Title { get; set; }

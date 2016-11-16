@@ -1,15 +1,12 @@
 import 'bootstrap';
-import {
-    HttpClient
-} from 'aurelia-fetch-client';
-import {
-    User
-} from 'models/user';
+import {HttpClient} from 'aurelia-fetch-client';
+import {User} from 'models/user';
 
 export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
-        .developmentLogging();
+        .developmentLogging()
+        .plugin('aurelia-validation');
 
     //Uncomment the line below to enable animation.
     aurelia.use.plugin('aurelia-animator-css');

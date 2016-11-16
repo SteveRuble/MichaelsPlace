@@ -1,0 +1,7 @@
+<template>
+    <require from="./todo-format"></require>
+    <h3 class="text-primary">${title}</h3>
+    <div innerhtml.bind="content | sanitizeHTML"></div>
+    <hr/>
+    <input type="checkbox" change.delegate="updateTodo($event.target.checked)" checked.bind="status" /> Complete
+</template>

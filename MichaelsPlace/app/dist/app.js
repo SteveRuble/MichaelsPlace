@@ -32,15 +32,11 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                 App.prototype.configureRouter = function configureRouter(config, router) {
                     config.title = "Michael's Place";
                     config.map([{
-                        route: 'welcome',
-                        name: 'welcome',
-                        moduleId: 'welcome'
-                    }, {
-                        route: ['', 'tag-steps'],
+                        route: ['', 'home'],
                         name: 'tag-steps',
-                        moduleId: 'routes/guided-path/tag-steps',
+                        moduleId: 'routes/guided-path/home',
                         nav: true,
-                        title: 'Guided Path'
+                        title: 'Home'
                     }, {
                         route: 'tag-steps/context',
                         name: 'contexts',
@@ -61,6 +57,46 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                         name: 'anon-case',
                         moduleId: 'routes/anon-case/index',
                         title: 'Anonymous Case'
+                    }, {
+                        route: 'auth-case/case-home',
+                        name: 'case-home',
+                        moduleId: 'routes/auth-case/case-home'
+                    }, {
+                        route: 'auth-case/create-case/:situation',
+                        name: 'create-case',
+                        moduleId: 'routes/auth-case/create-case'
+                    }, {
+                        route: 'auth-case/dashboard/:caseId',
+                        name: 'dashboard',
+                        moduleId: 'routes/auth-case/dashboard'
+                    }, {
+                        route: 'organization/organization-home',
+                        name: 'organization-home',
+                        moduleId: 'routes/organization/organization-home'
+                    }, {
+                        route: 'organization/create-organization',
+                        name: 'create-organization',
+                        moduleId: 'routes/organization/create-organization'
+                    }, {
+                        route: 'organization/organization-contexts',
+                        name: 'organization-contexts',
+                        moduleId: 'routes/organization/organization-contexts'
+                    }, {
+                        route: 'organization/organization-losses/:contextId',
+                        name: 'organization-losses',
+                        moduleId: 'routes/organization/organization-losses'
+                    }, {
+                        route: 'organization/organization-relationships/:contextId/:lossId',
+                        name: 'organization-relationships',
+                        moduleId: 'routes/organization/organization-relationships'
+                    }, {
+                        route: 'organization/create-organization-case/:situation',
+                        name: 'create-organization-case',
+                        moduleId: 'routes/organization/create-organization-case'
+                    }, {
+                        route: 'organization/organization-dashboard/:organizationId',
+                        name: 'organization-dashboard',
+                        moduleId: 'routes/organization/organization-dashboard'
                     }]);
 
                     this.router = router;

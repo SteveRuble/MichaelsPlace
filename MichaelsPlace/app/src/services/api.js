@@ -1,13 +1,9 @@
-import {
-    inject
-} from 'aurelia-framework';
-import {
-    HttpClient
-} from 'aurelia-fetch-client';
+import {inject} from 'aurelia-framework';
+import {HttpClient, json} from 'aurelia-fetch-client';
 
 @inject(HttpClient)
 export class Api {
-    http;
+
     constructor(http) {
         this.http = http;
         this.articles = new ItemApi(http, "articles");
@@ -16,6 +12,53 @@ export class Api {
             claims: () => http.fetch('user/claims').then(r => r.json())
         };
         this.tags = new TagApi(http);
+        this.cases = new CaseApi(http);
+        this.email = new EmailApi(http);
+        this.organizations = new OrganizationApi(http);
+    }
+}
+
+export class CaseApi {
+    
+    constructor(http) {
+        this._http = http;
+    }
+
+    /**
+     * Gets all the cases for the logged in user.
+     * @returns Promise 
+     */
+    getByPerson() {
+        return this._http.fetch(`case/getCases`).then(response => response.json());
+    }
+
+    /**
+     * Creates a new case for the user based on the situation.
+     * @param {} situation 
+     * @returns Promise 
+     */
+    createCase(situation, title) {
+        var payload = {
+            situation: situation,
+            title: title
+        }
+
+        return this._http.fetch(`case/create`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
+    }
+
+    /**
+     * Gets the case information based on the caseId.
+     * @param {} caseId 
+     * @returns Promise
+     */
+    getCase(caseId) {
+        return this._http.fetch(`case/getCase/${caseId}`).then(response => response.json());
     }
 }
 
@@ -35,7 +78,31 @@ export class ItemApi {
          */
     getBySituation(situation) {
             return this._http.fetch(`browsing/${this._itemType}/${situation}`).then(response => response.json())
+    }
+
+    /**
+     * Toggles an item's status (CaseItemUserStatus for articles, CaseItemStatus for todos)
+     * @param {} id the item's id
+     * @param {} status boolean value containing the status to be toggled to
+     * @param {} caseId the id of the case
+     * @returns {} 
+     */
+    updateStatus(id, status = true, caseId = '-1') {
+        var payload = {
+            id: id,
+            status: status,
+            caseId: caseId
         }
+
+        return this._http.fetch(`item/${this._itemType}/updateStatus`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
+    }
+
         /**
          * Creates an instance of ItemApi.
          * 
@@ -82,5 +149,67 @@ export class TagApi {
          */
     constructor(http) {
         this._http = http;
+    }
+}
+
+export class EmailApi {
+    constructor(http) {
+        this._http = http;
+    }
+
+    sendToStaff(subject, message) {
+        var payload = {
+            subject: subject,
+            message: message
+        };
+
+        return this._http.fetch(`email/sendToStaff`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
+    }
+}
+
+export class OrganizationApi {
+    constructor(http) {
+        this._http = http;
+    }
+
+    getByPerson() {
+        return this._http.fetch(`organization/getOrganizations`).then(response => response.json());
+    }
+
+    createOrganization(title, phone, fax, line1, line2, city, state, zip, notes) {
+        var payload = {
+            name: title,
+            phoneNumber: phone,
+            faxNumber: fax,
+            line1: line1,
+            line2: line2,
+            city: city,
+            state: state,
+            zip: zip,
+            notes: notes
+        }
+
+        return this._http.fetch(`organization/create`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
+    }
+
+    /**
+     * Gets organization information based on the organizationId.
+     * @param {} organizationId 
+     * @returns Promise
+     */
+    getOrganization(organizationId) {
+        return this._http.fetch(`organization/getOrganization/${organizationId}`).then(response => response.json());
     }
 }

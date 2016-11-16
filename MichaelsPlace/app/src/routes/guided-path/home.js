@@ -2,7 +2,7 @@
 import {User} from 'models/user';
 
 @inject(User)
-export class Steps {
+export class Home {
     constructor(user) {
         this.user = user;
     }

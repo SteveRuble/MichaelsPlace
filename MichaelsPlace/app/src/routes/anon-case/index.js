@@ -4,11 +4,6 @@ import {activationStrategy} from 'aurelia-router';
 
 @inject(Api)
 export class Index {
-    heading = 'Describe Yourself';
-    situation = '1-5-9';
-    articles = [];
-    todos = [];
-    currentItem = [];
 
     constructor(api) {
         this.api = api;
@@ -22,12 +17,6 @@ export class Index {
     configureRouter(config, router) {
         config.map(
             [{
-                route: 'welcome',
-                name: 'welcome',
-                moduleId: 'welcome',
-                nav: true,
-                title: 'Welcome'
-            }, {
                 route: '',
                 name: 'program',
                 moduleId: 'routes/anon-case/program',
@@ -51,9 +40,5 @@ export class Index {
             .then(items => this.articles = items)
             .then(_ => this.api.todos.getBySituation(this.situation))
             .then(items => this.todos = items);
-    }
-
-    select(item) {
-        this.currentItem = item;
     }
 }
