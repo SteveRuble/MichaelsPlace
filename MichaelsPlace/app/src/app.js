@@ -44,42 +44,52 @@ export class App {
             route: 'auth-case/case-home',
             name: 'case-home',
             moduleId: 'routes/auth-case/case-home',
+            title: 'Case Home'
         }, {
             route: 'auth-case/create-case/:situation',
             name: 'create-case',
-            moduleId: 'routes/auth-case/create-case'
+            moduleId: 'routes/auth-case/create-case',
+            title: 'Create Case'
         }, {
             route: 'auth-case/dashboard/:caseId',
             name: 'dashboard',
-            moduleId: 'routes/auth-case/dashboard'
+            moduleId: 'routes/auth-case/dashboard',
+            title: 'Case Dashboard'
         }, {
             route: 'organization/organization-home',
             name: 'organization-home',
-            moduleId: 'routes/organization/organization-home'
+            moduleId: 'routes/organization/organization-home',
+            title: 'Organization Home'
         }, {
             route: 'organization/create-organization',
             name: 'create-organization',
-            moduleId: 'routes/organization/create-organization'
+            moduleId: 'routes/organization/create-organization',
+            title: 'Create Organization'
         }, {
             route: 'organization/organization-contexts',
             name: 'organization-contexts',
-            moduleId: 'routes/organization/organization-contexts'
+            moduleId: 'routes/organization/organization-contexts',
+            title: 'Guided Path'
         }, {
             route: 'organization/organization-losses/:contextId',
             name: 'organization-losses',
-            moduleId: 'routes/organization/organization-losses'
+            moduleId: 'routes/organization/organization-losses',
+            title: 'Guided Path'
         }, {
             route: 'organization/organization-relationships/:contextId/:lossId',
             name: 'organization-relationships',
-            moduleId: 'routes/organization/organization-relationships'
+            moduleId: 'routes/organization/organization-relationships',
+            title: 'Guided Path'
         }, {
             route: 'organization/create-organization-case/:situation',
             name: 'create-organization-case',
-            moduleId: 'routes/organization/create-organization-case'
+            moduleId: 'routes/organization/create-organization-case',
+            title: 'Create Organization Case'
         }, {
             route: 'organization/organization-dashboard/:organizationId',
             name: 'organization-dashboard',
-            moduleId: 'routes/organization/organization-dashboard'
+            moduleId: 'routes/organization/organization-dashboard',
+            title: 'Organization Dashboard'
         }]);
 
         this.router = router;
