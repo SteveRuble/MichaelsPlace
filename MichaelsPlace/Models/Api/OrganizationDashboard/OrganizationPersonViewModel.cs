@@ -6,10 +6,10 @@ using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.Models.Api.OrganizationDashboard
 {
-    public class OrganizationViewModel
+    public class OrganizationPersonViewModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public List<OrganizationPersonViewModel> People { get; set; }
+        public string PersonId { get; set; }
+        public string DisplayName { get; set; }
     }
 }
