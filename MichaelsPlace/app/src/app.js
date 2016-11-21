@@ -66,22 +66,22 @@ export class App {
             moduleId: 'routes/organization/create-organization',
             title: 'Create Organization'
         }, {
-            route: 'organization/organization-contexts',
+            route: 'organization/organization-contexts/:organizationId',
             name: 'organization-contexts',
             moduleId: 'routes/organization/organization-contexts',
             title: 'Guided Path'
         }, {
-            route: 'organization/organization-losses/:contextId',
+            route: 'organization/organization-losses/:organizationId/:contextId',
             name: 'organization-losses',
             moduleId: 'routes/organization/organization-losses',
             title: 'Guided Path'
         }, {
-            route: 'organization/organization-relationships/:contextId/:lossId',
+            route: 'organization/organization-relationships/:organizationId/:contextId/:lossId',
             name: 'organization-relationships',
             moduleId: 'routes/organization/organization-relationships',
             title: 'Guided Path'
         }, {
-            route: 'organization/create-organization-case/:situation',
+            route: 'organization/create-organization-case/:organizationId/:situation',
             name: 'create-organization-case',
             moduleId: 'routes/organization/create-organization-case',
             title: 'Create Organization Case'

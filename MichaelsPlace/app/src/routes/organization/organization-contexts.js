@@ -10,6 +10,8 @@ export class OrganizationContexts {
     }
 
     activate(params) {
+        this.organizationId = params.organizationId;
+
         return this.api.tags.getContextTags()
             .then(tags => this.tags = tags);
     }

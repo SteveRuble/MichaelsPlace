@@ -33,8 +33,9 @@ export class CaseApi {
     }
 
     /**
-     * Creates a new case for the user based on the situation.
+     * Creates a new case for the user based on the situation and title.
      * @param {} situation 
+     * @param {} title
      * @returns Promise 
      */
     createCase(situation, title) {
@@ -59,6 +60,29 @@ export class CaseApi {
      */
     getCase(caseId) {
         return this._http.fetch(`case/getCase/${caseId}`).then(response => response.json());
+    }
+
+    /**
+     * Creates a new case for an organization based on the situation and title.
+     * @param {} situation  
+     * @param {} title
+     * @param {} organization
+     * @returns Promise
+     */
+    createOrganizationCase(situation, title, organizationId) {
+        var payload = {
+            situation: situation,
+            title: title,
+            organizationId: organizationId
+        }
+
+        return this._http.fetch(`case/createOrganizationCase`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
     }
 }
 

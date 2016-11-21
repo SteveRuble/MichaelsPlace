@@ -78,5 +78,20 @@ namespace MichaelsPlace.Controllers.Api
 
             return result.Result as string;
         }
+
+        [HttpPost, Route("createOrganizationCase")]
+        public async Task<string> CreateOrganizationCaseBySituation([FromBody] NewOrganizationCaseModel payload)
+        {
+            var request = new CreateOrganizationCaseCommand.Request()
+            {
+                Situation = payload.Situation,
+                Title = payload.Title,
+                OrganizationId = payload.OrganizationId
+            };
+
+            var result = await _mediator.SendAsync(request);
+
+            return result.Result as string;
+        }
     }
 }

@@ -13,18 +13,19 @@ export class CreateOrganizationCase {
 
     activate(params) {
         this.situation = params.situation;
+        this.organizationId = params.organizationId;
     }
 
     createCase() {
         var page = this;
         
-        this.api.cases.createOrganizationCase(this.situation, this.title)
+        this.api.cases.createOrganizationCase(this.situation, this.title, this.organizationId)
             .then(function(caseId) {
                 if (!caseId) {
                     caseId = -1;
                 }
 
-                page.router.navigateToRoute('dashboard', { caseId: caseId });
+                page.router.navigateToRoute('organization-dashboard', { organizationId: page.organizationId });
             });
     }
 }

@@ -16,6 +16,8 @@ export class OrganizationRelationships {
 
         this.contextId = params.contextId;
         this.lossId = params.lossId;
+        this.organizationId = params.organizationId;
+
         return this.api.tags.getRelationshipTags(params.contextId)
             .then(tags => this.tags = tags);
     }
