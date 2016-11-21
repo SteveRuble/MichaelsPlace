@@ -13,7 +13,8 @@ namespace MichaelsPlace.Queries
             where TItem : Case
         {
             var items = from item in DbSets.Set<TItem>()
-                        where item.CaseUsers.Any(c => c.Person.Id == personId)
+                        where item.CaseUsers.Any(c => c.Person.Id == personId) 
+                        orderby item.CreatedUtc
                         select item;
 
             return items.AsProjectable(Mapper);

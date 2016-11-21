@@ -26,6 +26,10 @@ export class CaseHome {
         return this.cases.length > 0;
     }
 
+    isOrgCase(organizationId) {
+        return organizationId;
+    }
+
     update() {
         return this.api.cases.getByPerson()
             .then(cases => this.cases = cases);

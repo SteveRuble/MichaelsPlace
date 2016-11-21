@@ -3,9 +3,16 @@
         <h3>Your Cases</h3>
         <ul class="list-inline">
             <li repeat.for="case of cases">
-                <a route-href="route:dashboard; params.bind:{caseId:case.id}"
-                   title="${case.title}"
-                   class="btn btn-lg btn-primary">${case.title}</a>
+                <div show.bind="isOrgCase(case.organizationId)">
+                    <a route-href="route:dashboard; params.bind:{caseId:case.id}"
+                       title="${case.title}"
+                       class="btn btn-lg btn-success">${case.title}</a>
+                </div>
+                <div show.bind="!isOrgCase(case.organizationId)">
+                    <a route-href="route:dashboard; params.bind:{caseId:case.id}"
+                       title="${case.title}"
+                       class="btn btn-lg btn-primary">${case.title}</a>
+                </div>
             </li>
         </ul>
     </div>
