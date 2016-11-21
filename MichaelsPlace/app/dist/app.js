@@ -33,7 +33,7 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                     config.title = "Michael's Place";
                     config.map([{
                         route: ['', 'home'],
-                        name: 'tag-steps',
+                        name: 'home',
                         moduleId: 'routes/guided-path/home',
                         nav: true,
                         title: 'Home'

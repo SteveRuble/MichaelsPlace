@@ -16,7 +16,7 @@ export class App {
         config.title = "Michael's Place";
         config.map([{
             route: ['', 'home'],
-            name: 'tag-steps',
+            name: 'home',
             moduleId: 'routes/guided-path/home',
             nav: true,
             title: 'Home'

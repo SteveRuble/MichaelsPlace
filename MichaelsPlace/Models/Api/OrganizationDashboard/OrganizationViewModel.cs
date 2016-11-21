@@ -11,5 +11,6 @@ namespace MichaelsPlace.Models.Api.OrganizationDashboard
         public int Id { get; set; }
         public string Name { get; set; }
         public List<OrganizationPersonViewModel> People { get; set; }
+        public List<OrganizationCaseViewModel> Cases { get; set; }
     }
 }

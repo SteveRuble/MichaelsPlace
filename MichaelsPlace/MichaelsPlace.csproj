@@ -419,6 +419,7 @@
     <Compile Include="Models\Api\CaseDashboard\PersonItemViewModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\PersonViewModel.cs" />
     <Compile Include="Models\Api\NewOrganizationModel.cs" />
+    <Compile Include="Models\Api\OrganizationDashboard\OrganizationCaseViewModel.cs" />
     <Compile Include="Models\Api\OrganizationDashboard\OrganizationPersonViewModel.cs" />
     <Compile Include="Models\Api\OrganizationDashboard\OrganizationViewModel.cs" />
     <Compile Include="Models\Api\OrganizationListModel.cs" />
