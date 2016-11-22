@@ -355,6 +355,7 @@
     <Compile Include="CommandHandlers\CreateCaseCommand.cs" />
     <Compile Include="CommandHandlers\CreateOrganizationCaseCommand.cs" />
     <Compile Include="CommandHandlers\CreateOrganizationCommand.cs" />
+    <Compile Include="CommandHandlers\RemoveUserCommand.cs" />
     <Compile Include="CommandHandlers\SendStaffEmailCommand.cs" />
     <Compile Include="CommandHandlers\UpdateToDoCommand.cs" />
     <Compile Include="CommandHandlers\UpdateArticleCommand.cs" />
@@ -430,6 +431,7 @@
     <Compile Include="Models\Api\CaseDashboard\CaseViewModel.cs" />
     <Compile Include="Models\Api\EmailModel.cs" />
     <Compile Include="Models\Api\NewCaseModel.cs" />
+    <Compile Include="Models\Api\RemoveUserModel.cs" />
     <Compile Include="Models\Api\UpdateStatusModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />
@@ -510,6 +512,10 @@
     <Content Include="app\favicon.ico" />
     <Content Include="app\src\app.html" />
     <Content Include="app\src\app.js" />
+    <Content Include="app\src\components\confirm.html" />
+    <Content Include="app\src\components\confirm.js" />
+    <Content Include="app\src\components\remove.html" />
+    <Content Include="app\src\components\remove.js" />
     <Content Include="app\src\components\login.html" />
     <Content Include="app\src\components\login.js" />
     <Content Include="app\src\components\negate-format.js" />
@@ -553,6 +559,8 @@
     <Content Include="app\src\routes\organization\create-organization-case.js" />
     <Content Include="app\src\routes\organization\create-organization.html" />
     <Content Include="app\src\routes\organization\create-organization.js" />
+    <Content Include="app\src\routes\organization\edit-organization.html" />
+    <Content Include="app\src\routes\organization\edit-organization.js" />
     <Content Include="app\src\routes\organization\organization-contexts.html" />
     <Content Include="app\src\routes\organization\organization-contexts.js" />
     <Content Include="app\src\routes\organization\organization-dashboard.html" />

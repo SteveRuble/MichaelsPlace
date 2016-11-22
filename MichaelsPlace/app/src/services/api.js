@@ -236,4 +236,19 @@ export class OrganizationApi {
     getOrganization(organizationId) {
         return this._http.fetch(`organization/getOrganization/${organizationId}`).then(response => response.json());
     }
+
+    removeUser(userId, organizationId) {
+        var payload = {
+            userId: userId,
+            organizationId: organizationId
+        }
+
+        return this._http.fetch(`organization/removeUser`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
+    }
 }

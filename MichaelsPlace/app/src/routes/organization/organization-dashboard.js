@@ -30,4 +30,15 @@ export class Dashboard {
                 dashboard.organization = organization;
             });
     }
+
+    removeUser(userId) {
+        for (var i = this.people.length; i--;) {
+            if (this.people[i].id === userId) {
+                this.people.splice(i, 1);
+            }
+        }
+
+        return this.api.organizations.removeUser(userId, this.organizationId)
+            .then(result => this.result = result);
+    }
 }

@@ -83,5 +83,24 @@ namespace MichaelsPlace.Controllers.Api
 
             return result.Result as string;
         }
+
+
+
+        /// <summary>
+        /// Removes a user from an organization.
+        /// </summary>
+        /// <param name="payload">Contains a userId and an organizationId</param>
+        /// <returns></returns>
+        [HttpPost, Route("removeUser")]
+        public async Task<ICommandResult> GetOrganization([FromBody] RemoveUserModel payload)
+        {
+            var request = new RemoveUserCommand.Request()
+            {
+                UserId = payload.UserId,
+                OrganizationId = payload.OrganizationId
+            };
+
+            return await _mediator.SendAsync(request);
+        }
     }
 }

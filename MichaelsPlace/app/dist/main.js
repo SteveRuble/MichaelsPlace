@@ -5,7 +5,7 @@ System.register(['bootstrap', 'aurelia-fetch-client', 'models/user'], function (
 
     var HttpClient, User;
     function configure(aurelia) {
-        aurelia.use.standardConfiguration().developmentLogging().plugin('aurelia-validation');
+        aurelia.use.standardConfiguration().developmentLogging().plugin('aurelia-validation').plugin('aurelia-dialog');
 
         aurelia.use.plugin('aurelia-animator-css');
 
