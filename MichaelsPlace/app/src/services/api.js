@@ -266,4 +266,19 @@ export class OrganizationApi {
             body: json(payload)
         }).then(response => response.json());
     }
+
+    /**
+     * 
+     * @param {} organizationId 
+     * @returns {} 
+     */
+    deleteOrganization(organizationId) {
+        return this._http.fetch(`organization/delete`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(organizationId)
+        }).then(response => response.json());
+    }
 }

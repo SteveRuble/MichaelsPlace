@@ -106,6 +106,5 @@ namespace MichaelsPlace.Controllers.Api
 
             return result.Result as string;
         } 
-
     }
 }
