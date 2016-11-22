@@ -23,7 +23,7 @@ export class Dashboard {
 
         return this.api.organizations.getOrganization(this.organizationId)
             .then(function(organization) {
-                if (!organization.id) {
+                if (!organization) {
                     dashboard.router.navigateToRoute('organization-home');
                 }
 

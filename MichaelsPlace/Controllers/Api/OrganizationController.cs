@@ -60,7 +60,7 @@ namespace MichaelsPlace.Controllers.Api
         /// <param name="payload">The HTTP Post Payload, containing all the details necessary to create an organization.</param>
         /// <returns>The organizationId of the newly created organization</returns>
         [HttpPost, Route("create")]
-        public async Task<string> CreateOrganization([FromBody] NewOrganizationModel payload)
+        public async Task<int?> CreateOrganization([FromBody] NewOrganizationModel payload)
         {
             var request = new CreateOrganizationCommand.Request()
             {
@@ -81,7 +81,7 @@ namespace MichaelsPlace.Controllers.Api
 
             var result = await _mediator.SendAsync(request);
 
-            return result.Result as string;
+            return result.Result as int?;
         }
 
 
