@@ -21,6 +21,7 @@
                                 </li>
                             </ul>
                         </div>
+                        <br/>
                         <div class="container">
                             <i class="fa fa-plus text-success" id="addCaseIcon"></i>
                             <a route-href="route: organization-contexts; params.bind:{organizationId: organization.id}">Create New Case</a>
@@ -29,7 +30,47 @@
                 </div>
             </div>
             <div class="col-sm-6">
-
+                <div class="container">
+                    <label for="phoneNumber">Phone Number</label>
+                    <br/>
+                    <span id="phoneNumber">${organization.phoneNumber}</span>
+                </div>
+                <div class="container">
+                    <label for="faxNumber">Fax Number</label>
+                    <br/>
+                    <span id="faxNumber">${organization.faxNumber}</span>
+                </div>
+                <h4>Address</h4>
+                <div class="container">
+                    <label for="line1">Line 1</label>
+                    <br />
+                    <span id="line1">${organization.address.line1}</span>
+                </div>
+                <div class="container">
+                    <label for="line2">Line 2</label>
+                    <br />
+                    <span id="line2">${organization.address.line2}</span>
+                </div>
+                <div class="container">
+                    <label for="city">City</label>
+                    <br />
+                    <span id="city">${organization.address.city}</span>
+                </div>
+                <div class="container">
+                    <label for="state">State</label>
+                    <br />
+                    <span id="state">${organization.address.state}</span>
+                </div>
+                <div class="container">
+                    <label for="zip">Zip</label>
+                    <br/>
+                    <span id="zip">${organization.address.zip}</span>
+                </div>
+                <hr/>
+                <div class="container">
+                    <i class="fa fa-edit text-warning" id="editOrgIcon"></i>
+                    <a>Edit Organization Details</a>
+                </div>
             </div>
             <div class="col-sm-3">
                 <div class="sidebar-nav">
@@ -44,6 +85,7 @@
                                     </div>
                                 </li>
                             </ul>
+                            <br />
                             <div class="container">
                                 <i class="fa fa-plus text-success" id="addUserIcon"></i>
                                 <a>Add User</a>

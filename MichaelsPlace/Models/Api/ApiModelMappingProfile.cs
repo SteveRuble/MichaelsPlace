@@ -56,6 +56,10 @@ namespace MichaelsPlace.Models.Api
             CreateMap<Organization, OrganizationViewModel>()
                 .ForMember(m => m.People, opt => opt.MapFrom(src => src.OrganizationPeople.Where(op => op.Organization.Id == src.Id)));
 
+            CreateMap<Address, AddressViewModel>()
+                .ForMember(m => m.Line1, opt => opt.MapFrom(src => src.LineOne))
+                .ForMember(m => m.Line2, opt => opt.MapFrom(src => src.LineTwo));
+
             CreateMap<OrganizationPerson, OrganizationPersonViewModel>()
                 .ForMember(m => m.PersonId, opt => opt.MapFrom(src => src.Person.Id))
                 .ForMember(m => m.DisplayName, opt => opt.MapFrom(src => src.Person.FirstName + " " + src.Person.LastName));

@@ -421,6 +421,7 @@
     <Compile Include="Models\Api\CaseDashboard\PersonViewModel.cs" />
     <Compile Include="Models\Api\NewOrganizationCaseModel.cs" />
     <Compile Include="Models\Api\NewOrganizationModel.cs" />
+    <Compile Include="Models\Api\OrganizationDashboard\AddressViewModel.cs" />
     <Compile Include="Models\Api\OrganizationDashboard\OrganizationCaseViewModel.cs" />
     <Compile Include="Models\Api\OrganizationDashboard\OrganizationPersonViewModel.cs" />
     <Compile Include="Models\Api\OrganizationDashboard\OrganizationViewModel.cs" />

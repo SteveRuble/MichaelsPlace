@@ -63,4 +63,8 @@ export class Dashboard {
                 dashboard.currentCase.articles = users[0].articles;
             });
     }
+
+    isOrganizationCase() {
+        return this.currentCase.organizationId;
+    }
 }

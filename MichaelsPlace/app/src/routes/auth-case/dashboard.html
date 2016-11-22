@@ -73,6 +73,9 @@
             </div>
             <div class="col-sm-3">
                 <h4 class="text-center"><a route-href="route: case-home;">Back to Your Cases</a></h4>
+                <div show.bind="isOrganizationCase()">
+                    <h4 class="text-center"><a route-href="route: organization-dashboard; params.bind: {organizationId: currentCase.organizationId}">Back to Organization</a></h4>
+                </div>
             </div>
         </div>
     </div>
