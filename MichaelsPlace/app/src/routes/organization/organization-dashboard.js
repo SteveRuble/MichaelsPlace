@@ -32,9 +32,9 @@ export class Dashboard {
     }
 
     removeUser(userId) {
-        for (var i = this.people.length; i--;) {
-            if (this.people[i].id === userId) {
-                this.people.splice(i, 1);
+        for (var i = this.organization.people.length; i--;) {
+            if (this.organization.people[i].id === userId) {
+                this.organization.people.splice(i, 1);
             }
         }
 

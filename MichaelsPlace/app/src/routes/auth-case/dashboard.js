@@ -67,4 +67,17 @@ export class Dashboard {
     isOrganizationCase() {
         return this.currentCase.organizationId;
     }
+
+    deleteCase() {
+        var dashboard = this;
+
+        return this.api.cases.deleteCase(this.caseId)
+            .then(function(caseId) {
+                if (caseId) {
+                    dashboard.router.navigateToRoute('case-home');
+                } else {
+                    alert("Error deleting case.");
+                }
+            });
+    }
 }

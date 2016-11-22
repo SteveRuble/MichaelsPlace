@@ -10,6 +10,9 @@ export class Remove {
     @bindable
     msg = "Are you sure";
 
+    @bindable
+    lbl = "";
+
     constructor(dialogService) {
         this.dialogService = dialogService;
     }

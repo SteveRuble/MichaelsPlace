@@ -3,6 +3,7 @@
     <require from="./routes/item/article-format"></require>
     <require from="./routes/item/todo-format"></require>
     <require from="components/negate-format"></require>
+    <require from="components/remove"></require>
     <div class="container-fluid">
         <div class="row">
             <div class="text-center">
@@ -58,6 +59,11 @@
                                     </div>
                                 </li>
                             </ul>
+                            <br />
+                            <div class="container">
+                                <i class="fa fa-plus text-success" id="addUserIcon"></i>
+                                <a>Add User</a>
+                            </div>
                         </div>
                     </div>
                     <a route-href="route: email">Email Staff</a>
@@ -66,7 +72,7 @@
         </div>
         <div class="row">
             <div class="col-sm-3">
-
+                <remove msg="Are you sure you want to delete this case?" lbl="Delete Case" action.call="deleteCase()"></remove>
             </div>
             <div class="col-sm-6">
                 

@@ -93,5 +93,19 @@ namespace MichaelsPlace.Controllers.Api
 
             return result.Result as string;
         }
+
+        [HttpPost, Route("delete")]
+        public async Task<string> DeleteCase([FromBody] string caseId)
+        {
+            var request = new DeleteCaseCommand.Request()
+            {
+                CaseId = caseId
+            };
+
+            var result = await _mediator.SendAsync(request);
+
+            return result.Result as string;
+        } 
+
     }
 }

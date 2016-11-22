@@ -355,6 +355,7 @@
     <Compile Include="CommandHandlers\CreateCaseCommand.cs" />
     <Compile Include="CommandHandlers\CreateOrganizationCaseCommand.cs" />
     <Compile Include="CommandHandlers\CreateOrganizationCommand.cs" />
+    <Compile Include="CommandHandlers\DeleteCaseCommand.cs" />
     <Compile Include="CommandHandlers\RemoveUserCommand.cs" />
     <Compile Include="CommandHandlers\SendStaffEmailCommand.cs" />
     <Compile Include="CommandHandlers\UpdateToDoCommand.cs" />

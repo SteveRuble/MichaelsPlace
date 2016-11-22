@@ -84,6 +84,21 @@ export class CaseApi {
             body: json(payload)
         }).then(response => response.json());
     }
+
+    /**
+     * 
+     * @param {} caseId 
+     * @returns {} 
+     */
+    deleteCase(caseId) {
+        return this._http.fetch(`case/delete`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(caseId)
+        }).then(response => response.json());
+    }
 }
 
 export class ItemApi {
