@@ -9,6 +9,9 @@ export class Email {
         this.router = router;
     }
 
+    /**
+     * Sends the email to Michael's Place staff and displays the 'program' route.
+     */
     sendEmail() {
         var email = this;
 

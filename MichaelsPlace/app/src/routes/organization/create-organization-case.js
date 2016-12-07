@@ -16,7 +16,7 @@ export class CreateOrganizationCase {
         this.organizationId = params.organizationId;
     }
 
-    createCase() {
+    createOrganizationCase() {
         var page = this;
         
         this.api.cases.createOrganizationCase(this.situation, this.title, this.organizationId)

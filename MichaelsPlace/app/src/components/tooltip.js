@@ -1,12 +1,8 @@
-import {
-    customAttribute,
-    inject,
-    bindable
-} from 'aurelia-framework';
+import {customAttribute, inject, bindable} from 'aurelia-framework';
 import $ from 'bootstrap';
 
-@customAttribute('tooltip')
 @inject(Element)
+@customAttribute('tooltip')
 export class Tooltip {
     element: HTMLElement;
     @bindable title: any;

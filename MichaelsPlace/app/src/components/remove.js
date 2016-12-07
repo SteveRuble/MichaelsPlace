@@ -17,6 +17,9 @@ export class Remove {
         this.dialogService = dialogService;
     }
 
+    /**
+     * If the user confirms the dialog, then we perform the passed in action, otherwise we return.
+     */
     do() {
         this.dialogService.open({
             viewModel: Confirm,

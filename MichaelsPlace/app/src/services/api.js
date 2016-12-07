@@ -20,6 +20,9 @@ export class Api {
 
 export class CaseApi {
     
+    /**
+     * @param {} http 
+     */
     constructor(http) {
         this._http = http;
     }
@@ -86,7 +89,7 @@ export class CaseApi {
     }
 
     /**
-     * 
+     * Deletes the specified case.
      * @param {} caseId 
      * @returns {} 
      */
@@ -109,12 +112,13 @@ export class ItemApi {
      */
     getById(id) {
             return this._http.fetch(`browsing/${this._itemType}/${id}`).then(response => response.json());
-        }
-        /**
-         * Gets all the items which match the provided situation.
-         * @param {Situation} situation
-         * @returns Promise<Item[]>
-         */
+    }
+
+    /**
+     * Gets all the items which match the provided situation.
+     * @param {Situation} situation
+     * @returns Promise<Item[]>
+     */
     getBySituation(situation) {
             return this._http.fetch(`browsing/${this._itemType}/${situation}`).then(response => response.json())
     }
@@ -142,19 +146,25 @@ export class ItemApi {
         }).then(response => response.json());
     }
 
-        /**
-         * Creates an instance of ItemApi.
-         * 
-         * @param {HttpClient} http
-         * @param {string} itemType
-         */
+    /**
+     * @param {HttpClient} http
+     * @param {string} itemType
+     */
     constructor(http, itemType) {
         this._http = http;
         this._itemType = itemType;
     }
 }
 
-export class TagApi {
+export class TagApi { 
+    /**
+     * @param {HttpClient} http
+     * @param {string} itemType
+     */
+    constructor(http) {
+        this._http = http;
+    }
+
     /**
      * Gets the Context tags.
      * @returns Promise
@@ -178,24 +188,24 @@ export class TagApi {
      * @returns Promise
      */
     getRelationshipTags(contextId = null) {
-            return this._http.fetch(`tags/relationship/?contextId=${contextId}`).then(response => response.json());
-        }
-        /**
-         * Creates an instance of TagApi.
-         * 
-         * @param {HttpClient} http
-         * @param {string} itemType
-         */
-    constructor(http) {
-        this._http = http;
+        return this._http.fetch(`tags/relationship/?contextId=${contextId}`).then(response => response.json());
     }
 }
 
 export class EmailApi {
+
+    /**
+     * @param {} http
+     */
     constructor(http) {
         this._http = http;
     }
 
+    /**
+     * Sends an email message to Michael's Place staff.
+     * @param {} subject 
+     * @param {} message 
+     */
     sendToStaff(subject, message) {
         var payload = {
             subject: subject,
@@ -213,14 +223,33 @@ export class EmailApi {
 }
 
 export class OrganizationApi {
+
+    /**
+     * @param {} http 
+     */
     constructor(http) {
         this._http = http;
     }
 
+    /**
+     * Gets the logged in user's organizations.
+     */
     getByPerson() {
         return this._http.fetch(`organization/getOrganizations`).then(response => response.json());
     }
 
+    /**
+     * Creates a new organization based on the specified information.
+     * @param {} title 
+     * @param {} phone 
+     * @param {} fax 
+     * @param {} line1 
+     * @param {} line2 
+     * @param {} city 
+     * @param {} state 
+     * @param {} zip 
+     * @param {} notes 
+     */
     createOrganization(title, phone, fax, line1, line2, city, state, zip, notes) {
         var payload = {
             name: title,
@@ -252,6 +281,11 @@ export class OrganizationApi {
         return this._http.fetch(`organization/getOrganization/${organizationId}`).then(response => response.json());
     }
 
+    /**
+     * Removes the specified user from the specified organization.
+     * @param {} userId 
+     * @param {} organizationId
+     */
     removeUser(userId, organizationId) {
         var payload = {
             userId: userId,
@@ -268,9 +302,8 @@ export class OrganizationApi {
     }
 
     /**
-     * 
+     * Deletes the specified organization.
      * @param {} organizationId 
-     * @returns {} 
      */
     deleteOrganization(organizationId) {
         return this._http.fetch(`organization/delete`, {

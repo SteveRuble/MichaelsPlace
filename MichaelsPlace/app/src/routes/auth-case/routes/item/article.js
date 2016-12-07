@@ -22,6 +22,10 @@ export class Article {
             });
     }
 
+    /**
+     * This method sets the status of the PersonCaseItem (the article) to 'Viewed' on both the front and back ends.
+     * @param {} id 
+     */
     updateArticle(id) {
         var thisArticle = this;
         var users = thisArticle.dashboard.currentCase.caseUsers.filter(function(u) {

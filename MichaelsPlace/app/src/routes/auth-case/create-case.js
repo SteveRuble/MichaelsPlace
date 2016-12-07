@@ -15,6 +15,9 @@ export class CreateCase {
         this.situation = params.situation;
     }
 
+    /**
+     * Creates a case with the specified information and redirects to the case dashboard.
+     */
     createCase() {
         var page = this;
         

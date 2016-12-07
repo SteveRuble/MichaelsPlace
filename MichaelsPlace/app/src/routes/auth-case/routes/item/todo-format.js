@@ -1,4 +1,5 @@
 ﻿export class TodoFormatValueConverter {
+
     toView(value) {
         if (value === 'Closed') {
             return true;

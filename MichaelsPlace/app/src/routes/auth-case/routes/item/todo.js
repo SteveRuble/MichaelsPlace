@@ -26,6 +26,10 @@ export class ToDo {
             });
     }
 
+    /**
+     * This method toggles the status of a todo on both the front and back end.
+     * @param {} status 
+     */
     updateTodo(status) {
         var thisTodo = this;
         this.api.todos.updateStatus(this.todoId, status, this.dashboard.currentCase.id)

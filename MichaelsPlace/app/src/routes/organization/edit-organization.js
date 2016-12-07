@@ -25,7 +25,7 @@ export class EditOrganization {
 
     }
 
-    EditOrganization() {
+    editOrganization() {
         this.controller.validate().then(errors => {
             if (errors.length === 0) {
                 var page = this;
