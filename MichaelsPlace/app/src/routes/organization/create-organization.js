@@ -6,10 +6,10 @@ import {ValidationController, ValidationRules} from 'aurelia-validation';
 @inject(Api, Router, NewInstance.of(ValidationController))
 export class CreateOrganization {
 
-    constructor(api, router, controller) {
+    constructor(api, router, validationController) {
         this.api = api;
         this.router = router;
-        this.controller = controller;
+        this.validationController = validationController;
 
         ValidationRules
             .ensure('name').required()
@@ -27,7 +27,7 @@ export class CreateOrganization {
     }
 
     createOrganization() {
-        this.controller.validate().then(errors => {
+        this.validationController.validate().then(errors => {
             if (errors.length === 0) {
                 var page = this;
         

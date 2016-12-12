@@ -2,9 +2,10 @@
     <div class="container">
         <h3>Create Case</h3>
         <form role="form" submit.delegate="createCase()">
-            <div class="form-group">
+            <div class="form-group" validation-errors.bind="titleErrors" class.bind="titleErrors.length ? 'has-error' : ''">
                 <label for="title" class="control-label">Title</label>
-                <input value.bind="title" name="title" placeholder="Title" class="form-control">
+                <input type="text" class="form-control" name="title" id="title" placeholder="Title" value.bind="title & validate" />
+                <span class="help-block" repeat.for="errorInfo of titleErrors">${errorInfo.error.message}</span>
             </div>
             <button type="submit" class="btn btn-primary">Create Case</button>
         </form>
