@@ -14,10 +14,11 @@ export class CreateOrganization {
         ValidationRules
             .ensure('name').required()
             .ensure('phoneNumber').required()
-            .ensure('line1').required()
-            .ensure('city').required()
-            .ensure('state').required()
-            .ensure('zip').required()
+            .ensure('line1').required().maxLength(200)
+            .ensure('line2').maxLength(200)
+            .ensure('city').required().maxLength(100)
+            .ensure('state').required().maxLength(2)
+            .ensure('zip').required().maxLength(12)
             .on(CreateOrganization);
     }
 
