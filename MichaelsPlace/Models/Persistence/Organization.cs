@@ -51,5 +51,6 @@ namespace MichaelsPlace.Models.Persistence
         public virtual Organization Organization { get; set; }
         public virtual Person Person { get; set; }
         public virtual RelationshipTag Relationship { get; set; }
+        public virtual bool Owner { get; set; }
     }
 }

@@ -416,6 +416,10 @@
     <Compile Include="Migrations\201607291357088_RemovedTagDisplayName.Designer.cs">
       <DependentUpon>201607291357088_RemovedTagDisplayName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612131454114_AddOwner.cs" />
+    <Compile Include="Migrations\201612131454114_AddOwner.Designer.cs">
+      <DependentUpon>201612131454114_AddOwner.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Admin\AdminTagModel.cs" />
     <Compile Include="Models\Admin\AdminTagType.cs" />
     <Compile Include="Models\Admin\UserReferenceModel.cs" />
@@ -786,6 +790,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607291357088_RemovedTagDisplayName.resx">
       <DependentUpon>201607291357088_RemovedTagDisplayName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612131454114_AddOwner.resx">
+      <DependentUpon>201612131454114_AddOwner.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

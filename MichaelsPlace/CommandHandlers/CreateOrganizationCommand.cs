@@ -42,7 +42,8 @@ namespace MichaelsPlace.CommandHandlers
             organization.OrganizationPeople.Add(new OrganizationPerson()
             {
                 Person = person,
-                Organization = organization
+                Organization = organization,
+                Owner = true
             });
 
             organization.Address = message.Address;
