@@ -25,7 +25,7 @@ export class CreateCase {
      */
     createCase() {
         this.validationController.validate().then(errors => {
-            if (errors === 0) {
+            if (errors.length === 0) {
                 var page = this;
         
                 this.api.cases.createCase(this.situation, this.title)

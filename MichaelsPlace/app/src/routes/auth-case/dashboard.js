@@ -65,6 +65,11 @@ export class Dashboard {
     }
 
     isOrganizationCase() {
-        return this.currentCase.organizationId;
+        if (this.currentCase.organizationId) {
+            return true;
+        } else {
+            this.currentCase.organizationId = -1;
+            return false;
+        }
     }
 }

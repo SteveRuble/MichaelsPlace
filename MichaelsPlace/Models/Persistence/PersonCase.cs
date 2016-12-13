@@ -17,5 +17,7 @@ namespace MichaelsPlace.Models.Persistence
 
         [Required]
         public virtual RelationshipTag Relationship { get; set; }
+
+        public virtual bool Owner { get; set; }
     }
 }

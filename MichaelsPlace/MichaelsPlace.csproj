@@ -420,6 +420,10 @@
     <Compile Include="Migrations\201612131454114_AddOwner.Designer.cs">
       <DependentUpon>201612131454114_AddOwner.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612131826198_AddOwner1.cs" />
+    <Compile Include="Migrations\201612131826198_AddOwner1.Designer.cs">
+      <DependentUpon>201612131826198_AddOwner1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Admin\AdminTagModel.cs" />
     <Compile Include="Models\Admin\AdminTagType.cs" />
     <Compile Include="Models\Admin\UserReferenceModel.cs" />
@@ -793,6 +797,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612131454114_AddOwner.resx">
       <DependentUpon>201612131454114_AddOwner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612131826198_AddOwner1.resx">
+      <DependentUpon>201612131826198_AddOwner1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
