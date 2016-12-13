@@ -41,17 +41,4 @@ export class Dashboard {
         return this.api.organizations.removeUser(userId, this.organizationId)
             .then(result => this.result = result);
     }
-
-    deleteOrganization() {
-        var dashboard = this;
-
-        return this.api.organizations.deleteOrganization(this.organizationId)
-            .then(function(organizationId) {
-                if (organizationId) {
-                    dashboard.router.navigateToRoute('organization-home');
-                } else {
-                    alert("Error deleting organization.");
-                }
-            });
-    }
 }
