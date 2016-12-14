@@ -32,7 +32,7 @@
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="${todo === currentItem ? 'active' : ''}" repeat.for="todo of currentCase.todos">
                                             <div class="list-group-item">
-                                                <a route-href="route: todo; params.bind: {itemId: todo.itemId, todo: todo.id}">${todo.itemTitle}</a>
+                                                <a route-href="route: todo; params.bind: {itemId: todo.itemId, todo: todo.id, owner: isCaseOwner()}">${todo.itemTitle}</a>
                                                 <i class="fa fa-circle-o text-danger" id="openIcon${todo.id}" show.bind="todo.status | todoFormat | negateFormat"></i>
                                                 <i class="fa fa-check-circle-o text-success" id="closedIcon${todo.id}" show.bind="todo.status | todoFormat"></i>
                                             </div>
@@ -60,7 +60,7 @@
                                 </li>
                             </ul>
                             <br />
-                            <div class="container">
+                            <div class="container" show.bind="isCaseOwner()">
                                 <i class="fa fa-plus text-success" id="addUserIcon"></i>
                                 <a>Add User</a>
                             </div>
@@ -72,10 +72,11 @@
         </div>
         <div class="row">
             <div class="col-sm-3">
-                
+                <div show.bind="isCaseOwner()">
+                    <remove msg="Are you sure you want to close this case?" lbl="Close Case" action.call="closeCase()"></remove>
+                </div>
             </div>
             <div class="col-sm-6">
-                
             </div>
             <div class="col-sm-3">
                 <h4 class="text-center"><a route-href="route: case-home;">Back to Your Cases</a></h4>

@@ -26,7 +26,7 @@ export class Dashboard {
                 moduleId: 'routes/auth-case/routes/item/article',
                 activationStrategy: activationStrategy.replace
             }, {
-                route: 'todo/:itemId/:todo',
+                route: 'todo/:itemId/:todo/:owner',
                 name: 'todo',
                 moduleId: 'routes/auth-case/routes/item/todo',
                 activationStrategy: activationStrategy.replace
@@ -71,5 +71,21 @@ export class Dashboard {
             this.currentCase.organizationId = -1;
             return false;
         }
+    }
+
+    isCaseOwner() {
+        var owner = this.currentCase.caseUsers.filter(function(u) {
+            return u.caseOwner;
+        });
+
+        if (owner.length <= 0) {
+            return false;
+        }
+
+        return owner[0].userId === this.user.id;
+    }
+
+    closeCase() {
+        
     }
 }

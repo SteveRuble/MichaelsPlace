@@ -18,6 +18,7 @@ export class ToDo {
         });
 
         this.status = currentTodo[0].status === 'Closed';
+        this.owner = params.owner === 'true';
 
         return this.api.todos.getById(params.itemId)
             .then(todo => {
