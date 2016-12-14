@@ -41,7 +41,7 @@ namespace MichaelsPlace.Models.Api
                 .ForMember(m => m.DisplayName, opt => opt.MapFrom(src => src.Person.FirstName + " " + src.Person.LastName))
                 .ForMember(m => m.Articles, opt => opt.MapFrom(src => src.Person.PersonCaseItems.Where(pci => pci.Case.Id == src.Case.Id && pci.Item is Article)))
                 .ForMember(m => m.UserId, opt => opt.MapFrom(src => src.Person.Id))
-                .ForMember(m => m.CaseOwner, opt => opt.MapFrom(src => src.Owner))
+                .ForMember(m => m.CaseOwner, opt => opt.MapFrom(src => src.IsOwner))
                 .ForSourceMember(m => m.Person, o => o.Ignore())
                 .ForSourceMember(m => m.Relationship, o => o.Ignore())
                 .ForSourceMember(m => m.Case, o => o.Ignore());

@@ -43,7 +43,7 @@ namespace MichaelsPlace.CommandHandlers
             {
                 Person = person,
                 Organization = organization,
-                Owner = true
+                IsOwner = true
             });
 
             organization.Address = message.Address;

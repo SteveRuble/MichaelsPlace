@@ -58,5 +58,7 @@ namespace MichaelsPlace.Models.Persistence
         }
 
         public virtual bool IsDeleted { get; set; }
+
+        public virtual bool IsClosed { get; set; }
     }
 }

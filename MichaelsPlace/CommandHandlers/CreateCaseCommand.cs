@@ -86,7 +86,7 @@ namespace MichaelsPlace.CommandHandlers
                 Case = @case,
                 Person = person,
                 Relationship = (RelationshipTag) relationships.FirstOrDefault(),
-                Owner = true
+                IsOwner = true
             });
 
             return caseUsers;

@@ -26,6 +26,10 @@ export class CaseHome {
         return this.cases.length > 0;
     }
 
+    isClosed(isClosed) {
+        return isClosed;
+    }
+
     isOrgCase(organizationId) {
         return organizationId;
     }

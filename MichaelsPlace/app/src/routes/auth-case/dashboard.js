@@ -86,6 +86,15 @@ export class Dashboard {
     }
 
     closeCase() {
-        
+        var dashboard = this;
+
+        return this.api.cases.closeCase(this.caseId)
+            .then(function(caseId) {
+                if (caseId) {
+                    dashboard.router.navigateToRoute('case-home');
+                } else {
+                    alert("Error: Unable to close case.");
+                }
+            });
     }
 }

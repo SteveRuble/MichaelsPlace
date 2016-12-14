@@ -352,6 +352,7 @@
     <Compile Include="BootstrapSupport\ControlGroupExtensions.cs" />
     <Compile Include="BootstrapSupport\ViewHelperExtensions.cs" />
     <Compile Include="CommandHandlers\AddOrEditPersonCommand.cs" />
+    <Compile Include="CommandHandlers\CloseCaseCommand.cs" />
     <Compile Include="CommandHandlers\CreateCaseCommand.cs" />
     <Compile Include="CommandHandlers\CreateOrganizationCaseCommand.cs" />
     <Compile Include="CommandHandlers\CreateOrganizationCommand.cs" />
@@ -423,6 +424,10 @@
     <Compile Include="Migrations\201612131826198_AddOwner1.cs" />
     <Compile Include="Migrations\201612131826198_AddOwner1.Designer.cs">
       <DependentUpon>201612131826198_AddOwner1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612141826286_AddIsClosed.cs" />
+    <Compile Include="Migrations\201612141826286_AddIsClosed.Designer.cs">
+      <DependentUpon>201612141826286_AddIsClosed.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Admin\AdminTagModel.cs" />
     <Compile Include="Models\Admin\AdminTagType.cs" />
@@ -800,6 +805,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612131826198_AddOwner1.resx">
       <DependentUpon>201612131826198_AddOwner1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612141826286_AddIsClosed.resx">
+      <DependentUpon>201612141826286_AddIsClosed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

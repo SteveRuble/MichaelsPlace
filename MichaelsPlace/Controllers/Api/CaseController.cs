@@ -105,6 +105,19 @@ namespace MichaelsPlace.Controllers.Api
             var result = await _mediator.SendAsync(request);
 
             return result.Result as string;
-        } 
+        }
+
+        [HttpPost, Route("close")]
+        public async Task<string> CloseCase([FromBody] string caseId)
+        {
+            var request = new CloseCaseCommand.Request()
+            {
+                CaseId = caseId
+            };
+
+            var result = await _mediator.SendAsync(request);
+
+            return result.Result as string;
+        }
     }
 }

@@ -102,6 +102,16 @@ export class CaseApi {
             body: json(caseId)
         }).then(response => response.json());
     }
+
+    closeCase(caseId) {
+        return this._http.fetch(`case/close`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(caseId)
+        }).then(response => response.json());
+    }
 }
 
 export class ItemApi {
