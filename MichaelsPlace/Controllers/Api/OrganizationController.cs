@@ -83,6 +83,31 @@ namespace MichaelsPlace.Controllers.Api
 
             return result.Result as int?;
         }
+
+        [HttpPost, Route("edit")]
+        public async Task<int?> EditOrganization([FromBody] EditOrganizationModel payload)
+        {
+            var request = new EditOrganizationCommand.Request()
+            {
+                Name = payload.Name,
+                PhoneNumber = payload.PhoneNumber,
+                FaxNumber = payload.FaxNumber,
+                Notes = payload.Notes,
+                Address = new Address()
+                {
+                    LineOne = payload.Line1,
+                    LineTwo = payload.Line2,
+                    City = payload.City,
+                    State = payload.State,
+                    Zip = payload.Zip
+                },
+                OrganizationId = payload.OrganizationId
+            };
+
+            var result = await _mediator.SendAsync(request);
+
+            return result.Result as int?;
+        }
         
         /// <summary>
         /// Removes a user from an organization.

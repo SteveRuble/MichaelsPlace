@@ -358,6 +358,7 @@
     <Compile Include="CommandHandlers\CreateOrganizationCommand.cs" />
     <Compile Include="CommandHandlers\DeleteOrganizationCommand.cs" />
     <Compile Include="CommandHandlers\DeleteCaseCommand.cs" />
+    <Compile Include="CommandHandlers\EditOrganizationCommand.cs" />
     <Compile Include="CommandHandlers\RemoveCaseUserCommand.cs" />
     <Compile Include="CommandHandlers\RemoveOrgUserCommand.cs" />
     <Compile Include="CommandHandlers\SendStaffEmailCommand.cs" />
@@ -437,6 +438,7 @@
     <Compile Include="Models\Api\CaseDashboard\PersonItemViewModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\PersonViewModel.cs" />
     <Compile Include="Models\Api\NewOrganizationCaseModel.cs" />
+    <Compile Include="Models\Api\EditOrganizationModel.cs" />
     <Compile Include="Models\Api\NewOrganizationModel.cs" />
     <Compile Include="Models\Api\OrganizationDashboard\AddressViewModel.cs" />
     <Compile Include="Models\Api\OrganizationDashboard\OrganizationCaseViewModel.cs" />

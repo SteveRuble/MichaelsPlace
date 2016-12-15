@@ -308,6 +308,43 @@ export class OrganizationApi {
     }
 
     /**
+     * Updates an organization with the specified information.
+     * @param {} title 
+     * @param {} phone 
+     * @param {} fax 
+     * @param {} line1 
+     * @param {} line2 
+     * @param {} city 
+     * @param {} state 
+     * @param {} zip 
+     * @param {} notes 
+     * @param {} organization 
+     * @returns {} 
+     */
+    editOrganization(title, phone, fax, line1, line2, city, state, zip, notes, organizationId) {
+        var payload = {
+            name: title,
+            phoneNumber: phone,
+            faxNumber: fax,
+            line1: line1,
+            line2: line2,
+            city: city,
+            state: state,
+            zip: zip,
+            notes: notes,
+            organizationId: organizationId
+        }
+
+        return this._http.fetch(`organization/edit`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
+    }
+
+    /**
      * Gets organization information based on the organizationId.
      * @param {} organizationId 
      * @returns Promise

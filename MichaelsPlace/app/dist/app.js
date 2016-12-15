@@ -35,7 +35,6 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                         route: ['', 'home'],
                         name: 'home',
                         moduleId: 'routes/guided-path/home',
-                        nav: true,
                         title: 'Home'
                     }, {
                         route: 'tag-steps/context',
@@ -82,6 +81,11 @@ System.register(['aurelia-framework', 'models/user'], function (_export, _contex
                         name: 'create-organization',
                         moduleId: 'routes/organization/create-organization',
                         title: 'Create Organization'
+                    }, {
+                        route: 'organization/edit-organization/:organizationId',
+                        name: 'edit-organization',
+                        moduleId: 'routes/organization/edit-organization',
+                        title: 'Edit Organization'
                     }, {
                         route: 'organization/organization-contexts/:organizationId',
                         name: 'organization-contexts',

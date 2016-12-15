@@ -22,7 +22,21 @@ export class EditOrganization {
     }
 
     activate(params) {
+        this.organizationId = params.organizationId;
+        return this.update();
+    }
 
+    update() {
+        var dashboard = this;
+
+        return this.api.organizations.getOrganization(this.organizationId)
+            .then(function(organization) {
+                if (!organization) {
+                    dashboard.router.navigateToRoute('organization-home');
+                }
+
+                dashboard.organization = organization;
+            });
     }
 
     editOrganization() {
@@ -31,16 +45,16 @@ export class EditOrganization {
                 var page = this;
         
                 this.api.organizations.editOrganization(
-                        this.organizationId,
-                        this.name,
-                        this.phoneNumber,
-                        this.faxNumber,
-                        this.line1,
-                        this.line2,
-                        this.city,
-                        this.state,
-                        this.zip,
-                        this.notes
+                        this.organization.name,
+                        this.organization.phoneNumber,
+                        this.organization.faxNumber,
+                        this.organization.address.line1,
+                        this.organization.address.line2,
+                        this.organization.address.city,
+                        this.organization.address.state,
+                        this.organization.address.zip,
+                        this.organization.notes,
+                        this.organizationId
                     )
                     .then(function(organizationId) {
                         if (!organizationId) {

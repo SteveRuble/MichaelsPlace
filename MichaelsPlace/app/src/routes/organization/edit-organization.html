@@ -1,3 +1,57 @@
 ﻿<template>
-    
+    <div class="container">
+        <h3>Edit Organization</h3>
+        <form role="form" submit.delegate="editOrganization()">
+            <div class="form-group" validation-errors.bind="nameErrors" class.bind="nameErrors.length ? 'has-error' : ''">
+                <label for="name" class="control-label">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Name" value.bind="organization.name & validate" />
+                <span class="help-block" repeat.for="errorInfo of nameErrors">${errorInfo.error.message}</span>
+            </div>
+            <div class="form-group" validation-errors.bind="phoneNumberErrors" class.bind="phoneNumberErrors.length ? 'has-error' : ''">
+                <label for="phoneNumber" class="control-label">Phone Number</label>
+                <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" value.bind="organization.phoneNumber & validate" />
+                <span class="help-block" repeat.for="errorInfo of phoneNumberErrors">${errorInfo.error.message}</span>
+            </div>
+            <div class="form-group" validation-errors.bind="faxNumberErrors" class.bind="faxNumberErrors.length ? 'has-error' : ''">
+                <label for="faxNumber" class="control-label">Fax Number</label>
+                <input type="text" class="form-control" id="faxNumber" placeholder="Fax Number" value.bind="organization.faxNumber & validate" />
+                <span class="help-block" repeat.for="errorInfo of faxNumberErrors">${errorInfo.error.message}</span>
+            </div>
+            <h4>Address</h4>
+            <div class="form-group" validation-errors.bind="line1Errors" class.bind="line1Errors.length ? 'has-error' : ''">
+                <label for="line1" class="control-label">Line 1</label>
+                <input type="text" class="form-control" id="line1" placeholder="Line 1" value.bind="organization.address.line1 & validate" />
+                <span class="help-block" repeat.for="errorInfo of line1Errors">${errorInfo.error.message}</span>
+            </div>
+            <div class="form-group" validation-errors.bind="line2Errors" class.bind="line2Errors.length ? 'has-error' : ''">
+                <label for="line2" class="control-label">Line 2</label>
+                <input type="text" class="form-control" id="line2" placeholder="Line 2" value.bind="organization.address.line2 & validate" />
+                <span class="help-block" repeat.for="errorInfo of line2Errors">${errorInfo.error.message}</span>
+            </div>
+            <div class="form-group" validation-errors.bind="cityErrors" class.bind="cityErrors.length ? 'has-error' : ''">
+                <label for="city" class="control-label">City</label>
+                <input type="text" class="form-control" id="city" placeholder="City" value.bind="organization.address.city & validate" />
+                <span class="help-block" repeat.for="errorInfo of cityErrors">${errorInfo.error.message}</span>
+            </div>
+            <div class="form-group" validation-errors.bind="stateErrors" class.bind="stateErrors.length ? 'has-error' : ''">
+                <label for="state" class="control-label">State</label>
+                <input type="text" class="form-control" id="state" placeholder="State" value.bind="organization.address.state & validate" />
+                <span class="help-block" repeat.for="errorInfo of stateErrors">${errorInfo.error.message}</span>
+            </div>
+            <div class="form-group" validation-errors.bind="zipErrors" class.bind="zipErrors.length ? 'has-error' : ''">
+                <label for="zip" class="control-label">Zip</label>
+                <input type="text" class="form-control" id="zip" placeholder="Zip" value.bind="organization.address.zip & validate" />
+                <span class="help-block" repeat.for="errorInfo of zipErrors">${errorInfo.error.message}</span>
+            </div>
+            <div class="form-group" validation-errors.bind="notesErrors" class.bind="notesErrors.length ? 'has-error' : ''">
+                <label for="notes" class="control-label">Notes</label>
+                <textarea class="form-control" id="notes" value.bind="organization.notes & validate"></textarea>
+                <span class="help-block" repeat.for="errorInfo of notesErrors">${errorInfo.error.message}</span>
+            </div>
+            <button type="submit" class="btn btn-primary">Make Changes</button>
+        </form>
+    </div>
+    <div class="container">
+        <h4><a route-href="route: organization-dashboard; params.bind: {organizationId: organizationId}">Back to Organization</a></h4>
+    </div>
 </template>
