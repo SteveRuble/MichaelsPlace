@@ -358,7 +358,8 @@
     <Compile Include="CommandHandlers\CreateOrganizationCommand.cs" />
     <Compile Include="CommandHandlers\DeleteOrganizationCommand.cs" />
     <Compile Include="CommandHandlers\DeleteCaseCommand.cs" />
-    <Compile Include="CommandHandlers\RemoveUserCommand.cs" />
+    <Compile Include="CommandHandlers\RemoveCaseUserCommand.cs" />
+    <Compile Include="CommandHandlers\RemoveOrgUserCommand.cs" />
     <Compile Include="CommandHandlers\SendStaffEmailCommand.cs" />
     <Compile Include="CommandHandlers\UpdateToDoCommand.cs" />
     <Compile Include="CommandHandlers\UpdateArticleCommand.cs" />
@@ -446,7 +447,8 @@
     <Compile Include="Models\Api\CaseDashboard\CaseViewModel.cs" />
     <Compile Include="Models\Api\EmailModel.cs" />
     <Compile Include="Models\Api\NewCaseModel.cs" />
-    <Compile Include="Models\Api\RemoveUserModel.cs" />
+    <Compile Include="Models\Api\RemoveCaseUserModel.cs" />
+    <Compile Include="Models\Api\RemoveOrgUserModel.cs" />
     <Compile Include="Models\Api\UpdateStatusModel.cs" />
     <Compile Include="NotificationHandlers\EmailNotificationAddedNotificationHandler.cs" />
     <Compile Include="NotificationHandlers\NotificationHandlerBase.cs" />

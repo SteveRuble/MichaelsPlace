@@ -97,4 +97,15 @@ export class Dashboard {
                 }
             });
     }
+
+    removeUser(userId) {
+        for (var i = this.currentCase.caseUsers.length; i--;) {
+            if (this.currentCase.caseUsers[i].id === userId) {
+                this.currentCase.caseUsers.splice(i, 1);
+            }
+        }
+
+        return this.api.cases.removeUser(userId, this.caseId)
+            .then(result => this.result = result);
+    }
 }

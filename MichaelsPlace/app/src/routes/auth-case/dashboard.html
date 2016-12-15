@@ -53,9 +53,10 @@
                         <div class="navbar-collapse collapse sidebar-navbar-collapse">
                             <h3 class="text-center">Case Users</h3>
                             <ul class="nav nav-pills nav-stacked">
-                                <li repeat.for="users of currentCase.caseUsers">
+                                <li repeat.for="user of currentCase.caseUsers">
                                     <div class="list-group-item">
-                                        ${users.displayName}
+                                        <remove show.bind="isCaseOwner()" msg="Are you sure you want to remove ${user.displayName}" action.call="$parent.removeUser(user.id)"></remove>
+                                        ${user.displayName}
                                     </div>
                                 </li>
                             </ul>

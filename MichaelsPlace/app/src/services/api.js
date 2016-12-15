@@ -103,6 +103,11 @@ export class CaseApi {
         }).then(response => response.json());
     }
 
+    /**
+     * Closes the specified case.
+     * @param {} caseId 
+     * @returns {} 
+     */
     closeCase(caseId) {
         return this._http.fetch(`case/close`, {
             method: 'post',
@@ -110,6 +115,26 @@ export class CaseApi {
                 'Accept': 'application/json'
             },
             body: json(caseId)
+        }).then(response => response.json());
+    }
+
+    /**
+     * Removes the specified user from the specified case.
+     * @param {} userId 
+     * @param {} caseId
+     */
+    removeUser(userId, caseId) {
+        var payload = {
+            userId: userId,
+            caseId: caseId
+        }
+
+        return this._http.fetch(`case/removeUser`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
         }).then(response => response.json());
     }
 }

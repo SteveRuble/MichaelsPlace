@@ -119,5 +119,22 @@ namespace MichaelsPlace.Controllers.Api
 
             return result.Result as string;
         }
+
+        /// <summary>
+        /// Removes a user from a case.
+        /// </summary>
+        /// <param name="payload">Contains a userId and a caseId</param>
+        /// <returns></returns>
+        [HttpPost, Route("removeUser")]
+        public async Task<ICommandResult> RemoveUser([FromBody] RemoveCaseUserModel payload)
+        {
+            var request = new RemoveCaseUserCommand.Request()
+            {
+                UserId = payload.UserId,
+                CaseId = payload.CaseId
+            };
+
+            return await _mediator.SendAsync(request);
+        }
     }
 }

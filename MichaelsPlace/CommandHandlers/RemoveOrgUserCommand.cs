@@ -8,7 +8,7 @@ using MichaelsPlace.Models.Persistence;
 
 namespace MichaelsPlace.CommandHandlers
 {
-    public class RemoveUserCommand : CommandHandlerBase, IAsyncRequestHandler<RemoveUserCommand.Request, ICommandResult>
+    public class RemoveOrgUserCommand : CommandHandlerBase, IAsyncRequestHandler<RemoveOrgUserCommand.Request, ICommandResult>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -18,7 +18,7 @@ namespace MichaelsPlace.CommandHandlers
             public int OrganizationId { get; set; }
         }
 
-        public RemoveUserCommand(ApplicationDbContext dbContext)
+        public RemoveOrgUserCommand(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MichaelsPlace.Models.Api
 {
-    public class RemoveUserModel
+    public class RemoveOrgUserModel
     {
         public int UserId { get; set; }
         public int OrganizationId { get; set; }

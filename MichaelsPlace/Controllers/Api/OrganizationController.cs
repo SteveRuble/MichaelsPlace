@@ -83,18 +83,16 @@ namespace MichaelsPlace.Controllers.Api
 
             return result.Result as int?;
         }
-
-
-
+        
         /// <summary>
         /// Removes a user from an organization.
         /// </summary>
         /// <param name="payload">Contains a userId and an organizationId</param>
         /// <returns></returns>
         [HttpPost, Route("removeUser")]
-        public async Task<ICommandResult> GetOrganization([FromBody] RemoveUserModel payload)
+        public async Task<ICommandResult> RemoveUser([FromBody] RemoveOrgUserModel payload)
         {
-            var request = new RemoveUserCommand.Request()
+            var request = new RemoveOrgUserCommand.Request()
             {
                 UserId = payload.UserId,
                 OrganizationId = payload.OrganizationId
