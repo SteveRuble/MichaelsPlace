@@ -11,5 +11,6 @@ namespace MichaelsPlace.Models.Api.OrganizationDashboard
         public int Id { get; set; }
         public string PersonId { get; set; }
         public string DisplayName { get; set; }
+        public bool IsOwner { get; set; }
     }
 }

@@ -31,6 +31,20 @@ export class Dashboard {
             });
     }
 
+    isOrgOwner() {
+        var dashboard = this;
+
+        var orgUser = this.organization.people.filter(function(u) {
+            return u.personId == dashboard.user.id;
+        });
+
+        return orgUser[0].isOwner;
+    }
+
+    hasCases() {
+        return this.organization.cases.length > 0;
+    }
+
     removeUser(userId) {
         for (var i = this.organization.people.length; i--;) {
             if (this.organization.people[i].id === userId) {

@@ -22,8 +22,11 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="container" show.bind="!hasCases()">
+                            <span>There are no cases open for this organization.</span>
+                        </div>
                         <br/>
-                        <div class="container">
+                        <div class="container" show.bind="isOrgOwner()">
                             <i class="fa fa-plus text-success" id="addCaseIcon"></i>
                             <a route-href="route: organization-contexts; params.bind:{organizationId: organization.id}">Create New Case</a>
                         </div>
@@ -68,7 +71,7 @@
                     <span id="zip">${organization.address.zip}</span>
                 </div>
                 <hr/>
-                <div class="container">
+                <div class="container" show.bind="isOrgOwner()">
                     <i class="fa fa-edit text-warning" id="editOrgIcon"></i>
                     <a>Edit Organization Details</a>
                 </div>
@@ -81,13 +84,13 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li repeat.for="user of organization.people">
                                     <div class="list-group-item">
-                                        <remove msg="Are you sure you want to remove ${user.displayName}" action.call="$parent.removeUser(user.id)"></remove>
+                                        <remove show.bind="isOrgOwner()" msg="Are you sure you want to remove ${user.displayName}" action.call="$parent.removeUser(user.id)"></remove>
                                         <span>${user.displayName}</span>
                                     </div>
                                 </li>
                             </ul>
                             <br/>
-                            <div class="container">
+                            <div class="container" show.bind="isOrgOwner()">
                                 <i class="fa fa-plus text-success" id="addUserIcon"></i>
                                 <a>Add User</a>
                             </div>
