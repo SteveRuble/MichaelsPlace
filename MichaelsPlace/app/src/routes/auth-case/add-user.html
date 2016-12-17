@@ -1,15 +1,29 @@
 ﻿<template>
     <div class="container">
-        <h3>Add User(s)</h3>
+        <h3>Add Users</h3>
         <p>Please enter the email addresses you would like to send invitations to. We will email them a link where they can register and be automatically added to your case.</p>
     </div>
     <div class="container">
-        <form>
+        <form submit.delegate="sendInvitations()">
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="text" class="form-control" id="email" placeholder="Email Address"/>
+                <div class="form-inline">
+                    <input type="text" class="form-control" placeholder="Email Address" value.bind="newUser">
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Add User</button>
+            <template repeat.for="user of additionalUsers">
+                <div class="form-group">
+                    <div class="form-inline">
+                        <input type="text" class="form-control" value.bind="user" placeholder="Email Address">
+                        <i class="fa fa-remove text-danger" click.delegate="removeUser($index)"></i>
+                    </div>
+                </div>
+            </template>
+            <div class="form-group" click.delegate="addUser()">
+                <button class="btn btn-success"><i class="fa fa-plus"></i> Add User</button>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Send Invitations</button>
+            </div>
         </form>
     </div>
     <div class="container">

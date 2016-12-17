@@ -255,6 +255,10 @@ export class EmailApi {
             body: json(payload)
         }).then(response => response.json());
     }
+
+    sendCaseInvitations(addresses, caseId) {
+        console.log(addresses);
+    }
 }
 
 export class OrganizationApi {
