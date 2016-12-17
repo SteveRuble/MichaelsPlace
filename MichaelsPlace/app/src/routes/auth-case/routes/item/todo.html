@@ -4,6 +4,7 @@
     <div innerhtml.bind="content | sanitizeHTML"></div>
     <div show.bind="owner">
         <hr />
-        <input type="checkbox" change.delegate="updateTodo($event.target.checked)" checked.bind="status" /> Complete
+        <input type="checkbox" change.delegate="updateTodo($event.target.checked)" checked.bind="status" id="todo"/>
+        <label for="todo">Complete</label>
     </div>
 </template>

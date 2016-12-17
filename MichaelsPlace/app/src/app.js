@@ -55,6 +55,11 @@ export class App {
             moduleId: 'routes/auth-case/dashboard',
             title: 'Case Dashboard'
         }, {
+            route: 'auth-case/add-user/:caseId',
+            name: 'add-user',
+            moduleId: 'routes/auth-case/add-user',
+            title: 'Add User'
+        }, {
             route: 'organization/organization-home',
             name: 'organization-home',
             moduleId: 'routes/organization/organization-home',

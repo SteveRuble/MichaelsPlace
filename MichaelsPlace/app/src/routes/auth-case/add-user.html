@@ -1,0 +1,18 @@
+﻿<template>
+    <div class="container">
+        <h3>Add User(s)</h3>
+        <p>Please enter the email addresses you would like to send invitations to. We will email them a link where they can register and be automatically added to your case.</p>
+    </div>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="text" class="form-control" id="email" placeholder="Email Address"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Add User</button>
+        </form>
+    </div>
+    <div class="container">
+        <a route-href="route: dashboard; params.bind: { caseId: caseId }">Back to Case</a>
+    </div>
+</template>

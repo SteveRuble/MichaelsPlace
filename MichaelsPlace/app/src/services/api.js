@@ -141,6 +141,15 @@ export class CaseApi {
 
 export class ItemApi {
     /**
+     * @param {HttpClient} http
+     * @param {string} itemType
+     */
+    constructor(http, itemType) {
+        this._http = http;
+        this._itemType = itemType;
+    }
+
+    /**
      * Gets the item with the provided id.
      * @param {int} id
      * @returns Promise<Item>
@@ -179,15 +188,6 @@ export class ItemApi {
             },
             body: json(payload)
         }).then(response => response.json());
-    }
-
-    /**
-     * @param {HttpClient} http
-     * @param {string} itemType
-     */
-    constructor(http, itemType) {
-        this._http = http;
-        this._itemType = itemType;
     }
 }
 
