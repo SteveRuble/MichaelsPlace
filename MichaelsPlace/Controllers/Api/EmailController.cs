@@ -25,6 +25,9 @@ namespace MichaelsPlace.Controllers.Api
         private readonly IQueryFactory _queryFactory;
         private readonly IMediator _mediator;
 
+        private readonly string StaffAddress = "MichaelsPlace@mymichaelsplace.net";
+        private readonly string CaseInvitationSubject = "You've Been Invited To Join A Case";
+
         public EmailController(IQueryFactory queryFactory, IMediator mediator)
         {
             _queryFactory = queryFactory;
@@ -41,7 +44,7 @@ namespace MichaelsPlace.Controllers.Api
         {
             var email = new EmailNotification()
             {
-                ToAddress = "agreenman@hagerty.com",
+                ToAddress = StaffAddress,
                 Content = payload.Message,
                 Subject = payload.Subject
             };
@@ -54,6 +57,40 @@ namespace MichaelsPlace.Controllers.Api
             var result = await _mediator.SendAsync(request);
 
             return result.Result as bool?;
+        }
+
+        [HttpPost, Route("sendCaseInvitations")]
+        public async Task<bool> SendCaseInvitations([FromBody] CaseInvitationModel payload)
+        {
+            var value = true;
+            foreach (var address in payload.Addresses)
+            {
+                var email = new EmailNotification()
+                {
+                    ToAddress = address,
+                    Content = GetCaseInvitationMessage(payload.CaseId),
+                    Subject = CaseInvitationSubject
+                };
+
+                var request = new SendCaseInvitationsCommand.Request()
+                {
+                    EmailNotification = email
+                };
+
+                var result = await _mediator.SendAsync(request);
+
+                if (!((bool) result.Result))
+                {
+                    value = false;
+                }
+            }
+
+            return value;
+        }
+
+        private string GetCaseInvitationMessage(string caseId)
+        {
+            return caseId;
         }
     }
 }

@@ -361,6 +361,7 @@
     <Compile Include="CommandHandlers\EditOrganizationCommand.cs" />
     <Compile Include="CommandHandlers\RemoveCaseUserCommand.cs" />
     <Compile Include="CommandHandlers\RemoveOrgUserCommand.cs" />
+    <Compile Include="CommandHandlers\SendCaseInvitationsCommand.cs" />
     <Compile Include="CommandHandlers\SendStaffEmailCommand.cs" />
     <Compile Include="CommandHandlers\UpdateToDoCommand.cs" />
     <Compile Include="CommandHandlers\UpdateArticleCommand.cs" />
@@ -437,6 +438,7 @@
     <Compile Include="Models\Api\CaseDashboard\ItemViewModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\PersonItemViewModel.cs" />
     <Compile Include="Models\Api\CaseDashboard\PersonViewModel.cs" />
+    <Compile Include="Models\Api\CaseInvitationModel.cs" />
     <Compile Include="Models\Api\NewOrganizationCaseModel.cs" />
     <Compile Include="Models\Api\EditOrganizationModel.cs" />
     <Compile Include="Models\Api\NewOrganizationModel.cs" />
@@ -550,6 +552,8 @@
     <Content Include="app\src\routes\anon-case\routes\item\article.js" />
     <Content Include="app\src\routes\anon-case\routes\item\todo.html" />
     <Content Include="app\src\routes\anon-case\routes\item\todo.js" />
+    <Content Include="app\src\routes\auth-case\add-user.html" />
+    <Content Include="app\src\routes\auth-case\add-user.js" />
     <Content Include="app\src\routes\auth-case\case-home.html" />
     <Content Include="app\src\routes\auth-case\case-home.js" />
     <Content Include="app\src\routes\auth-case\create-case.html" />

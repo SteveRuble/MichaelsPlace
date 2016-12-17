@@ -21,7 +21,14 @@ export class AddUser {
             addresses.push(this.additionalUsers[i]);
         }
 
-        this.api.email.sendCaseInvitations(addresses, this.caseId);
+        this.api.email.sendCaseInvitations(addresses, this.caseId)
+            .then(function(result) {
+                if (result) {
+                    alert("Invitations sent.");
+                } else {
+                    alert("Error sending invitations.");
+                }
+            });
     }
 
     addUser() {

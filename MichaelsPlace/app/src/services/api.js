@@ -257,7 +257,18 @@ export class EmailApi {
     }
 
     sendCaseInvitations(addresses, caseId) {
-        console.log(addresses);
+        var payload = {
+            addresses: addresses,
+            caseId: caseId
+        }
+
+        return this._http.fetch(`email/sendCaseInvitations`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: json(payload)
+        }).then(response => response.json());
     }
 }
 
