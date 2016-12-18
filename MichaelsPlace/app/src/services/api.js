@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {HttpClient, json} from 'aurelia-fetch-client';
+import {log} from "services/log";
 
 @inject(HttpClient)
 export class Api {
@@ -32,6 +33,7 @@ export class CaseApi {
      * @returns Promise 
      */
     getByPerson() {
+        log.debug('Getting all cases for the current user...');
         return this._http.fetch(`case/getCases`).then(response => response.json());
     }
 
@@ -47,6 +49,7 @@ export class CaseApi {
             title: title
         }
 
+        log.debug('Creating case with title: "' + title + '" and situation: ' + situation);
         return this._http.fetch(`case/create`, {
             method: 'post',
             headers: {
@@ -62,6 +65,7 @@ export class CaseApi {
      * @returns Promise
      */
     getCase(caseId) {
+        log.debug('Retrieving case details for case "' + caseId + '"');
         return this._http.fetch(`case/getCase/${caseId}`).then(response => response.json());
     }
 
@@ -79,6 +83,7 @@ export class CaseApi {
             organizationId: organizationId
         }
 
+        log.debug('Creating case with title: "' + title + '" and situation: ' + situation + 'for organization: ' + organizationId);
         return this._http.fetch(`case/createOrganizationCase`, {
             method: 'post',
             headers: {
@@ -94,6 +99,7 @@ export class CaseApi {
      * @returns {} 
      */
     deleteCase(caseId) {
+        log.debug('Deleting case "' + caseId + '"');
         return this._http.fetch(`case/delete`, {
             method: 'post',
             headers: {
@@ -109,6 +115,7 @@ export class CaseApi {
      * @returns {} 
      */
     closeCase(caseId) {
+        log.debug('Closing case "' + caseId + '"');
         return this._http.fetch(`case/close`, {
             method: 'post',
             headers: {
@@ -129,6 +136,7 @@ export class CaseApi {
             caseId: caseId
         }
 
+        log.debug('Removing user "' + userId + '" from case "' + caseId + '"');
         return this._http.fetch(`case/removeUser`, {
             method: 'post',
             headers: {
@@ -155,7 +163,8 @@ export class ItemApi {
      * @returns Promise<Item>
      */
     getById(id) {
-            return this._http.fetch(`browsing/${this._itemType}/${id}`).then(response => response.json());
+        log.debug('Retrieving ' + this._itemType + ' ' + id);
+        return this._http.fetch(`browsing/${this._itemType}/${id}`).then(response => response.json());
     }
 
     /**
@@ -164,7 +173,8 @@ export class ItemApi {
      * @returns Promise<Item[]>
      */
     getBySituation(situation) {
-            return this._http.fetch(`browsing/${this._itemType}/${situation}`).then(response => response.json())
+        log.debug('Retrieving all ' + this._itemType + 's with situation: ' + situation);
+        return this._http.fetch(`browsing/${this._itemType}/${situation}`).then(response => response.json())
     }
 
     /**
@@ -181,6 +191,7 @@ export class ItemApi {
             caseId: caseId
         }
 
+        log.debug('Updating ' + this._itemType + ' ' + id + ' with status: ' + status + ' on case "' + caseId + '"');
         return this._http.fetch(`item/${this._itemType}/updateStatus`, {
             method: 'post',
             headers: {
@@ -205,6 +216,7 @@ export class TagApi {
      * @returns Promise
      */
     getContextTags() {
+        log.debug('Retrieving all context tags...');
         return this._http.fetch(`tags/context`).then(response => response.json());
     }
 
@@ -214,6 +226,7 @@ export class TagApi {
      * @returns Promise
      */
     getLossTags(contextId = null) {
+        log.debug('Retrieving all loss tags based on context ' + contextId);
         return this._http.fetch(`tags/loss/?contextId=${contextId}`).then(response => response.json());
     }
 
@@ -223,6 +236,7 @@ export class TagApi {
      * @returns Promise
      */
     getRelationshipTags(contextId = null) {
+        log.debug('Retrieving all relationship tags based on context ' + contextId);
         return this._http.fetch(`tags/relationship/?contextId=${contextId}`).then(response => response.json());
     }
 }
@@ -247,6 +261,7 @@ export class EmailApi {
             message: message
         };
 
+        log.debug('Sending email to staff with subject: ' + subject + ' and message: ' + message);
         return this._http.fetch(`email/sendToStaff`, {
             method: 'post',
             headers: {
@@ -262,6 +277,7 @@ export class EmailApi {
             caseId: caseId
         }
 
+        log.debug('Sending invitations for case "' + caseId + '" to ' + addresses);
         return this._http.fetch(`email/sendCaseInvitations`, {
             method: 'post',
             headers: {
@@ -285,6 +301,7 @@ export class OrganizationApi {
      * Gets the logged in user's organizations.
      */
     getByPerson() {
+        log.debug('Getting all orgnizations for the current user...');
         return this._http.fetch(`organization/getOrganizations`).then(response => response.json());
     }
 
@@ -312,7 +329,8 @@ export class OrganizationApi {
             zip: zip,
             notes: notes
         }
-
+        
+        log.debug('Creating organization with title: "' + title + '"');
         return this._http.fetch(`organization/create`, {
             method: 'post',
             headers: {
@@ -349,7 +367,8 @@ export class OrganizationApi {
             notes: notes,
             organizationId: organizationId
         }
-
+        
+        log.debug('Updating organization with title: "' + title + '"');
         return this._http.fetch(`organization/edit`, {
             method: 'post',
             headers: {
@@ -365,6 +384,7 @@ export class OrganizationApi {
      * @returns Promise
      */
     getOrganization(organizationId) {
+        log.debug('Retrieving organization details for organization ' + organizationId);
         return this._http.fetch(`organization/getOrganization/${organizationId}`).then(response => response.json());
     }
 
@@ -378,7 +398,8 @@ export class OrganizationApi {
             userId: userId,
             organizationId: organizationId
         }
-
+        
+        log.debug('Removing user "' + userId + '" from organization ' + organizationId);
         return this._http.fetch(`organization/removeUser`, {
             method: 'post',
             headers: {
@@ -393,6 +414,7 @@ export class OrganizationApi {
      * @param {} organizationId 
      */
     deleteOrganization(organizationId) {
+        log.debug('Deleting organization ' + organizationId);
         return this._http.fetch(`organization/delete`, {
             method: 'post',
             headers: {

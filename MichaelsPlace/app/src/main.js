@@ -22,7 +22,9 @@ export function configure(aurelia) {
         .then(() => aurelia.setRoot());
 
     LogManager.addAppender(new ConsoleAppender());
-    LogManager.setLevel(window.location.search.match('(localhost)'));
+    LogManager.setLevel(window.location.hostname.match('(localhost)')
+        ? LogManager.logLevel.debug
+        : LogManager.logLevel.error);
 }
 
 function configureHttpClient(container) {

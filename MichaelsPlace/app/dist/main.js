@@ -20,7 +20,7 @@ System.register(['bootstrap', 'aurelia-fetch-client', 'aurelia-framework', 'aure
         });
 
         LogManager.addAppender(new ConsoleAppender());
-        LogManager.setLevel(window.location.search.match('(localhost)'));
+        LogManager.setLevel(window.location.hostname.match('(localhost)') ? LogManager.logLevel.debug : LogManager.logLevel.error);
     }
 
     _export('configure', configure);
