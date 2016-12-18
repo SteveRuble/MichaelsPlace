@@ -1,11 +1,11 @@
 'use strict';
 
-System.register(['bootstrap', 'aurelia-fetch-client', 'models/user'], function (_export, _context) {
+System.register(['bootstrap', 'aurelia-fetch-client', 'aurelia-framework', 'aurelia-logging-console', 'models/user'], function (_export, _context) {
     "use strict";
 
-    var HttpClient, User;
+    var HttpClient, LogManager, ConsoleAppender, User;
     function configure(aurelia) {
-        aurelia.use.standardConfiguration().developmentLogging().plugin('aurelia-validation').plugin('aurelia-dialog');
+        aurelia.use.standardConfiguration().plugin('aurelia-validation').plugin('aurelia-dialog');
 
         aurelia.use.plugin('aurelia-animator-css');
 
@@ -18,6 +18,9 @@ System.register(['bootstrap', 'aurelia-fetch-client', 'models/user'], function (
         }).then(function () {
             return aurelia.setRoot();
         });
+
+        LogManager.addAppender(new ConsoleAppender());
+        LogManager.setLevel(window.location.search.match('(localhost)'));
     }
 
     _export('configure', configure);
@@ -56,6 +59,10 @@ System.register(['bootstrap', 'aurelia-fetch-client', 'models/user'], function (
     return {
         setters: [function (_bootstrap) {}, function (_aureliaFetchClient) {
             HttpClient = _aureliaFetchClient.HttpClient;
+        }, function (_aureliaFramework) {
+            LogManager = _aureliaFramework.LogManager;
+        }, function (_aureliaLoggingConsole) {
+            ConsoleAppender = _aureliaLoggingConsole.ConsoleAppender;
         }, function (_modelsUser) {
             User = _modelsUser.User;
         }],

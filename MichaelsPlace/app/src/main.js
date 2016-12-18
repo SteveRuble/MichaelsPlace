@@ -1,11 +1,12 @@
 import 'bootstrap';
 import {HttpClient} from 'aurelia-fetch-client';
+import {LogManager} from 'aurelia-framework';
+import {ConsoleAppender} from 'aurelia-logging-console';
 import {User} from 'models/user';
 
 export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
-        .developmentLogging()
         .plugin('aurelia-validation')
         .plugin('aurelia-dialog');
 
@@ -19,6 +20,9 @@ export function configure(aurelia) {
     user.update()
         .then(() => aurelia.start())
         .then(() => aurelia.setRoot());
+
+    LogManager.addAppender(new ConsoleAppender());
+    LogManager.setLevel(window.location.search.match('(localhost)'));
 }
 
 function configureHttpClient(container) {
