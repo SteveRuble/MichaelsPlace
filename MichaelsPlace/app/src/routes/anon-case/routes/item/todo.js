@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from "services/log";
 
 @inject(Api)
 export class ToDo {
@@ -10,9 +11,10 @@ export class ToDo {
 
     activate(params) {
         return this.api.todos.getById(params.id)
-            .then(article => {
-                this.title = article.title;
-                this.content = article.content;
+            .then(todo => {
+                this.title = todo.title;
+                this.content = todo.content;
+                log.debug('Retrieved todo with title: "' + this.title + '" and content: "' + this.content + '"');
             });
     }
 }

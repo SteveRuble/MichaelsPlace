@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from "services/log";
 import {activationStrategy} from 'aurelia-router';
 
 @inject(Api)
@@ -11,6 +12,7 @@ export class Index {
 
     activate(params) {
         this.situation = params.contextId + '-' + params.lossId + '-' + params.relationshipId;
+        log.debug('Initializing anonymous case dashboard for situation: ' + this.situation);
         return this.update();
     }
 
@@ -37,8 +39,14 @@ export class Index {
 
     update() {
         return this.api.articles.getBySituation(this.situation)
-            .then(items => this.articles = items)
+            .then(items => {
+                this.articles = items;
+                log.debug('Retrieved ' + items.length + ' articles.');
+            })
             .then(_ => this.api.todos.getBySituation(this.situation))
-            .then(items => this.todos = items);
+            .then(items => {
+                this.todos = items;
+                log.debug('Retrieved ' + items.length + ' todos.');
+            });
     }
 }

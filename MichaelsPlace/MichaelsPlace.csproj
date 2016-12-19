@@ -595,6 +595,7 @@
     <Content Include="app\src\routes\organization\organization-relationships.html" />
     <Content Include="app\src\routes\organization\organization-relationships.js" />
     <Content Include="app\src\services\api.js" />
+    <Content Include="app\src\services\log.js" />
     <Content Include="app\src\services\session.js" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="CodeTemplates\AddView\CSHTML\BootstrapForm.tt" />

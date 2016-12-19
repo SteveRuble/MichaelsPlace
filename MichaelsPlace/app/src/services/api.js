@@ -173,7 +173,7 @@ export class ItemApi {
      * @returns Promise<Item[]>
      */
     getBySituation(situation) {
-        log.debug('Retrieving all ' + this._itemType + 's with situation: ' + situation);
+        log.debug('Retrieving all ' + this._itemType + ' with situation: ' + situation);
         return this._http.fetch(`browsing/${this._itemType}/${situation}`).then(response => response.json())
     }
 

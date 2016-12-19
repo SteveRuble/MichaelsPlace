@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from "services/log";
 
 @inject(Api)
 export class Article {
@@ -13,6 +14,7 @@ export class Article {
             .then(article => {
                 this.title = article.title;
                 this.content = article.content;
+                log.debug('Retrieved article with title: "' + this.title + '" and content: "' + this.content + '"');
             });
     }
 }
