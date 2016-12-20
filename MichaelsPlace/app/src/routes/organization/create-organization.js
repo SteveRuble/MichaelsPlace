@@ -1,5 +1,6 @@
 ﻿import {inject, NewInstance} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from 'services/log';
 import {Router} from 'aurelia-router';
 import {ValidationController, ValidationRules} from 'aurelia-validation';
 
@@ -22,10 +23,6 @@ export class CreateOrganization {
             .on(CreateOrganization);
     }
 
-    activate(params) {
-
-    }
-
     createOrganization() {
         this.validationController.validate().then(errors => {
             if (errors.length === 0) {
@@ -44,6 +41,7 @@ export class CreateOrganization {
                     )
                     .then(function(organizationId) {
                         if (!organizationId) {
+                            log.error('Unable to create organization.');
                             organizationId = -1;
                         }
 

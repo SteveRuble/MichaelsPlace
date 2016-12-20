@@ -1,6 +1,7 @@
 ﻿import {inject} from 'aurelia-framework';
 import {Router, activationStrategy} from 'aurelia-router';
 import {Api} from 'services/api';
+import {log} from 'services/log';
 import {User} from 'models/user';
 
 @inject(Api, Router, User)

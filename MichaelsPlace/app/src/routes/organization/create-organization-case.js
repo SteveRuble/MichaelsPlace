@@ -1,5 +1,6 @@
 ﻿import {inject} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from 'services/log';
 import {Router} from 'aurelia-router';
 
 @inject(Api, Router)
@@ -22,7 +23,7 @@ export class CreateOrganizationCase {
         this.api.cases.createOrganizationCase(this.situation, this.title, this.organizationId)
             .then(function(caseId) {
                 if (!caseId) {
-                    caseId = -1;
+                    log.error('Error: Unable to create organization case.');
                 }
 
                 page.router.navigateToRoute('organization-dashboard', { organizationId: page.organizationId });

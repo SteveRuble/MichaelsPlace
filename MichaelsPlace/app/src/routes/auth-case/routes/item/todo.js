@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from 'services/log';
 import {Dashboard} from '../../dashboard';
 
 @inject(Api, Dashboard)

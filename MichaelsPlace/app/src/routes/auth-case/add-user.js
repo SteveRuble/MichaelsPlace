@@ -1,5 +1,6 @@
 ﻿import {inject} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from 'services/log';
 
 @inject(Api)
 export class AddUser {

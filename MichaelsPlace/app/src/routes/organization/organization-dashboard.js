@@ -1,6 +1,7 @@
 ﻿import {inject} from 'aurelia-framework';
 import {Router, activationStrategy} from 'aurelia-router';
 import {Api} from 'services/api';
+import {log} from 'services/log';
 import {User} from 'models/user';
 
 @inject(Api, Router, User)
@@ -24,6 +25,7 @@ export class Dashboard {
         return this.api.organizations.getOrganization(this.organizationId)
             .then(function(organization) {
                 if (!organization) {
+                    log.error('Unable to obtain organization-details, rerouting to organization-home.');
                     dashboard.router.navigateToRoute('organization-home');
                 }
 

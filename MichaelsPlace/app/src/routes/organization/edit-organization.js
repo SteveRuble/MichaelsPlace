@@ -1,5 +1,6 @@
 ﻿import {inject, NewInstance} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from 'services/log';
 import {Router} from 'aurelia-router';
 import {ValidationController, ValidationRules} from 'aurelia-validation';
 
@@ -32,6 +33,7 @@ export class EditOrganization {
         return this.api.organizations.getOrganization(this.organizationId)
             .then(function(organization) {
                 if (!organization) {
+                    log.error('Unable to get organization details, rerouting to organization-home.');
                     dashboard.router.navigateToRoute('organization-home');
                 }
 
@@ -58,6 +60,7 @@ export class EditOrganization {
                     )
                     .then(function(organizationId) {
                         if (!organizationId) {
+                            log.error('Unable to edit organization, rerouting to organization-dashboard.');
                             organizationId = -1;
                         }
 
