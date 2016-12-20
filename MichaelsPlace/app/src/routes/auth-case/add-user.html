@@ -4,17 +4,19 @@
         <p>Please enter the email addresses you would like to send invitations to. We will email them a link where they can register and be automatically added to your case.</p>
     </div>
     <div class="container">
-        <form submit.delegate="sendInvitations()">
-            <div class="form-group">
+        <form role="form" submit.delegate="sendInvitations()">
+            <div class="form-group" validation-errors.bind="newUserErrors" class.bind="newUserErrors.length ? 'has-error' : ''">
                 <div class="form-inline">
-                    <input type="text" class="form-control" placeholder="Email Address" value.bind="newUser">
+                    <input type="text" class="form-control" id="newUser" placeholder="Email Address" value.bind="newUser & validate">
+                    <span class="help-block" repeat.for="errorInfo of newUserErrors">${errorInfo.error.message}</span>
                 </div>
             </div>
             <template repeat.for="user of additionalUsers">
-                <div class="form-group">
+                <div class="form-group" validation-errors.bind="userErrors" class.bind="userErrors.length ? 'has-error' : ''">
                     <div class="form-inline">
-                        <input type="text" class="form-control" value.bind="user" placeholder="Email Address">
+                        <input type="text" class="form-control" placeholder="Email Address" value.bind="user & validate">
                         <i class="fa fa-remove text-danger" click.delegate="removeUser($index)"></i>
+                        <span class="help-block" repeat.for="errorInfo of userErrors">${errorInfo.error.message}</span>
                     </div>
                 </div>
             </template>
