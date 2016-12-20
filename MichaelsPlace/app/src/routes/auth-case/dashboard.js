@@ -51,6 +51,7 @@ export class Dashboard {
         return this.api.cases.getCase(this.caseId)
             .then(function(myCase) {
                 if (!myCase.id) {
+                    log.debug('Failed to retrieve case details, rerouting to case-home.');
                     dashboard.router.navigateToRoute('case-home');
                 }
 
@@ -93,6 +94,7 @@ export class Dashboard {
                 if (caseId) {
                     dashboard.router.navigateToRoute('case-home');
                 } else {
+                    log.debug('Unable to close case.');
                     alert("Error: Unable to close case.");
                 }
             });

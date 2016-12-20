@@ -26,6 +26,7 @@ export class AddUser {
                 if (result) {
                     alert("Invitations sent.");
                 } else {
+                    log.debug('Error sending invitations.');
                     alert("Error sending invitations.");
                 }
             });

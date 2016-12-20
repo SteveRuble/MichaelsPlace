@@ -16,6 +16,7 @@ export class CaseHome {
     activate() {
         this.user.update();
         if (this.user.id == null) {
+            log.debug('User is not logged in, rerouting to home page.');
             return this.router.navigate('');
         }
 

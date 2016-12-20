@@ -41,8 +41,10 @@ export class ToDo {
                     });
 
                     if (status) {
+                        log.debug('Setting status of todo "' + todo[0].itemTitle + '" to "Closed."');
                         todo[0].status = "Closed";
                     } else {
+                        log.debug('Setting status of todo "' + todo[0].itemTitle + '" to "Open."');
                         todo[0].status = "Open";
                     }
                 }

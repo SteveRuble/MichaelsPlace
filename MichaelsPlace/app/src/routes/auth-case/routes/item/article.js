@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Api} from 'services/api';
+import {log} from 'services/log';
 import {Dashboard} from '../../dashboard';
 import {User} from 'models/user';
 
@@ -40,6 +41,7 @@ export class Article {
             this.api.articles.updateStatus(id)
                 .then(function(result) {
                     if (result.isSuccess) {
+                        log.debug('Setting status of article "' + article[0].itemTitle + '" to "Viewed."');
                         article[0].status = 'Viewed';
                     }
                 });

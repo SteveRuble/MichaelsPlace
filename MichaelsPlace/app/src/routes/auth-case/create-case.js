@@ -31,6 +31,7 @@ export class CreateCase {
                 this.api.cases.createCase(this.situation, this.title)
                     .then(function(caseId) {
                         if (!caseId) {
+                            log.dubg('Error creating case.');
                             caseId = -1;
                         }
 
