@@ -1,13 +1,15 @@
 ﻿<template>
     <h3 class="text-primary">Email Michael's Place Staff</h3>
     <form role="form" submit.delegate="sendEmail()">
-        <div class="form-group row">
-            <label for="subject">Subject</label>
-            <input value.bind="subject" class="form-control" type="text" id="subject"/>
+        <div class="form-group row" validation-errors.bind="subjectErrors" class.bind="subjectErrors.length ? 'has-error' : ''">
+            <label for="subject" class="control-label">Subject</label>
+            <input type="text" class="form-control" id="subject" placeholder="Subject" value.bind="subject & validate"/>
+            <span class="help-block" repeat.for="errorInfo of subjectErrors">${errorInfo.error.message}</span>
         </div>
-        <div class="form-group row">
-            <label for="message">Message</label>
-            <textarea value.bind="message" name="message" class="form-control"></textarea>
+        <div class="form-group row" validation-errors.bind="messageErrors" class.bind="messageErrors.length ? 'has-error' : ''">
+            <label for="message" class="control-label">Message</label>
+            <textarea class="form-control" id="message" placeholder="Message" value.bind="message & validate"></textarea>
+            <span class="help-block" repeat.for="errorInfo of messageErrors">${errorInfo.error.message}</span>
         </div>
         <button type="submit" class="btn btn-primary">Send Message</button>
     </form>
