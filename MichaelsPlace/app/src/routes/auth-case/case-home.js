@@ -25,7 +25,13 @@ export class CaseHome {
     }
 
     hasCases() {
-        return this.cases.length > 0;
+        var count = 0;
+        this.cases.forEach(function(i) {
+            if (!i.isClosed) {
+                count++;
+            }
+        });
+        return count > 0;
     }
 
     isClosed(isClosed) {

@@ -93,7 +93,11 @@ export class Dashboard {
         return this.api.cases.closeCase(this.caseId)
             .then(function(caseId) {
                 if (caseId) {
-                    dashboard.router.navigateToRoute('case-home');
+                    if (dashboard.currentCase.organizationId > 0) {
+                        dashboard.router.navigateToRoute('organization-dashboard', { organizationId: dashboard.currentCase.organizationId });
+                    } else {
+                        dashboard.router.navigateToRoute('case-home');
+                    }
                 } else {
                     log.debug('Unable to close case.');
                     alert("Error: Unable to close case.");
