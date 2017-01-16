@@ -16,7 +16,7 @@
                             <h3 class="text-center">Organization Cases</h3>
                             <ul class="nav navbar-nav">
                                 <li repeat.for="case of organization.cases">
-                                    <div class="list-group-item">
+                                    <div class="list-group-item" show.bind="!isClosed(case.isClosed)">
                                         <a route-href="route: dashboard; params.bind:{caseId: case.id}">${case.title}</a>
                                     </div>
                                 </li>

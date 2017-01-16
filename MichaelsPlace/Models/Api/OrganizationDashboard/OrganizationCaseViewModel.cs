@@ -9,5 +9,6 @@ namespace MichaelsPlace.Models.Api.OrganizationDashboard
     {
         public string Id { get; set; }
         public string Title { get; set; }
+        public bool IsClosed { get; set; }
     }
 }

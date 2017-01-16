@@ -57,4 +57,8 @@ export class Dashboard {
         return this.api.organizations.removeUser(userId, this.organizationId)
             .then(result => this.result = result);
     }
+
+    isClosed(isClosed) {
+        return isClosed;
+    }
 }
