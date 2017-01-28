@@ -19,11 +19,34 @@ export class CreateCase {
 
     activate(params) {
         this.situation = params.situation;
+        this.organizationId = params.organizationId;
     }
 
-    /**
-     * Creates a case with the specified information and redirects to the case dashboard.
-     */
+    create() {
+        if (this.organizationId > 0) {
+            return this.createOrganizationCase();
+        } else {
+            return this.createCase();
+        }
+    }
+
+    createOrganizationCase() {
+        this.validationController.validate().then(errors => {
+            if (errors.length === 0) {
+                var page = this;
+        
+                this.api.cases.createOrganizationCase(this.situation, this.title, this.organizationId)
+                    .then(function(caseId) {
+                        if (!caseId) {
+                            log.error('Error: Unable to create organization case.');
+                        }
+
+                        page.router.navigateToRoute('organization-dashboard', { organizationId: page.organizationId });
+                    });
+                }
+            });
+    }
+
     createCase() {
         this.validationController.validate().then(errors => {
             if (errors.length === 0) {

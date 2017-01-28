@@ -3,7 +3,7 @@
         <h3>${heading}</h3>
         <ul class="list-inline">
             <li repeat.for="tag of tags">
-                <a route-href="route:relationships; params.bind:{contextId:contextId, lossId:tag.id}" title="${tag.description}" class="btn btn-lg btn-primary">${tag.name}</a>
+                <a route-href="route:relationships; params.bind:{contextId:contextId, lossId:tag.id, organizationId:organizationId}" title="${tag.description}" class="btn btn-lg btn-primary">${tag.name}</a>
             </li>
         </ul>
     </div>
